@@ -2,20 +2,19 @@ import "./lista-productos.css";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const ListaProductos = () => {
   const productos = useRecoilValue(productoSelector);
   const [user, setUser] = useState(true);
-
   return (
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
       {productos.map((producto) => (
-        <>
+        <div key={producto.codigo}>
           <div
             className={"card-producto " + (!user ? "hover:brightness-95" : "")}
           >
-            <Link to={"/" + producto.codigo} key={producto.codigo}>
+            <Link to={"/" + producto.codigo}>
               <img
                 className="rounded-t-lg h-64 object-cover w-full border-b-2"
                 src={producto.imagen}
@@ -46,7 +45,7 @@ export const ListaProductos = () => {
               <></>
             )}
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
