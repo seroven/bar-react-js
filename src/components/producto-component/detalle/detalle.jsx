@@ -10,7 +10,7 @@ export const Detalle = () => {
   useEffect(() => {
     const obtenerProducto = async () => {
       const result = await axios.get("http://localhost:8069/producto/" + id);
-      
+
       setProducto(result.data);
     };
     obtenerProducto();
@@ -39,6 +39,3 @@ export const Detalle = () => {
     </div>
   );
 };
-function useRouter() {
-  throw new Error("Function not implemented.");
-}
