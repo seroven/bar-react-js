@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { CodigoState } from "../../storage/atom/codigo.atom";
 import { UserState } from "../../storage/atom/usuario.atom";
 
-export const Acceso = () => {
+export const ConfirmacionCodigo = () => {
   const navigate = useNavigate();
   const codigo = useRecoilValue(CodigoState);
   const usuario = useRecoilValue(UserState);
@@ -24,7 +24,7 @@ export const Acceso = () => {
 
     if (cod == codigo) {
       if (true) {
-        navigate("/");
+        navigate("/producto");
         axios.post("http://localhost:8069/usuario", {
           contrasena: usuario.password,
           correo: usuario.email,

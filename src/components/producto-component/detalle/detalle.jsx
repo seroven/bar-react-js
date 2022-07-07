@@ -1,17 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./detalle.css";
 
 export const Detalle = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [producto, setProducto] = useState({});
+  
 
   useEffect(() => {
     const obtenerProducto = async () => {
       const result = await axios.get("http://localhost:8069/producto/" + id);
-
       setProducto(result.data);
+      console.log(result.data);
+      result.data.estado ? null : navigate("/notfound");
     };
     obtenerProducto();
   }, []);

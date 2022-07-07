@@ -28,7 +28,7 @@ export const Catalago = ({admin}) => {
             {admin ? "Listado de Productos" : "Catalogo de Productos"}
           </h1>
           {admin ? (
-            <Link to="/producto/registro">
+            <Link to="/admin/producto/registro">
               <div className="buttons-yellow py-2 px-8">Registrar</div>
             </Link>
           ) : null}

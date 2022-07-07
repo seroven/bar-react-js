@@ -19,7 +19,6 @@ export const ListaProductos = ({admin}) => {
 
  useEffect(() => {
   extraerUsuariLocalStorage();
-  console.log(productos);
   
  }, [])
 
@@ -27,8 +26,10 @@ export const ListaProductos = ({admin}) => {
 
   return (
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-      {productos?.map((producto) => (
-        <>
+      {productos?.map((producto) => 
+      (
+        (admin ? true : producto.estado)  &&
+        <div key = {producto.codigo}>
           <div
             className={"card-producto " + ( admin ? "" : "hover:brightness-95")}
           >
@@ -63,7 +64,7 @@ export const ListaProductos = ({admin}) => {
               <></>
             )}
           </div>
-        </>
+        </div>
         
       ))}
     </div>
