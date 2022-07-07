@@ -3,8 +3,12 @@ import "./registro-producto.css";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilRefresher_UNSTABLE } from "recoil";
+import { productoSelector } from "../../../storage/selector/producto-selector";
 
 export const RegistroProducto = () => {
+  const [producto, setProducto] = useState([]);
+  const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
   const navigate = useNavigate();
   const [categoria, setCategoria] = useState([]);
   const [modal, setModal] = useState(false);
@@ -15,9 +19,9 @@ export const RegistroProducto = () => {
   } = useForm();
 
   const onModalClick = (data) => {
-    console.log(data);
-    console.log(data.categoria);
     setModal(true);
+    console.log(data);
+    setProducto(data);
   };
 
   const onRegresarClick = () => {
@@ -28,12 +32,23 @@ export const RegistroProducto = () => {
     setModal(false);
   };
 
-  const onAceptarClick = (data) => {
+  const onAceptarClick = async () => {
+    await axios.post("http://localhost:8069/producto/save", {
+      descripcion: producto.descripcion,
+      precio: producto.precio,
+      imagen: producto.imagen,
+      estado: producto.habilitado,
+      marca: {
+        codigo: producto.marca,
+      },
+    });
+    refresh();
     setModal(false);
+    navigate("/");
   };
 
   useEffect(() => {
-    axios.get("http://localhost:8069/categoria/all").then((res) => {
+    axios.get("http://localhost:8069/marca/all").then((res) => {
       setCategoria(res.data);
     });
   }, []);
@@ -79,7 +94,7 @@ export const RegistroProducto = () => {
 
           <div className="mb-6 flex">
             <label className="block w-full self-center text-lg font-medium text-gray-900 ">
-              Precio:
+              Precio (S/.):
             </label>
             <input
               {...register("precio", {
@@ -119,17 +134,19 @@ export const RegistroProducto = () => {
           )}
           <div className="mb-6 flex ">
             <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
-              Categoria:
+              Marca:
             </label>
             <select
-              {...register("categoria", {
+              {...register("marca", {
                 required: true,
               })}
               id="countries"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
               {categoria.map((categoria) => (
-                <option key={categoria.codigo}>{categoria.nombre}</option>
+                <option key={categoria.codigo} value={categoria.codigo}>
+                  {categoria.nombre}
+                </option>
               ))}
             </select>
           </div>
