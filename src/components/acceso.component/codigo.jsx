@@ -34,7 +34,7 @@ export const ConfirmacionCodigo = () => {
           },
         });
       } else {
-        navigate("/acceso/codigo");
+        navigate("/acceso/reestablecer/verificacion");
       }
     } else {
       alert("el codigo es incorrecto");
