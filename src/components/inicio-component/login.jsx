@@ -99,10 +99,10 @@ export const Login = () => {
             </div>
             <br></br>
             <div className="space-x-10 inline-flex">
-              <Link to={"/olvidaste"}>
+              <Link to={"/acceso/reestablecer"}>
                 <h5 className="links">¿Olvidaste tu contraseña?</h5>
               </Link>
-              <Link to={"/registro/"}>
+              <Link to={"/acceso/registro/"}>
                 <h5 className="links">¿Eres nuevo? Registrate aqui</h5>
               </Link>
             </div>

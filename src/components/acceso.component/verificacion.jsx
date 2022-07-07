@@ -20,7 +20,7 @@ export const Verificacion = () => {
         email: usuario.correo,
         pass: data.pass,
       });
-      navigate("/login");
+      navigate("/acceso/login");
     } else {
       alert("Las contraseñas son distintas");
     }
