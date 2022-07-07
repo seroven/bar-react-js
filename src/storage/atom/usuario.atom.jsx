@@ -4,5 +4,5 @@ import { localStorageEffects } from "./effects";
 export const UserState = atom({
   key: "userState",
   default: null,
-  effects: [localStorageEffects("usuario")],
+  effects: [localStorageEffects("usuario_bar")],
 });

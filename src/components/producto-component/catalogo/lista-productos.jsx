@@ -1,20 +1,39 @@
 import "./lista-productos.css";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
 import { useEffect, useState } from "react";
 
-export const ListaProductos = () => {
+import { UserState } from "../../../storage/atom/usuario.atom";
+import axios from "axios";
+
+
+export const ListaProductos = ({admin}) => {
   const productos = useRecoilValue(productoSelector);
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useRecoilState(UserState);
+
+  const extraerUsuariLocalStorage = () => {
+    const usuario = localStorage.getItem("usuario_bar");
+    if (usuario !== null) setUser(JSON.parse(usuario));
+  }
+
+ useEffect(() => {
+  extraerUsuariLocalStorage();
+  
+ }, [])
+
+
+
   return (
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-      {productos.map((producto) => (
-        <div key={producto.codigo}>
+      {productos?.map((producto) => 
+      (
+        (admin ? true : producto.estado)  &&
+        <div key = {producto.codigo}>
           <div
-            className={"card-producto " + (!user ? "hover:brightness-95" : "")}
+            className={"card-producto " + ( admin ? "" : "hover:brightness-95")}
           >
-            <Link to={"/" + producto.codigo}>
+            <Link to={"/producto/" + producto.codigo}>
               <img
                 className="rounded-t-lg h-64 object-cover w-full border-b-2"
                 src={producto.imagen}
@@ -22,7 +41,7 @@ export const ListaProductos = () => {
               />
             </Link>
             <div className="p-4">
-              <Link to={"/" + producto.codigo}>
+              <Link to={"/producto/" + producto.codigo}>
                 <h5 className="mb-2 font-semibold text-xl truncate tracking-tight text-gray-900 ">
                   {producto.descripcion}
                 </h5>
@@ -31,7 +50,7 @@ export const ListaProductos = () => {
                 <b>Precio:</b> {producto.precio.toFixed(2)}
               </p>
             </div>
-            {user ? (
+            {admin ? (
               <div className="w-full px-2 mb-2 justify-center object-center">
                 <button
                   className={
@@ -46,6 +65,7 @@ export const ListaProductos = () => {
             )}
           </div>
         </div>
+        
       ))}
     </div>
   );

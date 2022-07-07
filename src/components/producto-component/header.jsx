@@ -4,8 +4,7 @@ import { useRecoilState } from "recoil";
 import { HCliente } from "./h-cliente";
 import "./header.css";
 
-export const Header = () => {
-  const [user, setUser] = useState(true);
+export const Header = ({admin}) => {
 
   return (
     <nav className="nav">
@@ -21,7 +20,7 @@ export const Header = () => {
             </span>
           </div>
         </Link>
-        {!user ? (
+        {!admin ? (
           <HCliente />
         ) : (
           <>

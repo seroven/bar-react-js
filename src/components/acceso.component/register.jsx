@@ -24,11 +24,11 @@ export const Register = () => {
       mensaje: `Su código de verificación es: ${codigo}`,
     });
   };
-
+  //TODO Corregir el guardado al local storage. Incluir datos del rol.
   const onRegistrarSubmit = (data) => {
     const cod = Math.floor(100000 + Math.random() * 900000);
     setUsuario(data);
-    navigate("/registro/acceso");
+    navigate("/acceso/codigo");
     setCodigo(cod);
     sendEmail(data.email, cod);
   };

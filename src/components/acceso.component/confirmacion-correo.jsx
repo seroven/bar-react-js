@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { CodigoState } from "../../storage/atom/codigo.atom";
 import { UserState } from "../../storage/atom/usuario.atom";
 
-export const Olvidaste = () => {
+export const ConfirmacionCorreo = () => {
   const [codigo, setCodigo] = useRecoilState(CodigoState);
   const [usuario, setUsuario] = useRecoilState(UserState);
   const navigate = useNavigate();
