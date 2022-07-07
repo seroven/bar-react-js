@@ -2,11 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { UserState } from "../../storage/atom/usuario.atom";
 import "./login.css";
 
 export const Login = () => {
-  const [usuario, setUsuario] = useState([]);
   const navigate = useNavigate();
+  const [usuario, setUsuario] = useRecoilState(UserState);
 
   const {
     register,
@@ -19,11 +21,12 @@ export const Login = () => {
       email: data.email,
       pass: data.password,
     });
-    setUsuario(user.data);
-
+    
     if (user.data.correo == data.email) {
+      setUsuario(user.data);
       navigate("/");
     } else {
+      
       alert("Usuario o contraseña incorrectos");
     }
   };

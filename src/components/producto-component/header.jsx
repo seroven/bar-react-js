@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { HCliente } from "./h-cliente";
 import "./header.css";
 
-export const Header = () => {
+export const Header = ({admin}) => {
   const [user, setUser] = useState(true);
 
   return (
@@ -21,7 +21,7 @@ export const Header = () => {
             </span>
           </div>
         </Link>
-        {!user ? (
+        {!admin ? (
           <HCliente />
         ) : (
           <>

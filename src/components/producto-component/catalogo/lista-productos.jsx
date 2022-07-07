@@ -1,19 +1,34 @@
 import "./lista-productos.css";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { UserState } from "../../../storage/atom/usuario.atom";
+import axios from "axios";
 
-export const ListaProductos = () => {
+export const ListaProductos = ({admin}) => {
   const productos = useRecoilValue(productoSelector);
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useRecoilState(UserState);
+
+  const extraerUsuariLocalStorage = () => {
+    const usuario = localStorage.getItem("usuario_bar");
+    if (usuario !== null) setUser(JSON.parse(usuario));
+  }
+
+ useEffect(() => {
+  extraerUsuariLocalStorage();
+  console.log(productos);
+  
+ }, [])
+
+
 
   return (
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-      {productos.map((producto) => (
+      {productos?.map((producto) => (
         <>
           <div
-            className={"card-producto " + (!user ? "hover:brightness-95" : "")}
+            className={"card-producto " + ( admin ? "" : "hover:brightness-95")}
           >
             <Link to={"/" + producto.codigo} key={producto.codigo}>
               <img
@@ -32,7 +47,7 @@ export const ListaProductos = () => {
                 <b>Precio:</b> {producto.precio.toFixed(2)}
               </p>
             </div>
-            {user ? (
+            {admin ? (
               <div className="w-full px-2 mb-2 justify-center object-center">
                 <button
                   className={

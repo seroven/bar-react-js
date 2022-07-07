@@ -10,6 +10,7 @@ import { Olvidaste } from "./components/acceso.component/olvidaste";
 import { PageAcceso } from "./pages/page-acceso";
 import { Login } from "./components/inicio-component/login";
 import { PageRegistroProducto } from "./pages/page-registro-producto";
+import { PageAdministrador } from "./pages/page-administrador";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/olvidaste" element={<Olvidaste />} />
           <Route path="/olvidaste/verificacion" element={<Verificacion />} />
           <Route path="/producto/registro" element={<PageRegistroProducto />} />
+          <Route path="/administrador" element={<PageAdministrador />} />
         </Routes>
       </div>
     </RecoilRoot>

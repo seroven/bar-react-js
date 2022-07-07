@@ -23,7 +23,7 @@ export const Acceso = () => {
     }
 
     if (cod == codigo) {
-      if (false) {
+      if (true) {
         navigate("/");
         axios.post("http://localhost:8069/usuario", {
           contrasena: usuario.password,
