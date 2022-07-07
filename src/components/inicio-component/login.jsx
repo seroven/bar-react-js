@@ -24,7 +24,7 @@ export const Login = () => {
     
     if (user.data.correo == data.email) {
       setUsuario(user.data);
-      navigate("/");
+      navigate("/producto");
     } else {
       
       alert("Usuario o contraseña incorrectos");
