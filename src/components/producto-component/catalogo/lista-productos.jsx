@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
 import { useEffect, useState } from "react";
+
 import { UserState } from "../../../storage/atom/usuario.atom";
 import axios from "axios";
+
 
 export const ListaProductos = ({admin}) => {
   const productos = useRecoilValue(productoSelector);
@@ -30,7 +32,7 @@ export const ListaProductos = ({admin}) => {
           <div
             className={"card-producto " + ( admin ? "" : "hover:brightness-95")}
           >
-            <Link to={"/" + producto.codigo} key={producto.codigo}>
+            <Link to={"/producto/" + producto.codigo}>
               <img
                 className="rounded-t-lg h-64 object-cover w-full border-b-2"
                 src={producto.imagen}
@@ -38,7 +40,7 @@ export const ListaProductos = ({admin}) => {
               />
             </Link>
             <div className="p-4">
-              <Link to={"/" + producto.codigo}>
+              <Link to={"/producto/" + producto.codigo}>
                 <h5 className="mb-2 font-semibold text-xl truncate tracking-tight text-gray-900 ">
                   {producto.descripcion}
                 </h5>
@@ -62,6 +64,7 @@ export const ListaProductos = ({admin}) => {
             )}
           </div>
         </>
+        
       ))}
     </div>
   );

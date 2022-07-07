@@ -17,8 +17,8 @@ function App() {
     <RecoilRoot>
       <div>
         <Routes>
-          <Route path="/" element={<PageProducto />} />
-          <Route path="/:id" element={<PageDetalle />} />
+          <Route path="/producto/*" element={<PageProducto />} />
+          {/* <Route path="/:id" element={<PageDetalle />} /> */}
           <Route path="/registro" element={<Register />} />
           <Route path="/registro/acceso" element={<PageAcceso />} />
           <Route path="/login/" element={<Login />} />

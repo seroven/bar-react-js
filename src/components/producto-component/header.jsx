@@ -5,7 +5,6 @@ import { HCliente } from "./h-cliente";
 import "./header.css";
 
 export const Header = ({admin}) => {
-  const [user, setUser] = useState(true);
 
   return (
     <nav className="nav">

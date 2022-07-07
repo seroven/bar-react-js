@@ -5,9 +5,8 @@ import { Filtro } from "./filtro";
 import { ListaProductos } from "./lista-productos";
 import { CatalagoSkeleton } from "./skeleton";
 
-export const Catalago = () => {
+export const Catalago = ({admin}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -26,9 +25,9 @@ export const Catalago = () => {
       <div>
         <div className="flex justify-between items-center mb-4">
           <h1 className="font-medium text-4xl text-center md:text-left">
-            {user ? "Listado de Productos" : "Catalogo de Productos"}
+            {admin ? "Listado de Productos" : "Catalogo de Productos"}
           </h1>
-          {user ? (
+          {admin ? (
             <Link to="/producto/registro">
               <div className="buttons-yellow py-2 px-8">Registrar</div>
             </Link>
@@ -36,7 +35,7 @@ export const Catalago = () => {
         </div>
         <div className="flex gap-5 container mx-auto mt-5">
           <Filtro />
-          <ListaProductos />
+          <ListaProductos admin = {admin}/>
         </div>
       </div>
     </div>
