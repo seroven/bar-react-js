@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { RegisterState } from "../../storage/atom/register.atom";
 import { UserState } from "../../storage/atom/usuario.atom";
 import "./login.css";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useRecoilState(UserState);
+  const [registerUser, setRegisterUser] = useRecoilState(RegisterState);
 
   const {
     register,
@@ -24,7 +26,7 @@ export const Login = () => {
     
     if (user.data.correo == data.email) {
       setUsuario(user.data);
-      navigate("/");
+      navigate("/producto");
     } else {
       
       alert("Usuario o contraseña incorrectos");
@@ -99,11 +101,11 @@ export const Login = () => {
             </div>
             <br></br>
             <div className="space-x-10 inline-flex">
-              <Link to={"/olvidaste"}>
-                <h5 className="links">¿Olvidaste tu contraseña?</h5>
+              <Link to={"/acceso/reestablecer"}>
+                <h5 className="links" onClick={e => {setRegisterUser(false)}}>¿Olvidaste tu contraseña?</h5>
               </Link>
-              <Link to={"/registro/"}>
-                <h5 className="links">¿Eres nuevo? Registrate aqui</h5>
+              <Link to={"/acceso/registro/"}>
+                <h5 className="links" onClick={e => {setRegisterUser(true)}}>¿Eres nuevo? Registrate aqui</h5>
               </Link>
             </div>
           </form>

@@ -1,14 +1,18 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { CodigoState } from "../../storage/atom/codigo.atom";
+import { RegisterState } from "../../storage/atom/register.atom";
+import { TempUserState } from "../../storage/atom/temp-user.atom";
 import { UserState } from "../../storage/atom/usuario.atom";
 
 export const ConfirmacionCodigo = () => {
   const navigate = useNavigate();
   const codigo = useRecoilValue(CodigoState);
   const usuario = useRecoilValue(UserState);
+  const [registerUser, setRegisterUser] = useRecoilState(RegisterState);
+  const [tempUser, setTempUser] = useRecoilState(TempUserState);
 
   const {                                                                               
     register,
@@ -23,18 +27,18 @@ export const ConfirmacionCodigo = () => {
     }
 
     if (cod == codigo) {
-      if (true) {
-        navigate("/producto");
+      if (registerUser) {
+        navigate("/acceso/login");
         axios.post("http://localhost:8069/usuario", {
-          contrasena: usuario.password,
-          correo: usuario.email,
+          contrasena: tempUser.password,
+          correo: tempUser.email,
           rol: {
             codigo: 2,
             nombre: "cliente",
           },
         });
       } else {
-        navigate("/acceso/codigo");
+        navigate("/acceso/reestablecer/verificacion");
       }
     } else {
       alert("el codigo es incorrecto");

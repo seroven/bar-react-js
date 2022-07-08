@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { Router, useHref, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { CodigoState } from "../../storage/atom/codigo.atom";
+import { TempUserState } from "../../storage/atom/temp-user.atom";
 import { UserState } from "../../storage/atom/usuario.atom";
 import "./acceso.css";
 
 export const Register = () => {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useRecoilState(UserState);
   const [codigo, setCodigo] = useRecoilState(CodigoState);
+  const [tempUser, setTempUser] = useRecoilState(TempUserState);
 
   const {
     register,
@@ -24,12 +25,12 @@ export const Register = () => {
       mensaje: `Su código de verificación es: ${codigo}`,
     });
   };
-  //TODO Corregir el guardado al local storage. Incluir datos del rol.
+  
   const onRegistrarSubmit = (data) => {
     const cod = Math.floor(100000 + Math.random() * 900000);
-    setUsuario(data);
     navigate("/acceso/codigo");
     setCodigo(cod);
+    setTempUser(data);
     sendEmail(data.email, cod);
   };
 
