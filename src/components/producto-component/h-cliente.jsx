@@ -1,6 +1,24 @@
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { buscarState } from "../../storage/atom/buscar.atom";
 export const HCliente = () => {
+  const setBuscar = useSetRecoilState(buscarState);
+  const navigate = useNavigate();
+
+  const onBuscarKeyUp = (e) => {
+    if (e.key == "Enter") {
+      setBuscar(e.target.value);
+      navigate("/producto");
+      e.target.value = "";
+    }
+  };
+
+  const onBuscarKeyPress = (e) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <div className="flex md:order-2">
@@ -26,6 +44,9 @@ export const HCliente = () => {
             id="search-navbar"
             className="block p-2 w-52 lg:w-80   text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm  dark:border-green-800 border-none dark:placeholder-gray-400"
             placeholder="Buscar..."
+            autoComplete="off"
+            onKeyUp={onBuscarKeyUp}
+            onKeyPress={onBuscarKeyPress}
           />
           <button className="buttons">
             <svg
