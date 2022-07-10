@@ -18,7 +18,7 @@ export const ConfirmacionCorreo = () => {
   } = useForm();
 
   const sendEmail = async (email, codigo) => {
-    await axios.post("http://localhost:3001/api", {
+    await axios.post("https://app-email-rest.herokuapp.com/api", {
       email: email,
       asunto: "Código de verificación",
       mensaje: `Su código de verificación es: ${codigo}`,
