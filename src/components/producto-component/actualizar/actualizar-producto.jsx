@@ -1,17 +1,17 @@
-import axios from "axios";
-import "./registro-producto.css";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
+import axios from "axios";
 
-export const RegistroProducto = () => {
+export const ActualizarProducto = () => {
   const [producto, setProducto] = useState([]);
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
   const navigate = useNavigate();
-  const [categoria, setCategoria] = useState([]);
+  const [marca, setMarca] = useState([]);
   const [modal, setModal] = useState(false);
+  const { id } = useParams();
   const {
     register,
     formState: { errors },
@@ -33,7 +33,7 @@ export const RegistroProducto = () => {
   };
 
   const onAceptarClick = async () => {
-    await axios.post("http://localhost:8069/producto/save", {
+    await axios.put("http://localhost:8069/producto/update/" + id, {
       descripcion: producto.descripcion,
       precio: producto.precio,
       imagen: producto.imagen,
@@ -44,12 +44,15 @@ export const RegistroProducto = () => {
     });
     refresh();
     setModal(false);
-    navigate("/");
+    navigate("/admin/producto");
   };
 
   useEffect(() => {
     axios.get("http://localhost:8069/marca/all").then((res) => {
-      setCategoria(res.data);
+      setMarca(res.data);
+    });
+    axios.get("http://localhost:8069/producto/" + id).then((res) => {
+      setProducto(res.data);
     });
   }, []);
 
@@ -61,8 +64,19 @@ export const RegistroProducto = () => {
           (modal ? "blur-md" : null)
         }
       >
-        <h1 className="text-4xl font-bold">Registrar Producto</h1>
-        <form className="mt-10" onSubmit={handleSubmit(onModalClick)}>
+        <h1 className="text-4xl font-bold">Actualizar Producto</h1>
+        <form className="mt-6" onSubmit={handleSubmit(onModalClick)}>
+          <div className="mb-6 flex flex-row">
+            <label className="block w-full self-center text-lg font-medium text-gray-900 ">
+              Id del Producto:
+            </label>
+            <input
+              readOnly
+              type="text"
+              className="shadow-sm input border-2 text-center border-gray-500 text-gray-900 text-sm rounded-lg w-10 block p-2.5"
+              value={producto.codigo}
+            />
+          </div>
           <div className="mb-6 flex flex-row">
             <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
               Descripción:
@@ -82,6 +96,8 @@ export const RegistroProducto = () => {
                   message: "La descripción debe tener máximo 50 caracteres",
                 },
               })}
+              autoFocus
+              defaultValue={producto.descripcion}
               type="text"
               className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
             />
@@ -103,6 +119,7 @@ export const RegistroProducto = () => {
                   message: "El precio es requerido",
                 },
               })}
+              defaultValue={producto.precio}
               type="number"
               step="any"
               className="shadow-sm input  border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
@@ -124,6 +141,7 @@ export const RegistroProducto = () => {
                   message: "La imagen es requerida",
                 },
               })}
+              defaultValue={producto.imagen}
               type="text"
               className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             />
@@ -141,18 +159,21 @@ export const RegistroProducto = () => {
               {...register("marca", {
                 required: true,
               })}
-              id="countries"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
-              {categoria.map((categoria) => (
-                <option key={categoria.codigo} value={categoria.codigo}>
-                  {categoria.nombre}
+              {marca.map((marca) => (
+                <option
+                  key={marca.codigo}
+                  value={marca.codigo}
+                  selected={producto.marca.codigo === marca.codigo}
+                >
+                  {marca.nombre}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="w-full border-b-2 mb-6"></div>
+          <div className="w-full border-b-2 mb-4"></div>
 
           <div className="flex items-start mb-6">
             <div className="flex items-center h-5">
@@ -163,12 +184,13 @@ export const RegistroProducto = () => {
                 {...register("habilitado")}
                 id="terms"
                 type="checkbox"
+                defaultChecked={producto.estado}
                 value=""
                 className="w-4 ml-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
               />
             </div>
           </div>
-          <div className="w-full p-10 mb-2 justify-center object-center text-center space-x-24">
+          <div className="w-full p-10 pb-0 justify-center object-center text-center space-x-24">
             <button
               onClick={onRegresarClick}
               className="p-2 px-8 rounded-md hover:text-red-900 text-white bg-[#e74263]"
@@ -180,7 +202,7 @@ export const RegistroProducto = () => {
               className="p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
               onSubmit={onModalClick}
             >
-              Registrar
+              Actualizar
             </button>
           </div>
         </form>
@@ -207,7 +229,7 @@ export const RegistroProducto = () => {
                 <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               <h3 className="mb-9 text-lg font-normal text-gray-500 dark:text-gray-400">
-                ¿Estas seguro de registrar un Nuevo Producto?
+                ¿Estas seguro de actualizar el Producto?
               </h3>
               <button
                 onClick={onAceptarClick}

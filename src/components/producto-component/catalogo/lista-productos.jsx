@@ -41,7 +41,13 @@ export const ListaProductos = ({ admin }) => {
                       "card-producto " + (admin ? "" : "hover:brightness-95")
                     }
                   >
-                    <Link to={"/producto/" + producto.codigo}>
+                    <Link
+                      to={
+                        admin
+                          ? "/producto/admin/" + producto.codigo
+                          : "/producto/" + producto.codigo
+                      }
+                    >
                       <img
                         className="rounded-t-lg h-64 object-cover w-full border-b-2"
                         src={producto.imagen}
@@ -49,7 +55,13 @@ export const ListaProductos = ({ admin }) => {
                       />
                     </Link>
                     <div className="p-4">
-                      <Link to={"/producto/" + producto.codigo}>
+                      <Link
+                        to={
+                          admin
+                            ? "/producto/admin/" + producto.codigo
+                            : "/producto/" + producto.codigo
+                        }
+                      >
                         <h5 className="mb-2 font-semibold text-xl truncate tracking-tight text-gray-900 ">
                           {producto.descripcion}
                         </h5>
