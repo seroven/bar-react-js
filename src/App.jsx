@@ -18,7 +18,7 @@ function App() {
       <Route
         path="/admin/*"
         element={
-          true /**usuario.rol.codigo == 1/ */ ? (
+          usuario.rol.codigo == 1 ? (
             <PageAdministrador />
           ) : (
             <PageNotFound />

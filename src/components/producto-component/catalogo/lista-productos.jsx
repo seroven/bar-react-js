@@ -44,7 +44,7 @@ export const ListaProductos = ({ admin }) => {
                     <Link
                       to={
                         admin
-                          ? "/producto/admin/" + producto.codigo
+                          ? "/admin/producto/" + producto.codigo
                           : "/producto/" + producto.codigo
                       }
                     >
@@ -58,7 +58,7 @@ export const ListaProductos = ({ admin }) => {
                       <Link
                         to={
                           admin
-                            ? "/producto/admin/" + producto.codigo
+                            ? "/admin/producto/" + producto.codigo
                             : "/producto/" + producto.codigo
                         }
                       >
