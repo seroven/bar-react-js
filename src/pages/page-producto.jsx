@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+import { ActualizarProducto } from "../components/producto-component/actualizar/actualizar-producto";
 import { Catalago } from "../components/producto-component/catalogo";
 import { CatalagoSkeleton } from "../components/producto-component/catalogo/skeleton";
 import { Detalle } from "../components/producto-component/detalle/detalle";
@@ -20,6 +21,7 @@ export const PageProducto = () => {
             }
           />
           <Route path="/:id" element={<Detalle />}></Route>
+          <Route path="/admin/:id" element={<ActualizarProducto />}></Route>
         </Routes>
       </div>
     </div>

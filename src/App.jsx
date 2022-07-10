@@ -11,14 +11,21 @@ import { UserState } from "./storage/atom/usuario.atom";
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
 
-  console.log(usuario.rol.codigo);
   return (
     <Routes>
       <Route path="/producto/*" element={<PageProducto />} />
       <Route path="/acceso/*" element={<PageAcceso />} />
-      <Route path="/admin/*" element={usuario.rol.codigo == 1 ? <PageAdministrador/> : <PageNotFound/>} />
+      <Route
+        path="/admin/*"
+        element={
+          true /**usuario.rol.codigo == 1/ */ ? (
+            <PageAdministrador />
+          ) : (
+            <PageNotFound />
+          )
+        }
+      />
       <Route path="/notfound" element={<PageNotFound />} />
-      
     </Routes>
   );
 }
