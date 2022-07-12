@@ -5,7 +5,7 @@ import { Filtro } from "./filtro";
 import { ListaProductos } from "./lista-productos";
 import { CatalagoSkeleton } from "./skeleton";
 
-export const Catalago = ({admin}) => {
+export const Catalago = ({ admin }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const Catalago = ({admin}) => {
     <div>
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h1 className="font-medium text-4xl text-center md:text-left">
+          <h1 className="font-medium text-4xl text-center md:text-left ">
             {admin ? "Listado de Productos" : "Catalogo de Productos"}
           </h1>
           {admin ? (
@@ -35,7 +35,7 @@ export const Catalago = ({admin}) => {
         </div>
         <div className="flex gap-5 container mx-auto mt-5">
           <Filtro />
-          <ListaProductos admin = {admin}/>
+          <ListaProductos admin={admin} />
         </div>
       </div>
     </div>
