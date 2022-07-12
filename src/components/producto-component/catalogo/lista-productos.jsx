@@ -31,7 +31,7 @@ export const ListaProductos = ({ admin }) => {
           <NotFoundProducts width={430} />
         </div>
       ) : (
-        <div className="grid  h grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
           {productos?.map(
             (producto) =>
               (admin ? true : producto.estado) && (
