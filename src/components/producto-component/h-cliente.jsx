@@ -1,23 +1,45 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { buscarState } from "../../storage/atom/buscar.atom";
+import { categoriaState } from "../../storage/atom/categoria.atom";
+import { marcaState } from "../../storage/atom/marca.atom";
 export const HCliente = () => {
   const setBuscar = useSetRecoilState(buscarState);
   const navigate = useNavigate();
+  const [categorias, setCategorias] = useRecoilState(categoriaState);
+  const [marcas, setMarcas] = useRecoilState(marcaState);
+  const [texto, setTexto] = useState("");
+
 
   const onBuscarKeyUp = (e) => {
     if (e.key == "Enter") {
-      setBuscar(e.target.value);
-      navigate("/producto");
-      e.target.value = "";
+      findByName();
     }
   };
+
+  const findByName = () => {
+    setBuscar(texto);
+    setCategorias(categorias.map(c => {return {...c, visible: true}}));
+    setMarcas(marcas.map(m => {return {...m, visible: false}}));
+    desmarcarCategorias();
+    navigate("/producto");
+    setTexto("");
+  }
 
   const onBuscarKeyPress = (e) => {
     if (e.key == "Enter") {
       e.preventDefault();
     }
   };
+
+  const desmarcarCategorias = () => {
+    const $categorias = document.querySelectorAll("#listCategorias input");
+    $categorias.forEach(ele => {
+      ele.checked ? ele.checked = false : null;
+    })
+
+  }
 
   return (
     <>
@@ -45,10 +67,12 @@ export const HCliente = () => {
             className="block p-2 w-52 lg:w-80   text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm  dark:border-green-800 border-none dark:placeholder-gray-400"
             placeholder="Buscar..."
             autoComplete="off"
+            value={texto}
             onKeyUp={onBuscarKeyUp}
             onKeyPress={onBuscarKeyPress}
+            onChange={e => setTexto(e.target.value)}
           />
-          <button className="buttons">
+          <button className="buttons" onClick={e => findByName(e)}>
             <svg
               className="w-6 h-6 fill-current"
               fill="currentColor"

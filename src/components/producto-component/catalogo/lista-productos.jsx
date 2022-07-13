@@ -9,7 +9,7 @@ import { NotFoundProducts } from "./not-found-products";
 export const ListaProductos = ({ admin }) => {
   const productos = useRecoilValue(productoSelector);
 
-  console.log(productos);
+  // console.log(productos);
   const [user, setUser] = useRecoilState(UserState);
 
   const extraerUsuariLocalStorage = () => {
