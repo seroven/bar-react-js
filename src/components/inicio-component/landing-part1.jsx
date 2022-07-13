@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-export const Landing = () => {
+export const LandingPart1 = () => {
   return (
-    <div className="">
+    <>
       <div className="bg-[#618C03]">
         <nav className="nav px-10">
           <div className="nav-position">
@@ -82,6 +82,6 @@ export const Landing = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
