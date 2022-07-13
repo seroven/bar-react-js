@@ -1,29 +1,60 @@
 import axios from "axios";
 import "./filtro.css";
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { buscarState } from "../../../storage/atom/buscar.atom";
-import { categoriaState } from "../../../storage/atom/categoria.atom";
+import { categoriaIdState, categoriaState} from "../../../storage/atom/categoria.atom";
+import { marcaIdState, marcaState } from "../../../storage/atom/marca.atom";
 
 export const Filtro = () => {
-  const setCategoria = useSetRecoilState(categoriaState);
+  const setIdCategoria = useSetRecoilState(categoriaIdState);
+  const setIdMarca = useSetRecoilState(marcaIdState);
   const setBuscar = useSetRecoilState(buscarState);
-  const [categorias, setCategorias] = useState([]);
+  const [categorias, setCategorias] = useRecoilState(categoriaState);
+  const [marcas, setMarcas] = useRecoilState(marcaState);
 
   useEffect(() => {
     axios.get("http://localhost:8069/categoria/all").then((res) => {
-      setCategorias(res.data);
+      setCategorias(res.data.map(c => {return {...c, visible: true }}));
     });
   }, []);
 
+  const getBrandsByCategories = (id) => {
+    axios.get(`http://localhost:8069/marca/byCategory/${id}`)
+    .then((res) => {
+      setMarcas(res.data.map(m => {return {...m, visible: true}}));
+    })
+  }
+
   const onCategoriaSelected = (e, id) => {
-    if (e.target.checked == true) {
-      setCategoria(id);
+    if (e.target.checked) {
+      setIdCategoria(id);
+      setCategorias(categorias.map(c => c.codigo == id ? c : {...c, visible: false}));
+      getBrandsByCategories(id);
     } else {
-      setCategoria("");
+      setIdCategoria("");
+      setCategorias(categorias.map(c => {return {...c, visible: true}}));
+      setMarcas([]);
+      setIdMarca("");
     }
     setBuscar("");
   };
+
+  const onMarcaSelected = (e, id) => {
+
+    if (e.target.checked){
+      setIdCategoria("");
+      setIdMarca(id);
+      setMarcas(marcas.map(m => m.codigo == id ? m : {...m, visible: false}));
+      
+    } else{
+      setIdMarca("");
+      setMarcas(marcas.map(m => {return {...m, visible: true}}));
+      setIdCategoria(categorias.find(c => c.visible == true).codigo);
+    }
+    setBuscar("");
+  }
+
 
   return (
     <div className="filtro">
@@ -43,36 +74,51 @@ export const Filtro = () => {
       <br />
 
       <div className="text-3xl font-medium text-slate-600 mb-3">Categorías</div>
-      {categorias.map((categoria) => (
-        <div key={categoria.codigo} className="flex items-center mb-1">
-          <input
-            id=""
-            type="checkbox"
-            value=""
-            className="w-4 h-4"
-            onChange={(event) => onCategoriaSelected(event, categoria.codigo)}
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ml-2 text-xl text-gray-900"
-          >
-            {categoria.nombre}
-          </label>
-        </div>
-      ))}
+      <div id = "listCategorias">
 
-      <div className="text-3xl mt-4 font-medium text-slate-600 mb-3">
-        Marcas
+        {categorias.map((categoria) => (
+          categoria.visible &&
+          <div key={categoria.codigo} className="flex items-center mb-1">
+            <input
+              id={categoria.codigo}
+              type="checkbox"
+              value=""
+              className="w-4 h-4"
+              onChange={(event) => onCategoriaSelected(event, categoria.codigo)}
+            />
+            <label
+              htmlFor="default-checkbox"
+              className="ml-2 text-xl text-gray-900"
+            >
+              {categoria.nombre}
+            </label>
+          </div>
+        ))}
       </div>
-      <div className="flex items-center mb-1">
-        <input id="" type="checkbox" value="" className="w-4 h-4" />
-        <label
-          htmlFor="default-checkbox"
-          className="ml-2 text-xl text-gray-900"
-        >
-          Categoria
-        </label>
-      </div>
+
+        {
+          marcas.filter(m => m.visible == true).length > 0 &&
+          <div className="text-3xl mt-4 font-medium text-slate-600 mb-3">
+          Marcas
+        </div>
+        }
+      
+        {
+          marcas.map((marca) => (
+            marca.visible &&
+            <div key={marca.codigo} className="flex items-center mb-1">
+              <input id="" type="checkbox" value="" className="w-4 h-4" onChange={(event) => onMarcaSelected(event, marca.codigo)}/>
+              <label
+                htmlFor="default-checkbox"  
+                className="ml-2 text-xl text-gray-900"
+              >
+                {marca.nombre}
+              </label>
+            </div>
+                
+
+          ))
+        }
     </div>
   );
 };
