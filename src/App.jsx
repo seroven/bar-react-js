@@ -7,6 +7,7 @@ import { PageAcceso } from "./pages/page-acceso";
 import { PageAdministrador } from "./pages/page-administrador";
 import { PageNotFound } from "./pages/page-not-found";
 import { UserState } from "./storage/atom/usuario.atom";
+import { PageInicio } from "./pages/page-inicio";
 
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
@@ -25,6 +26,7 @@ function App() {
           )
         }
       />
+      <Route path="/" element={<PageInicio/>}/>
       <Route path="/notfound" element={<PageNotFound />} />
     </Routes>
   );
