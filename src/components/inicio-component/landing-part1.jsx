@@ -34,7 +34,7 @@ export const LandingPart1 = () => {
               Nuestra cervecería nacional es sínonimo de sabor y tradición.
             </p>
           </div>
-          <div className="absolute right-11 bottom-40">
+          <div className="absolute right-10 top-44">
             <img
               className="object-cover h-[30rem]  w-[30rem] rounded-3xl"
               src="../../../src/public/landing-image.jpg"
