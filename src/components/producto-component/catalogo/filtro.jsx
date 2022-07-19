@@ -9,6 +9,7 @@ import {
   categoriaIdState,
   categoriaState,
 } from "../../../storage/atom/categoria.atom";
+import { precioState } from "../../../storage/atom/precio.atom";
 
 export const Filtro = () => {
   const setIdCategoria = useSetRecoilState(categoriaIdState);
@@ -16,8 +17,9 @@ export const Filtro = () => {
   const setBuscar = useSetRecoilState(buscarState);
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
+  const [precio, setPrecio] = useState([]);
 
-  const [value1, setValue1] = useState([20, 37]);
+  const [value, setValue] = useState([0, 100]);
 
   const handleChange1 = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
@@ -25,10 +27,13 @@ export const Filtro = () => {
     }
 
     if (activeThumb === 0) {
-      setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+      setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
     } else {
-      setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+      setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
     }
+
+    // setPrecio([value[0], value[1]]);
+    // console.log(precio);
   };
 
   function valuetext(value) {
@@ -102,7 +107,7 @@ export const Filtro = () => {
       <Box>
         <Slider
           getAriaLabel={() => "Distancia minima"}
-          value={value1}
+          value={value}
           onChange={handleChange1}
           valueLabelDisplay="auto"
           getAriaValueText={valuetext}
