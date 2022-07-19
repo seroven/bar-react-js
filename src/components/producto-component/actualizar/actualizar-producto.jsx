@@ -23,7 +23,7 @@ export const ActualizarProducto = () => {
     console.log(data);
     setProducto(data);
   };
-
+  
   const onRegresarClick = () => {
     navigate("/admin/producto");
   };
