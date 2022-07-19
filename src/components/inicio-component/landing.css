@@ -5,3 +5,19 @@
 .cards .imagen {
     @apply object-cover w-full;
 }
+
+.imagen_e1{
+    max-height: 34em;
+    max-width: 150em;
+}
+
+.imagen_e2{
+    max-height: 42em;
+    max-width: 100em;
+}
+
+.imagen_e3{
+    max-height: 37em;
+    max-width: 150em;
+    transform: translateY(40px);
+}

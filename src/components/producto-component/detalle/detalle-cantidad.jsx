@@ -3,11 +3,28 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./detalle.css";
 
+
 export const Detalle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [producto, setProducto] = useState({});
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
+  const [contador, setContador] = useState(1);
+
+
+  const decrement = () => {
+    
+    if(contador == 0){
+      setContador(contador - 0);
+    }
+    else{
+      setContador(contador - 1);
+    }
+  }
+
+  const increment = () => {
+    setContador(contador + 1);
+  }
 
   const onModalClick = (data) => {
     setModal(true);
@@ -17,7 +34,6 @@ export const Detalle = () => {
     setModal(false);
   };
 
-
   useEffect(() => {
     const obtenerProducto = async () => {
       const result = await axios.get("http://localhost:8069/producto/" + id);
@@ -26,7 +42,6 @@ export const Detalle = () => {
     };
     obtenerProducto();
   }, []);
-
   return (
     <>
       <div className="relative md:mt-10">
@@ -45,47 +60,21 @@ export const Detalle = () => {
               className=" p-2 border-2 border-gray-300 w-1/3 md:w-2/6 lg:w-1/5 rounded"
             />
             <p className="precio">S/. {producto?.precio}</p>
-            <button className="cantidad" onClick={onModalClick} >Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
-
-      <div
-        id="popup-modal"
-        className={
-          "overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex " +
-          (modal ? "block" : "hidden")
-        }
-        aria-modal="true"
-        role="dialog"
-      >
-        <div className="relative p-4 w-full max-w-md h-full md:h-auto">
-          <div className="relative bg-white rounded-lg shadow dark:bg-slate-100">
-            <div className="p-6 text-center">
-              <h3 className="text-[#036300] text-lg font-bold">
-                El producto se añadio correctamente
-              </h3>
-              <br></br>
-              <button
-                onClick={onCancelarClick}
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="p-2 px-6 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
-              >
-                Seguir Comprando
-              </button>
-              <button
-                onClick={onCancelarClick}
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="ml-5 p-2 px-6 rounded-md hover:text-green-900 text-white bg-[#97BF04]"
-              >
-                Ir Al Carrito
-              </button>
+            <div class="contenedorf">
+              <div class="contador">
+                <button class="decrement" onClick={decrement}> - </button>
+                <input type="number" min="0" max="50" step="1"
+                  value={contador} class="my-input" readonly />
+                <button class="increment" onClick={increment}> + </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
+      
+      ;
     </>
   );
 };
