@@ -14,6 +14,7 @@ export const Login = () => {
   const [registerUser, setRegisterUser] = useRecoilState(RegisterState);
   const [cliente, setCliente]=useRecoilState(ClienteState);
 
+
   const {
     register,
     formState: { errors },
@@ -28,9 +29,8 @@ export const Login = () => {
     
     if (user.data.correo == data.email) {
       setUsuario(user.data);
-          const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+user.data.codigo);
-        setCliente(cliente.data);
-
+      const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+user.data.codigo);
+      setCliente(cliente.data);
       navigate("/producto");
     } else {
       

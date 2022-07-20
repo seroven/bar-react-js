@@ -1,22 +1,60 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { carritoState } from "../../../storage/atom/carrito.atom";
+import { DetalleCantidad } from "./detalle-cantidad";
 import "./detalle.css";
 
 export const Detalle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [cantidad, setCantidad] = useState(1);
   const [producto, setProducto] = useState({});
+  const [carrito, setCarrito] = useRecoilState(carritoState);
   const [modal, setModal] = useState(false);
 
-  const onModalClick = (data) => {
+  const onModalClick = (producto) => () => {
+    
+    const productoEncontrado = findProductInLocalStorage();
+
+    if (productoEncontrado) {
+      const nuevoCarrito = carrito.map((item) => {
+        const nuevoItem = Object.assign({}, item);
+        if (item.codigo == productoEncontrado.codigo) {
+          nuevoItem.cantidad += cantidad;
+        }
+        return nuevoItem;
+      });
+      setCarrito([...nuevoCarrito]);
+    } else {
+      
+      const itemProducto = {
+        ...producto,
+        cantidad: cantidad,
+        estadoProducto: true,
+      };
+      setCarrito([...carrito, itemProducto]);
+    }
     setModal(true);
   };
 
-  const onCancelarClick = () => {
-    setModal(false);
+  const findProductInLocalStorage = () => {
+    console.log(carrito);
+    const pro = carrito.find(
+      (item) => item.codigo === producto.codigo
+    );
+    return pro;
+  }
+
+  const onCantidadChange = (e) => {
+    setCantidad(e.target.valueAsNumber);
   };
 
+  const onSeguirComprandoClick = () => {
+    navigate("/producto");
+    setModal(false);
+  };
 
   useEffect(() => {
     const obtenerProducto = async () => {
@@ -29,7 +67,7 @@ export const Detalle = () => {
 
   return (
     <>
-      <div className="relative md:mt-10">
+      <div className={"relative md:mt-10 " + (modal ? "blur-md" : null)}>
         <div className="container p-4 lg:p-8 lg:px-10  lg:max-w-7xl align-middle mx-auto flex flex-col gap-20 lg:gap-10 items-center bg-white shadow-md md:flex-row  ">
           <img className="img" src={producto?.imagen} alt="" />
           <div className="flex flex-col  justify-between space-y-4 lg:pl-10 leading-normal">
@@ -39,13 +77,27 @@ export const Detalle = () => {
             <p className="mb-3 font-normal text-gray-700">
               Marca: {producto?.marca?.nombre}
             </p>
-            <input
-              type="number"
-              autoFocus
-              className=" p-2 border-2 border-gray-300 w-1/3 md:w-2/6 lg:w-1/5 rounded"
-            />
+            {
+              !findProductInLocalStorage() &&
+              <input
+                type="number"
+                autoFocus
+                className=" p-2 border-2 border-gray-300 w-1/3 md:w-2/6 lg:w-1/5 rounded"
+                min="1"
+                defaultValue={cantidad}
+                onChange={onCantidadChange}
+              />
+            }
             <p className="precio">S/. {producto?.precio}</p>
-            <button className="cantidad" onClick={onModalClick} >Agregar al Carrito</button>
+            {
+              findProductInLocalStorage() 
+              ? <DetalleCantidad producto = {producto}/> 
+              : <button className="cantidad" onClick={onModalClick(producto)}>
+                  Agregar al Carrito
+                </button>
+            
+            }
+            
           </div>
         </div>
       </div>
@@ -67,7 +119,7 @@ export const Detalle = () => {
               </h3>
               <br></br>
               <button
-                onClick={onCancelarClick}
+                onClick={onSeguirComprandoClick}
                 data-modal-toggle="popup-modal"
                 type="button"
                 className="p-2 px-6 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
@@ -75,7 +127,7 @@ export const Detalle = () => {
                 Seguir Comprando
               </button>
               <button
-                onClick={onCancelarClick}
+                onClick={onSeguirComprandoClick}
                 data-modal-toggle="popup-modal"
                 type="button"
                 className="ml-5 p-2 px-6 rounded-md hover:text-green-900 text-white bg-[#97BF04]"

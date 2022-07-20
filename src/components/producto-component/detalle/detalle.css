@@ -25,19 +25,6 @@
     text-align: center;
 }
 
-.contenedorf{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Roboto Mono" , monospace;
-    font-weight: 600;
-}
-
-.contador{
-    position: absolute;
-    display: flex;
-}
-
 .my-input{
     -moz-appearance: textfield;
     text-align: center;
@@ -52,20 +39,3 @@
     margin: 0;
 }
 
-.decrement , .increment{
-    background-color: #97BF04;
-    color: white;
-    font-size: 35px;
-    border: none;
-    cursor: pointer;
-}
-
-.decrement{
-    padding: 15px 5px 15px 25px;
-    border-radius: 45px 0 0 45px;
-}
-
-.increment{
-    padding: 15px 25px 15px 5px;
-    border-radius: 0 45px 45px 0;
-}
