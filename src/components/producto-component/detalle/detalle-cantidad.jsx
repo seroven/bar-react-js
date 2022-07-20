@@ -1,80 +1,43 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "./detalle.css";
+import {useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { carritoState } from "../../../storage/atom/carrito.atom";
+import "./detalle.css"
 
 
-export const Detalle = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [producto, setProducto] = useState({});
-  const [modal, setModal] = useState(true);
+export const DetalleCantidad = ({producto}) => {
   const [contador, setContador] = useState(1);
+  const [carrito, setCarrito] = useRecoilState(carritoState);
 
+  useEffect(() => {
+    const nuevoCarrito = carrito.map(p => p.codigo === producto.codigo ? {...p, cantidad: contador} : p);
+    setCarrito(nuevoCarrito );
+  }, [contador]);
+
+  const findProductInLocalStorage = () => {
+    return carrito.find(
+      (item) => item.codigo === producto.codigo
+    );
+  }
 
   const decrement = () => {
-    
-    if(contador == 0){
-      setContador(contador - 0);
-    }
-    else{
-      setContador(contador - 1);
-    }
+    if (contador === 1) return;
+    setContador(contador-1);
   }
 
   const increment = () => {
+    if(contador === 100) return;
     setContador(contador + 1);
   }
 
-  const onModalClick = (data) => {
-    setModal(true);
-  };
-
-  const onCancelarClick = () => {
-    setModal(false);
-  };
-
-  useEffect(() => {
-    const obtenerProducto = async () => {
-      const result = await axios.get("http://localhost:8069/producto/" + id);
-      setProducto(result.data);
-      result.data.estado ? null : navigate("/notfound");
-    };
-    obtenerProducto();
-  }, []);
   return (
     <>
-      <div className="relative md:mt-10">
-        <div className="container p-4 lg:p-8 lg:px-10  lg:max-w-7xl align-middle mx-auto flex flex-col gap-20 lg:gap-10 items-center bg-white shadow-md md:flex-row  ">
-          <img className="img" src={producto?.imagen} alt="" />
-          <div className="flex flex-col  justify-between space-y-4 lg:pl-10 leading-normal">
-            <h5 className="mb-2 text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 ">
-              {producto?.descripcion}
-            </h5>
-            <p className="mb-3 font-normal text-gray-700">
-              Marca: {producto?.marca?.nombre}
-            </p>
-            <input
-              type="number"
-              autoFocus
-              className=" p-2 border-2 border-gray-300 w-1/3 md:w-2/6 lg:w-1/5 rounded"
-            />
-            <p className="precio">S/. {producto?.precio}</p>
-            <div class="contenedorf">
-              <div class="contador">
-                <button class="decrement" onClick={decrement}> - </button>
-                <input type="number" min="0" max="50" step="1"
-                  value={contador} class="my-input" readonly />
-                <button class="increment" onClick={increment}> + </button>
-              </div>
-            </div>
-          </div>
+      <div className="font-semibold w-full mt-0 flex font-['Roboto'] h-14">
+        <div className="flex bg-[#97BF04] rounded-[1.2rem] justify-between items-center flex-row w-[60%] text-white text-3xl px-5 h-full">
+          <button onClick={decrement}> - </button>
+          <label >{contador}</label>
+          <button onClick={increment}> + </button>
         </div>
       </div>
-
-
-      
-      ;
     </>
   );
 };

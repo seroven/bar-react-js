@@ -12,6 +12,7 @@ export const Login = () => {
   const [usuario, setUsuario] = useRecoilState(UserState);
   const [registerUser, setRegisterUser] = useRecoilState(RegisterState);
 
+
   const {
     register,
     formState: { errors },
@@ -26,6 +27,7 @@ export const Login = () => {
     
     if (user.data.correo == data.email) {
       setUsuario(user.data);
+      
       navigate("/producto");
     } else {
       

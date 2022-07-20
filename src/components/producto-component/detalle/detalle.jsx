@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { carritoState } from "../../../storage/atom/carrito.atom";
+import { DetalleCantidad } from "./detalle-cantidad";
 import "./detalle.css";
 
 export const Detalle = () => {
@@ -14,9 +15,8 @@ export const Detalle = () => {
   const [modal, setModal] = useState(false);
 
   const onModalClick = (producto) => () => {
-    const productoEncontrado = carrito.find(
-      (item) => item.codigo === producto.codigo
-    );
+    
+    const productoEncontrado = findProductInLocalStorage();
 
     if (productoEncontrado) {
       const nuevoCarrito = carrito.map((item) => {
@@ -28,21 +28,24 @@ export const Detalle = () => {
       });
       setCarrito([...nuevoCarrito]);
     } else {
+      
       const itemProducto = {
-        codigo: producto.codigo,
-        descripcion: producto.descripcion,
-        imagen: producto.imagen,
-        categoria: producto.marca.categoria.nombre,
-        marca: producto.marca.nombre,
-        precio: producto.precio,
+        ...producto,
         cantidad: cantidad,
         estadoProducto: true,
       };
       setCarrito([...carrito, itemProducto]);
     }
     setModal(true);
-    console.log(carrito);
   };
+
+  const findProductInLocalStorage = () => {
+    console.log(carrito);
+    const pro = carrito.find(
+      (item) => item.codigo === producto.codigo
+    );
+    return pro;
+  }
 
   const onCantidadChange = (e) => {
     setCantidad(e.target.valueAsNumber);
@@ -74,18 +77,27 @@ export const Detalle = () => {
             <p className="mb-3 font-normal text-gray-700">
               Marca: {producto?.marca?.nombre}
             </p>
-            <input
-              type="number"
-              autoFocus
-              className=" p-2 border-2 border-gray-300 w-1/3 md:w-2/6 lg:w-1/5 rounded"
-              min="1"
-              defaultValue={cantidad}
-              onChange={onCantidadChange}
-            />
+            {
+              !findProductInLocalStorage() &&
+              <input
+                type="number"
+                autoFocus
+                className=" p-2 border-2 border-gray-300 w-1/3 md:w-2/6 lg:w-1/5 rounded"
+                min="1"
+                defaultValue={cantidad}
+                onChange={onCantidadChange}
+              />
+            }
             <p className="precio">S/. {producto?.precio}</p>
-            <button className="cantidad" onClick={onModalClick(producto)}>
-              Agregar al Carrito
-            </button>
+            {
+              findProductInLocalStorage() 
+              ? <DetalleCantidad producto = {producto}/> 
+              : <button className="cantidad" onClick={onModalClick(producto)}>
+                  Agregar al Carrito
+                </button>
+            
+            }
+            
           </div>
         </div>
       </div>
