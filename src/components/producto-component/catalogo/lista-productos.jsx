@@ -5,17 +5,28 @@ import { productoSelector } from "../../../storage/selector/producto-selector";
 import { useEffect } from "react";
 import { UserState } from "../../../storage/atom/usuario.atom";
 import { NotFoundProducts } from "./not-found-products";
+import { ClienteState } from "../../../storage/atom/cliente.atom";
+import axios from "axios";
 
 export const ListaProductos = ({ admin }) => {
   const productos = useRecoilValue(productoSelector);
 
   // console.log(productos);
   const [user, setUser] = useRecoilState(UserState);
-
-  const extraerUsuariLocalStorage = () => {
+  const[cliente,setCliente]=useRecoilState(ClienteState);
+  const extraerUsuariLocalStorage = async() => {
     const usuario = localStorage.getItem("usuario_bar");
-    if (usuario !== null) setUser(JSON.parse(usuario));
+    if (usuario !== null) {
+      const codusuario = JSON.parse(usuario);
+      setUser(codusuario);
+      console.log(codusuario.codigo);
+      const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+codusuario.codigo);
+      setCliente(cliente.data);
+    }
+
   };
+
+
 
   useEffect(() => {
     extraerUsuariLocalStorage();
