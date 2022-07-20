@@ -5,12 +5,14 @@ import { buscarState } from "../../storage/atom/buscar.atom";
 import { categoriaState } from "../../storage/atom/categoria.atom";
 import { marcaState } from "../../storage/atom/marca.atom";
 import { useParams } from "react-router-dom";
+import { ClienteState } from "../../storage/atom/cliente.atom";
 export const HCliente = () => {
   const setBuscar = useSetRecoilState(buscarState);
   const navigate = useNavigate();
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
   const [texto, setTexto] = useState("");
+  const [cliente, setCliente] = useRecoilState(ClienteState);
   
   const onBuscarKeyUp = (e) => {
     if (e.key == "Enter") {
@@ -127,7 +129,7 @@ export const HCliente = () => {
         <ul className="flex flex-col text-white mt-4 md:flex-row md:space-x-2 md:mt-0 md:text-md md:font-medium pr-2">
           <li className="buttons lg:px-10 px-5">
             <Link
-              to={"/pedido/cliente/"+id}
+              to={"/pedido/cliente/"+cliente?.codigo}
               className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
             >
               Mis Pedidos
