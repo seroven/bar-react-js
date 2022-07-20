@@ -8,6 +8,7 @@ import { PageAdministrador } from "./pages/page-administrador";
 import { PageNotFound } from "./pages/page-not-found";
 import { UserState } from "./storage/atom/usuario.atom";
 import { PageInicio } from "./pages/page-inicio";
+import { PagePedidos } from "./pages/page-pedidos";
 
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
@@ -16,6 +17,7 @@ function App() {
     <Routes>
       <Route path="/producto/*" element={<PageProducto />} />
       <Route path="/acceso/*" element={<PageAcceso />} />
+      <Route path="/pedido/*" element={<PagePedidos/>}/>
       <Route
         path="/admin/*"
         element={

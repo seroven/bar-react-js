@@ -5,12 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { RegisterState } from "../../storage/atom/register.atom";
 import { UserState } from "../../storage/atom/usuario.atom";
+import {ClienteState} from "../../storage/atom/cliente.atom"
 import "./login.css";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useRecoilState(UserState);
   const [registerUser, setRegisterUser] = useRecoilState(RegisterState);
+  const [cliente, setCliente]=useRecoilState(ClienteState);
 
   const {
     register,
@@ -26,6 +28,9 @@ export const Login = () => {
     
     if (user.data.correo == data.email) {
       setUsuario(user.data);
+          const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+user.data.codigo);
+        setCliente(cliente.data);
+
       navigate("/producto");
     } else {
       
