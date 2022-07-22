@@ -15,7 +15,7 @@
 }
 
 .register-order-group{
-    @apply mb-6 flex flex-row justify-between;
+    @apply mb-3 flex flex-row justify-between;
 }
 
 .register-order-input{
