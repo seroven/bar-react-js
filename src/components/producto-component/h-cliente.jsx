@@ -137,7 +137,7 @@ export const HCliente = () => {
           </li>
           <li className="buttons">
             <Link
-              to="/"
+              to="/pedido/carrito"
               className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0"
             >
               <svg

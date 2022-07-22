@@ -1,0 +1,28 @@
+.carrito{
+    @apply grid gap-16;
+    grid-template-columns: 3fr 1.3fr; 
+}
+
+.item-carrito{
+    position: relative;
+    @apply grid gap-3 border-t border-zinc-500 h-56 py-3 my-2 px-4 content-center auto-cols-auto;
+    grid-template-columns: 1fr 0.8fr 1fr 1.2fr;
+}
+
+.register-order-label{
+    @apply block w-96 self-center text-lg font-medium text-gray-900 ;
+    font-size: 1.3rem;
+}
+
+.register-order-group{
+    @apply mb-6 flex flex-row justify-between;
+}
+
+.register-order-input{
+    @apply border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5 ;
+    font-size: 1rem;
+}
+
+.linea-divisora{
+    @apply w-full border border-gray-500 shadow-sm shadow-slate-500 my-5;
+}
