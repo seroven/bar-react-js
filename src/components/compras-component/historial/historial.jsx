@@ -25,12 +25,14 @@ export const Historial = () => {
                                 <div className="col-span-2 border-2 border-[#97BF04]">
                                     <h2 className="font-medium text-xl p-2 px-8 text-[#97BF04] text-center">N° Pedido: {pedido.cod_pedido}</h2>
                                 </div>
+                                <Link to="/pedido/detalle">
                                 <button
                                     type="submit"
                                     className="font-medium text-xl p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
                                 >
                                     Ver Detalle
                                 </button>
+                                </Link>
                             </div>
                             <div className="grid gap-x-20 grid-cols-3 px-20 my-5 h-[50%]">
                                 <div className="relative mt-2 rounded">
