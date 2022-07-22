@@ -1,0 +1,12 @@
+.tituloDetalle{
+    
+    background:#618C03; 
+    @apply inset-x-0 top-0 text-center text-white text-2xl rounded-t-xl pt-2 h-20;
+
+}
+
+.producto{
+    margin: 0 auto;
+    height: 570px;
+    overflow: auto;
+}
