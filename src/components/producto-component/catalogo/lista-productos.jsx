@@ -14,9 +14,11 @@ import axios from "axios";
 import { useState } from "react";
 
 export const ListaProductos = ({ admin }) => {
-  const productos = useRecoilValue(productoSelector);
+  const productosIniciales = useRecoilValue(productoSelector);
+  const [productos, setProds] = useState(productosIniciales);
   const [user, setUser] = useRecoilState(UserState);
   const [cliente, setCliente] = useRecoilState(ClienteState);
+
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
 
   const extraerUsuariLocalStorage = async () => {
@@ -31,16 +33,19 @@ export const ListaProductos = ({ admin }) => {
     }
   };
 
-  const actulizarEstado = (estado) => {};
-
   const onStatusChangeClick = (data) => {
     axios
       .put("http://localhost:8069/producto/estado/" + data.codigo)
       .then(() => {
-        refresh();
+        setProds(
+          productos.map((prod) =>
+            prod.codigo === data.codigo
+              ? { ...data, estado: !data.estado }
+              : prod
+          )
+        );
       });
-    console.log(data);
-    console.log(!data.estado);
+    //TODO: Si retorna un error, no setear prods
   };
 
   useEffect(() => {
@@ -49,7 +54,7 @@ export const ListaProductos = ({ admin }) => {
 
   return (
     <>
-      {productos.length === 0 ? (
+      {productosIniciales.length === 0 ? (
         <div className="pl-60 justify-self-center text-center">
           <h1 className="text-3xl font-extrabold mb-20 text-[#97BF04]">
             No Se Encontraron Productos
@@ -58,7 +63,7 @@ export const ListaProductos = ({ admin }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
-          {productos?.map(
+          {productos.map(
             (producto) =>
               (admin ? true : producto.estado) && (
                 <div key={producto.codigo}>
