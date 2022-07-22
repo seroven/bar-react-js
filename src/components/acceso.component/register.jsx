@@ -18,14 +18,14 @@ export const Register = () => {
     handleSubmit,
   } = useForm();
 
-  const sendEmail = async (email, codigo) => {
-    await axios.post("http://localhost:3001/api", {
+  const sendEmail = (email, codigo) => {
+    axios.post("https://app-email-rest.herokuapp.com/api", {
       email: email,
       asunto: "Código de verificación",
       mensaje: `Su código de verificación es: ${codigo}`,
     });
   };
-  
+
   const onRegistrarSubmit = (data) => {
     const cod = Math.floor(100000 + Math.random() * 900000);
     navigate("/acceso/codigo");
