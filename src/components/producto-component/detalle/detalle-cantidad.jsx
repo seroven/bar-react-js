@@ -9,24 +9,24 @@ export const DetalleCantidad = ({producto}) => {
   const [carrito, setCarrito] = useRecoilState(carritoState);
 
   useEffect(() => {
-    const nuevoCarrito = carrito.map(p => p.codigo === producto.codigo ? {...p, cantidad: contador} : p);
-    setCarrito(nuevoCarrito );
-  }, [contador]);
+    setContador(carrito.find(p => p.codigo === producto.codigo).cantidad)
+  }, [])
 
-  const findProductInLocalStorage = () => {
-    return carrito.find(
-      (item) => item.codigo === producto.codigo
-    );
+  const actualizarCarrito = (cant) => {
+    const nuevoCarrito = carrito.map(p => p.codigo === producto.codigo ? {...p, cantidad: cant} : p);
+    setCarrito(nuevoCarrito );
   }
 
   const decrement = () => {
     if (contador === 1) return;
     setContador(contador-1);
+    actualizarCarrito(contador-1);
   }
 
   const increment = () => {
     if(contador === 100) return;
     setContador(contador + 1);
+    actualizarCarrito(contador + 1);
   }
 
   return (

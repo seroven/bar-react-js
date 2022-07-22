@@ -18,24 +18,13 @@ export const Detalle = () => {
     
     const productoEncontrado = findProductInLocalStorage();
 
-    if (productoEncontrado) {
-      const nuevoCarrito = carrito.map((item) => {
-        const nuevoItem = Object.assign({}, item);
-        if (item.codigo == productoEncontrado.codigo) {
-          nuevoItem.cantidad += cantidad;
-        }
-        return nuevoItem;
-      });
-      setCarrito([...nuevoCarrito]);
-    } else {
-      
-      const itemProducto = {
-        ...producto,
-        cantidad: cantidad,
-        estadoProducto: true,
-      };
-      setCarrito([...carrito, itemProducto]);
-    }
+    const itemProducto = {
+      ...producto,
+      cantidad: cantidad,
+      estadoProducto: true,
+    };
+    setCarrito([...carrito, itemProducto]);
+  
     setModal(true);
   };
 
