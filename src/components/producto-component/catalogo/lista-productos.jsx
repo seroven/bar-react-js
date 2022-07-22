@@ -1,32 +1,47 @@
 import "./lista-productos.css";
 import { Link } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  useRecoilRefresher_UNSTABLE,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
 import { useEffect } from "react";
 import { UserState } from "../../../storage/atom/usuario.atom";
 import { NotFoundProducts } from "./not-found-products";
 import { ClienteState } from "../../../storage/atom/cliente.atom";
 import axios from "axios";
+import { useState } from "react";
 
 export const ListaProductos = ({ admin }) => {
   const productos = useRecoilValue(productoSelector);
-
-  // console.log(productos);
   const [user, setUser] = useRecoilState(UserState);
-  const[cliente,setCliente]=useRecoilState(ClienteState);
-  const extraerUsuariLocalStorage = async() => {
+  const [cliente, setCliente] = useRecoilState(ClienteState);
+  const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
+
+  const extraerUsuariLocalStorage = async () => {
     const usuario = localStorage.getItem("usuario_bar");
     if (usuario !== null) {
       const codusuario = JSON.parse(usuario);
       setUser(codusuario);
-      console.log(codusuario.codigo);
-      const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+codusuario.codigo);
+      const cliente = await axios.get(
+        "http://localhost:8069/cliente/byUser/" + codusuario.codigo
+      );
       setCliente(cliente.data);
     }
-
   };
 
+  const actulizarEstado = (estado) => {};
 
+  const onStatusChangeClick = (data) => {
+    axios
+      .put("http://localhost:8069/producto/estado/" + data.codigo)
+      .then(() => {
+        refresh();
+      });
+    console.log(data);
+    console.log(!data.estado);
+  };
 
   useEffect(() => {
     extraerUsuariLocalStorage();
@@ -88,6 +103,7 @@ export const ListaProductos = ({ admin }) => {
                             "w-full " +
                             (producto.estado ? "buttons-red" : "buttons")
                           }
+                          onClick={() => onStatusChangeClick(producto)}
                         >
                           {producto.estado ? "Inhabilitar" : "Habilitar"}
                         </button>
