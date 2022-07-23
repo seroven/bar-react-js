@@ -23,7 +23,7 @@ export const Catalago = ({ admin }) => {
   return (
     <div>
       <div>
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between container mx-auto items-center mb-4">
           <h1 className="font-medium text-4xl text-center md:text-left ">
             {admin ? "Listado de Productos" : "Catalogo de Productos"}
           </h1>
