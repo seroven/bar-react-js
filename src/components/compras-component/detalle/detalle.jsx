@@ -37,17 +37,26 @@ export const DetallePedido = () => {
   };
 
   const joinProductos = (detalle, productos) => {
-    setDetalle({
+    const newDetalle = {
       ...detalle,
       productos: detalle.productos.map((item) => {
-        const prod = productos.find((prod) => prod.id === item.producto_id);
+        const prod = productos.find((prod) => prod.idproducto === item.codigo);
         return {
           ...item,
           cantidad: prod.cantidad,
           subtotal: prod.subtotal,
         };
       }),
-    });
+    }
+    // console.warn("Detalle de un Pedido -> ")
+    // console.log(detalle);
+    // console.warn("Productos de un Pedido -> ")
+    // console.log(productos);
+    // console.warn("Nuevo Detalle -> ")
+    // console.log(newDetalle);
+    setDetalle(newDetalle);
+
+    ;
   };
   return (
     <>
@@ -192,12 +201,12 @@ export const DetallePedido = () => {
                             <div className="text-center ml-14">SubTotal</div>
                             <div className="text-start w-40 py-2">Precio:</div>
                             <div className="text-right py-2 font-medium ">
-                              S/.{(producto?.subtotal).toFixed(2)}
+                              S/.{(producto?.precio).toFixed(2)}
                             </div>
                             <div className="text-center font-extrabold w-full  text-3xl ml-8 text-[#618C03]">
                               {"S/. " +
                                 (
-                                  producto?.subtotal * producto?.cantidad
+                                  producto?.subtotal
                                 ).toFixed(2)}
                             </div>
                           </div>
