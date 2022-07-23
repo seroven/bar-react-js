@@ -129,7 +129,7 @@ export const HCliente = () => {
         <ul className="flex flex-col text-white mt-4 md:flex-row md:space-x-2 md:mt-0 md:text-md md:font-medium pr-2">
           <li className="buttons lg:px-10 px-5">
             <Link
-              to={"/pedido/cliente/"+cliente?.codigo}
+              to="/pedido/historial"
               className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
             >
               Mis Pedidos
