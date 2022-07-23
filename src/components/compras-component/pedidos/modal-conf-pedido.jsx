@@ -1,5 +1,65 @@
+import axios from "axios";
+import { useRecoilState } from "recoil";
+import { carritoState } from "../../../storage/atom/carrito.atom";
+import { ClienteState } from "../../../storage/atom/cliente.atom";
+import { DataPedidoState } from "../../../storage/atom/data-pedido.atom";
+import { UserState } from "../../../storage/atom/usuario.atom";
 
 export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModalInformativo }) => {
+
+  const [data, setData] = useRecoilState(DataPedidoState);
+  const [usuario, setUsuario] = useRecoilState(UserState);
+  const [carrito, setCarrito] = useRecoilState(carritoState);
+  const [cliente, setCliente] = useRecoilState(ClienteState);
+
+  const guardarInformacion = async () => {
+    if (!cliente){
+      const idCliente = await guardarCliente(data);
+      console.warn("Cliente registrado")
+      await guardarPedido(data, idCliente);
+      console.warn("Pedido registrado")
+    } else{
+      const idCliente = cliente.codigo;
+      await guardarPedido(data, idCliente);
+      console.warn("Pedido registrado")
+    }
+    
+    // setModalVisible(false);
+    // setModalConfirmacion(true);
+  };
+
+  const guardarCliente = async (dataCliente) => {
+    const newCliente = await axios.post("http://localhost:8069/cliente/save", {
+      nombre: dataCliente.nombre,
+      apPaterno: dataCliente.apPaterno,
+      apMaterno: dataCliente.apMaterno,
+      dni: dataCliente.dni,
+      telefono: dataCliente.telefono,
+      usuario: {
+          "codigo": usuario.codigo
+      }
+    });
+    setCliente(newCliente.data);
+    return newCliente.data.codigo;
+  }
+
+  const guardarPedido = async (dataPedido, id) => {
+
+    const newPedido = {
+      idcliente: id,
+      estado: 1,
+      fecha_envio: dataPedido.fecha,
+      dni_receptor: dataPedido.dni_recoger.length === 0 ? cliente.dni : dataPedido.dni_recoger,
+      detalle: carrito.map(item => {return {
+        idproducto: item.codigo,
+        cantidad: item.cantidad,
+        subtotal: item.cantidad * item.precio
+      }})
+    }
+    console.log(newPedido);
+    axios.post("http://localhost:8069/pedido/venta", newPedido);
+  }
+
   return (
     <>
       {modalVisible && (
@@ -32,6 +92,7 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
 
                 <div className="w-full flex flex-row justify-center">
                     <button className='bg-[#618C03] py-2 px-14 text-white font-semibold text-[1.2rem] rounded-xl' onClick={e => {
+                        guardarInformacion();
                         setModalVisible(false);
                         setModalInformativo(true);
                     }}>

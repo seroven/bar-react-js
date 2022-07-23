@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -9,9 +8,31 @@ import { PageNotFound } from "./pages/page-not-found";
 import { UserState } from "./storage/atom/usuario.atom";
 import { PageInicio } from "./pages/page-inicio";
 import { PagePedidos } from "./pages/page-pedidos";
+import { ClienteState } from "./storage/atom/cliente.atom";
+import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
+  const [cliente, setCliente] = useRecoilState(ClienteState);
+
+  useEffect(() => {
+    extraerUsuarioLocalStorage();
+  },[])
+
+  const extraerUsuarioLocalStorage = async () => {
+    const usuario = localStorage.getItem("usuario_bar");
+    if (usuario !== null) {
+      const codusuario = JSON.parse(usuario);
+      setUsuario(codusuario);
+      const cliente = await axios.get(
+        "http://localhost:8069/cliente/byUser/" + codusuario.codigo
+      );
+      setCliente(cliente.data);
+      // console.warn(cliente.data);
+    }
+  };
+
 
   return (
     <Routes>

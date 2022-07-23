@@ -16,22 +16,15 @@ import { useState } from "react";
 export const ListaProductos = ({ admin }) => {
   const productosIniciales = useRecoilValue(productoSelector);
   const [productos, setProds] = useState(productosIniciales);
-  const [user, setUser] = useRecoilState(UserState);
-  const [cliente, setCliente] = useRecoilState(ClienteState);
-
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
+  // const [usuario, setUsuario] = useRecoilState(UserState);
+  // const [cliente, setCliente] = useRecoilState(ClienteState);
+  // console.info("Soy el átomo usuario -> :");
+  // console.info(usuario);
+  // console.info("Soy el átomo de cliente -> ")
+  // console.info(cliente);
 
-  const extraerUsuariLocalStorage = async () => {
-    const usuario = localStorage.getItem("usuario_bar");
-    if (usuario !== null) {
-      const codusuario = JSON.parse(usuario);
-      setUser(codusuario);
-      const cliente = await axios.get(
-        "http://localhost:8069/cliente/byUser/" + codusuario.codigo
-      );
-      setCliente(cliente.data);
-    }
-  };
+  
 
   const onStatusChangeClick = (data) => {
     axios
@@ -48,9 +41,6 @@ export const ListaProductos = ({ admin }) => {
     //TODO: Si retorna un error, no setear prods
   };
 
-  useEffect(() => {
-    extraerUsuariLocalStorage();
-  }, []);
 
   return (
     <>

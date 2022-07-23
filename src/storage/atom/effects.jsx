@@ -1,3 +1,4 @@
+
 export const localStorageEffects =
   (key) =>
   ({ setSelf, onSet }) => {
@@ -9,7 +10,6 @@ export const localStorageEffects =
     if (savedValue != null) {
       setSelf(JSON.parse(savedValue));
     }
-
     onSet((newValue, _, isReset) => {
       isReset
         ? localStorage.removeItem(key)
