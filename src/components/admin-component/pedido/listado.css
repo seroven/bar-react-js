@@ -1,0 +1,44 @@
+.tabla-listado{
+    @apply w-full h-[35rem] border-2 border-[#618C03] p-0;    
+}
+
+.orden-tabla{
+    @apply grid text-center m-0;
+    grid-template-columns: 0.4fr 0.8fr 0.5fr 0.5fr 0.4fr 0.4fr 0.6fr 0.4fr;
+}
+
+.orden-tabla div{
+    @apply flex flex-row items-center justify-center border-[#7CA503] px-2;
+}
+
+.tabla-encabezado{
+    @apply bg-[#618C03] text-white font-semibold text-[1.2rem] py-2;
+}
+
+.tabla-contenido{
+    @apply font-semibold text-[1rem] py-2 border-b-2 border-[#7CA503];
+}
+
+.lista-estado{
+    @apply w-3/4 outline-none rounded-[5px]  py-[4px] px-2 shadow-sm shadow-slate-500 text-white;
+}
+
+.boton-detalle{
+    @apply bg-[#FAC80C] w-2/3 px-1 py-1 flex flex-row justify-center items-center rounded-md;
+}
+
+.color-postergado{
+    @apply bg-orange-400;
+}
+
+.color-pendiente{
+    @apply bg-gray-400;
+}
+
+.color-terminado{
+    @apply bg-green-600;
+}
+
+.color-cancelado{
+    @apply bg-red-500;
+}

@@ -27,7 +27,7 @@ export const Header = ({admin}) => {
             <ul className="flex flex-col text-white mt-4 md:flex-row md:space-x-4 md:mt-0 md:text-md md:font-medium pr-2">
               <li className="buttons lg:px-10 px-5">
                 <Link
-                  to="/"
+                  to="/admin/pedido"
                   className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
                 >
                   Pedidos
@@ -35,7 +35,7 @@ export const Header = ({admin}) => {
               </li>
               <li className="buttons lg:px-10 px-5">
                 <Link
-                  to="/"
+                  to="/admin/producto"
                   className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
                 >
                   Productos
