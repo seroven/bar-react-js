@@ -1,22 +1,42 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { UserState } from "../../../storage/atom/usuario.atom";
+import { ClienteState } from "../../../storage/atom/cliente.atom";
 import "./historial.css"
 
 export const Historial = () => {
-    const { id } = useParams();
+    const [cliente, setCliente] = useRecoilState(ClienteState);
     const [pedidos, setPedidos] = useState([]);
+    const [user, setUser] = useRecoilState(UserState);
 
+    const extraerUserLocalStorage = async () => {
+        const usuario = localStorage.getItem("usuario_bar");
+        if (usuario !== null) {
+            const codusuario = JSON.parse(usuario);
+            setUser(codusuario);
+
+            const cliente = await axios.get(
+                "http://localhost:8069/cliente/byUser/" + codusuario.codigo
+            );
+            setCliente(cliente.data);
+            // console.log(cliente.data.codigo);
+            const pedclie = axios.get("http://localhost:8069/pedido/all/" + cliente.data.codigo)
+                .then(response => setPedidos(response.data))
+                .catch(error => console.log(error)
+                );
+        }
+
+    };
     useEffect(() => {
-        axios.get("http://localhost:8069/pedido/all/" + id)
-            .then(response => setPedidos(response.data))
-            .catch(error => console.log(error));
+        extraerUserLocalStorage();
     }, []);
+
 
     return (
         <div className="flex gap-5">
-            <div className="relative md:mt-10 ">
+            <div className="relative md:mt-10">
                 <h1 className="font-medium text-4xl text-center md:text-left text-[#022601]">Mis Pedidos</h1>
                 {pedidos?.map(pedido => (
                     <>
@@ -26,12 +46,12 @@ export const Historial = () => {
                                     <h2 className="font-medium text-xl p-2 px-8 text-[#97BF04] text-center">N° Pedido: {pedido.cod_pedido}</h2>
                                 </div>
                                 <Link to="/pedido/detalle">
-                                <button
-                                    type="submit"
-                                    className="font-medium text-xl p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
-                                >
-                                    Ver Detalle
-                                </button>
+                                    <button
+                                        type="submit"
+                                        className="font-medium text-xl p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
+                                    >
+                                        Ver Detalle
+                                    </button>
                                 </Link>
                             </div>
                             <div className="grid gap-x-20 grid-cols-3 px-20 my-5 h-[50%]">
@@ -62,8 +82,8 @@ export const Historial = () => {
                                 <div className="relative mt-2 rounded">
                                     <p className="py-2 pr-3 pl-10 w-full"><b>Precio Total: s/.</b> {pedido.precio_total}</p>
                                     <div className="absolute inset-y-0 left-0 flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                         </svg>
                                     </div>
                                 </div>
@@ -75,6 +95,4 @@ export const Historial = () => {
             </div>
         </div>
     )
-
-
 }

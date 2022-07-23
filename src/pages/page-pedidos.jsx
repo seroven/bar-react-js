@@ -10,7 +10,7 @@ export const PagePedidos = () => {
             <Header/>
             <div className="p-8 container mx-auto mt-5">
                 <Routes>
-                    <Route path ="/cliente/:id" element = {<Historial/>}></Route>
+                    <Route path ="/historial" element = {<Historial/>}></Route>
                     <Route path ="/detalle" element ={<DetallePedido/>}></Route>
                     <Route path = "/carrito" element = {<CarritoCompras/>}> </Route>
                 </Routes>
