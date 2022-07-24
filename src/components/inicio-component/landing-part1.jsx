@@ -1,6 +1,26 @@
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { ClienteState } from "../../storage/atom/cliente.atom";
+import { UserState } from "../../storage/atom/usuario.atom";
 
 export const LandingPart1 = () => {
+
+  const [usuario, setUsuario] = useRecoilState(UserState);
+  const [cliente, setCliente] = useRecoilState(ClienteState);
+
+  const cerrarSesion = () => {
+    setCliente(null);
+    setUsuario({
+      codigo: 0,
+      correo: "",
+      contrasena: "",
+      rol: {
+        codigo: 0,
+        nombre: ""
+      }});
+
+  }
+
   return (
     <>
       <div className="bg-[#618C03]">
@@ -18,12 +38,21 @@ export const LandingPart1 = () => {
               </div>
             </Link>
             <ul className="flex flex-col text-white mt-4 md:flex-row md:space-x-4 md:mt-0 md:text-md md:font-medium pr-2">
-              <Link
-                to="/acceso/login"
-                className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0"
-              >
-                <li className="buttons lg:px-10 px-5">Inicio Sesión</li>
-              </Link>
+              {
+                usuario.codigo === 0 
+                ? <Link
+                    to="/acceso/login"
+                    className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0"
+                  >
+                    <li className="buttons lg:px-10 px-5">Inicio Sesión</li>
+                  </Link>
+                : <button className="buttons lg:px-10 px-5" onClick={e => cerrarSesion()}>Cerrar Sesión</button>
+              }
+
+              
+              
+              
+
             </ul>
           </div>
         </nav>

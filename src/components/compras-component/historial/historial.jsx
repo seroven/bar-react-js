@@ -1,16 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { ClienteState } from "../../../storage/atom/cliente.atom";
+import { UserState } from "../../../storage/atom/usuario.atom";
 import "./historial.css";
 
 export const Historial = () => {
   const cliente = useRecoilValue(ClienteState);
   const [pedidos, setPedidos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+
     axios
       .get("http://localhost:8069/pedido/all/" + cliente?.codigo)
       .then((response) => setPedidos(response.data))

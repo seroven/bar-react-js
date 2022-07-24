@@ -2,14 +2,10 @@ import "./lista-productos.css";
 import { Link } from "react-router-dom";
 import {
   useRecoilRefresher_UNSTABLE,
-  useRecoilState,
   useRecoilValue,
 } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
-import { useEffect } from "react";
-import { UserState } from "../../../storage/atom/usuario.atom";
 import { NotFoundProducts } from "./not-found-products";
-import { ClienteState } from "../../../storage/atom/cliente.atom";
 import axios from "axios";
 import { useState } from "react";
 
@@ -112,6 +108,7 @@ export const ListaProductos = ({ admin }) => {
           )}
         </div>
       )}
+      
     </>
   );
 };
