@@ -8,7 +8,7 @@ import { ModalInformacionPedido } from "./modal-info-pedido";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { carritoState } from "../../../storage/atom/carrito.atom";
 import { UserState } from "../../../storage/atom/usuario.atom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const CarritoCompras = () => {
   const [modalRegistroVisible, setModalRegistroVisible] = useState(false);
@@ -65,7 +65,9 @@ export const CarritoCompras = () => {
                 <>
                   <div className="item-carrito">
                     <div className="h-full overflow-hidden rounded-xl">
-                      <img className="w-full object-cover" src={item.imagen} />
+                      <Link to = {"/producto/" + item.codigo}>
+                        <img className="w-full object-cover" src={item.imagen} />
+                      </Link>
                     </div>
                     <div className="flex flex-col justify-center">
                       <span className="font-semibold text-xl">

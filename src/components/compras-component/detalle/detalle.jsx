@@ -33,7 +33,7 @@ export const DetallePedido = () => {
     setDetalle(detalle);
     setProductos(productos);
     joinProductos(detalle, productos);
-    console.log(detalle);
+    // console.log(detalle);
   };
 
   const joinProductos = (detalle, productos) => {
