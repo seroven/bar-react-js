@@ -11,6 +11,10 @@ export const localStorageEffects =
       setSelf(JSON.parse(savedValue));
     }
     onSet((newValue, _, isReset) => {
+      if (newValue.codigo === 0) {
+        localStorage.removeItem("usuario_bar");
+        return;
+      };
       isReset
         ? localStorage.removeItem(key)
         : localStorage.setItem(key, JSON.stringify(newValue));

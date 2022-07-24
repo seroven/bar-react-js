@@ -12,14 +12,14 @@ export const PageProducto = () => {
       <Header admin={false} />
       <div className="p-8">
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Suspense fallback={<CatalagoSkeleton />}>
-                <Catalago />
-              </Suspense>
-            }
-          />
+            <Route
+              path="/"
+              element={
+                <Suspense fallback={<CatalagoSkeleton />}>
+                  <Catalago />
+                </Suspense>
+              }
+            />
           <Route path="/:id" element={<Detalle />}></Route>
           <Route path="/admin/:id" element={<ActualizarProducto />}></Route>
         </Routes>

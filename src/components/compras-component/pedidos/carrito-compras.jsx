@@ -5,14 +5,18 @@ import { useState } from "react";
 import { PedidoModalRegistro } from "./modal-pedido";
 import { ModalConfirmacionPedido } from "./modal-conf-pedido";
 import { ModalInformacionPedido } from "./modal-info-pedido";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { carritoState } from "../../../storage/atom/carrito.atom";
+import { UserState } from "../../../storage/atom/usuario.atom";
+import { useNavigate } from "react-router-dom";
 
 export const CarritoCompras = () => {
   const [modalRegistroVisible, setModalRegistroVisible] = useState(false);
   const [modalInformativo, setModalInformativo] = useState(false); // Mensaje informativo sobre dirección del bar
   const [modalConfirmacion, setModalConfirmacion] = useState(false); // En caso sea la primera vez que el cliente ingresa sus datos
   const [carrito, setCarrito] = useRecoilState(carritoState);
+  const usuario = useRecoilValue(UserState);
+  const navigate = useNavigate();
 
   const actualizarCarrito = (codigo_producto, cant) => {
     const nuevoCarrito = carrito.map(p => p.codigo === codigo_producto ? {...p, cantidad: cant} : p);
@@ -131,7 +135,7 @@ export const CarritoCompras = () => {
             </span>
             <button
               className="bg-[#618C03] py-3 px-9 text-white font-semibold text-2xl rounded-xl shadow-md shadow-gray-400"
-              onClick={(e) => setModalRegistroVisible(true)}
+              onClick={(e) => {usuario.codigo === 0 ? navigate("/acceso/login") :setModalRegistroVisible(true)}}
             >
               COMPRAR
             </button>
