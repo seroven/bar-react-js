@@ -46,7 +46,17 @@ export const LandingPart1 = () => {
                   >
                     <li className="buttons lg:px-10 px-5">Inicio Sesión</li>
                   </Link>
-                : <button className="buttons lg:px-10 px-5" onClick={e => cerrarSesion()}>Cerrar Sesión</button>
+                : 
+                <>
+                  <Link
+                    to="/admin/pedido"
+                    className="block py-2 pr-4 pl-3 border-b  md:border-0 md:p-0"
+                  >
+                    <li className="buttons lg:px-10 px-5 ">Vista Administrador</li>
+                  </Link>
+                  <button className="buttons lg:px-10 px-5" onClick={e => cerrarSesion()}>Cerrar Sesión</button>
+                </>
+                
               }
 
               

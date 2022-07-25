@@ -10,7 +10,7 @@ export const Header = ({admin}) => {
     <nav className="nav">
       
       <div className="nav-position">
-        <Link to={admin ? "/admin/producto" : "/producto"}>
+        <Link to={admin ? "/admin/pedido" : "/producto"}>
           <div className="flex items-center space-x-5">
             <img
               src="https://placekitten.com/1200/1200"

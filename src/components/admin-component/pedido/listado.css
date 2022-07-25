@@ -1,5 +1,5 @@
 .tabla-listado{
-    @apply w-full h-[60rem] border-2 border-[#618C03] p-0;    
+    @apply w-full  overflow-auto border-2 border-[#618C03] p-0;    
 }
 
 .orden-tabla{
@@ -15,7 +15,7 @@
     @apply bg-[#618C03] text-white font-semibold text-[1.2rem] py-2;
 }
 
-.tabla-contenido{
+.item-contenido{
     @apply font-semibold text-[1rem] py-2 border-b-2 border-[#7CA503];
 }
 
@@ -35,10 +35,10 @@
     @apply bg-gray-400;
 }
 
-.color-terminado{
+.color-entregado{
     @apply bg-green-600;
 }
 
-.color-cancelado{
-    @apply bg-[#618C03];
+.color-anulado{
+    @apply bg-red-600;
 }

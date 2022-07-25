@@ -1,5 +1,5 @@
 import { RecoilRoot, useRecoilState } from "recoil";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import { PageProducto } from "./pages/page-producto";
 import { PageAcceso } from "./pages/page-acceso";
@@ -15,6 +15,7 @@ import axios from "axios";
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
   const [cliente, setCliente] = useRecoilState(ClienteState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     extraerUsuarioLocalStorage();
@@ -29,7 +30,10 @@ function App() {
         "http://localhost:8069/cliente/byUser/" + codusuario.codigo
       );
       setCliente(cliente.data);
-      // console.warn(cliente.data);
+      
+      if (codusuario.rol.codigo === 1){
+        navigate("/admin/pedido");
+      }
     }
   };
 

@@ -32,7 +32,7 @@ export const Login = () => {
       const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+user.data.codigo);
       setCliente(cliente.data);
       if (user.data.rol.codigo === 1){
-        navigate("/admin/producto");
+        navigate("/admin/pedido");
       } else{
         navigate("/producto");
       }

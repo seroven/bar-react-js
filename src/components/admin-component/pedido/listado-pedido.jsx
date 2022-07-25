@@ -11,17 +11,21 @@ export const ListadoPedido = () => {
 
   const onActualizarChange = async(e, p) =>{
 
+    // pedidos.forEach(pedido => {
+    //   pedido.cod_pedido === p.cod_pedido ? console.log(pedido) : null
+    // })
+
+    setPedidos(pedidos.map(pedido => pedido.cod_pedido === p.cod_pedido ? {...pedido, estado: {
+      codigo: parseInt(e.target.value),
+      nombre: e.target.selectedOptions[0].innerText
+    }}: pedido));
+
+    // console.log(p.estado.codigo === parseInt(e.target.value))
+
     const pr = await axios.put("http://localhost:8069/pedido/estado/" + p.cod_pedido, {
       codigo: parseInt(e.target.value),
       nombre: e.target.selectedOptions[0].innerText
     });
-    console.log(
-      {
-        codigo: parseInt(e.target.value),
-        nombre: e.target.selectedOptions[0].innerText
-      })
-
-    console.log(pr);
 
   };
 
@@ -31,14 +35,30 @@ export const ListadoPedido = () => {
       const result = await axios.get(url);
       setPedidos(result.data);
     };
+
     const obtenerEstados = async () => {
       const est = "http://localhost:8069/estado/all";
       const res = await axios.get(est);
       setEstados(res.data);
+      console.log(res.data);
     };
     obtenerPedidos();
     obtenerEstados();
   }, []);
+
+  const getClassColor = (estado) => {
+    switch(estado){
+      case 1:
+        return "color-pendiente";
+      case 2:
+        return "color-postergado";
+      case 3:
+        return "color-entregado";
+      case 4:
+        return "color-anulado";
+    }
+    
+  }
 
   return (
     <>
@@ -60,45 +80,48 @@ export const ListadoPedido = () => {
           <div className="border-r-2">Estado</div>
           <div >Detalle</div>
         </div>
+        <div className="h-[60vh] overflow-auto">
+          {
+            pedidos.map((p) => {
+              
+              return (
+                <div className="orden-tabla item-contenido">
+                  <div className="border-r-2">N° {p.cod_pedido}</div>
+                  <div className="border-r-2">{p.cliente.nombre} {p.cliente.apPaterno}</div>
+                  <div className="border-r-2">{p.cliente.dni}</div>
+                  <div className="border-r-2">{p.dni_recibidor}</div>
+                  <div className="border-r-2">S/. {p.precio_total}</div>
+                  <div className="border-r-2">{p.fecha_envio}</div>
+                  <div className="border-r-2">
 
-        {
-          pedidos.map((pedidos) => {
-            return (
-              <div className="orden-tabla tabla-contenido">
-                <div className="border-r-2">N° {pedidos.cod_pedido}</div>
-                <div className="border-r-2">{pedidos.cliente.nombre} {pedidos.cliente.apPaterno}</div>
-                <div className="border-r-2">{pedidos.cliente.dni}</div>
-                <div className="border-r-2">{pedidos.dni_recibidor}</div>
-                <div className="border-r-2">S/. {pedidos.precio_total}</div>
-                <div className="border-r-2">{pedidos.fecha_envio}</div>
-                <div className="border-r-2">
+                    <select className={"lista-estado " + getClassColor(p.estado.codigo)}  onChange={(e) => onActualizarChange(e, p)}>
+                      {
+                        estados.map((estado) => (
+                          <option
+                            key={estado.codigo}
+                            value={estado.codigo}
+                            selected={p.estado.codigo === estado.codigo}
+                          >
+                            {estado.nombre}
+                          </option>
+                        ))
+                      }
+                    </select>
 
-                  <select className="lista-estado color-cancelado" onChange={(e) => onActualizarChange(e, pedidos)}>
-                    {
-                      estados.map((estado) => (
-                        <option
-                          key={estado.codigo}
-                          value={estado.codigo}
-                          selected={pedidos.estado.codigo === estado.codigo}
-                        >
-                          {estado.nombre}
-                        </option>
-                      ))
-                    }
-                  </select>
-
+                  </div>
+                  <div>
+                    <button className="boton-detalle">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <button className="boton-detalle">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="3">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            )
-          })
-        }
+              )
+            })
+          }
+        </div>
+
 
 
 
