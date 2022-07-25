@@ -58,11 +58,6 @@ export const LandingPart1 = () => {
                 </>
                 
               }
-
-              
-              
-              
-
             </ul>
           </div>
         </nav>

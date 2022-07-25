@@ -2,6 +2,7 @@ import "./listado.css";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export const ListadoPedido = () => {
   const [pedidos, setPedidos] = useState([]);
@@ -109,13 +110,15 @@ export const ListadoPedido = () => {
                     </select>
 
                   </div>
-                  <div>
-                    <button className="boton-detalle">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="3">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </button>
-                  </div>
+                  <Link to = {"detalle/" + p.cod_pedido}>
+                    <div>
+                      <button className="boton-detalle">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="3">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </Link>
                 </div>
               )
             })
