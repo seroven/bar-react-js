@@ -1,0 +1,23 @@
+.container-data-client{
+    @apply grid border border-[#6B6C68] shadow-md shadow-gray-500 h-60 rounded-2xl my-2 p-6 text-[1.7rem] items-center relative;
+    grid-template-columns: 1.6fr 1.6fr 0.8fr;
+    grid-template-rows: 2fr 2fr;
+}
+
+.container-data-client div{
+    @apply flex flex-row justify-between px-14;
+}
+
+.containter-data-products{
+    @apply  border border-[#6B6C68] shadow-md shadow-gray-500 h-80 rounded-2xl my-2 p-4 items-center overflow-auto bg-gray-100;
+}
+
+.item-order-product{
+    @apply grid h-48 shadow-sm shadow-gray-900 rounded-sm my-2 p-4 text-2xl gap-x-8 items-center;
+    grid-template-columns: 1.3fr 1.7fr 1.4fr;
+    grid-template-rows: 1.2fr 2.8fr;
+}
+
+.input-update-order{
+    @apply h-8 text-[1.4rem] ml-3 self-center w-2/5 rounded-md outline-none border-2 border-black px-2;
+}
