@@ -1,5 +1,5 @@
 .tabla-listado{
-    @apply w-full h-[35rem] border-2 border-[#618C03] p-0;    
+    @apply w-full h-[60rem] border-2 border-[#618C03] p-0;    
 }
 
 .orden-tabla{
@@ -40,5 +40,5 @@
 }
 
 .color-cancelado{
-    @apply bg-red-500;
+    @apply bg-[#618C03];
 }
