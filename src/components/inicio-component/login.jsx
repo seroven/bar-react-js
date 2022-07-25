@@ -31,7 +31,12 @@ export const Login = () => {
       setUsuario(user.data);
       const cliente = await axios.get("http://localhost:8069/cliente/byUser/"+user.data.codigo);
       setCliente(cliente.data);
-      navigate("/producto");
+      if (user.data.rol.codigo === 1){
+        navigate("/admin/producto");
+      } else{
+        navigate("/producto");
+      }
+
     } else {
       
       alert("Usuario o contraseña incorrectos");

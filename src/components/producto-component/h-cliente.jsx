@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { buscarState } from "../../storage/atom/buscar.atom";
 import { categoriaState } from "../../storage/atom/categoria.atom";
 import { marcaState } from "../../storage/atom/marca.atom";
-import { useParams } from "react-router-dom";
 import { ClienteState } from "../../storage/atom/cliente.atom";
+import { UserState } from "../../storage/atom/usuario.atom";
+import { ModalSinPedidosState } from "../../storage/atom/modals.atom";
 export const HCliente = () => {
   const setBuscar = useSetRecoilState(buscarState);
   const navigate = useNavigate();
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
   const [texto, setTexto] = useState("");
-  const [cliente, setCliente] = useRecoilState(ClienteState);
+  const cliente = useRecoilValue(ClienteState);
+  const usuario = useRecoilValue(UserState);
+  const [modalSinPedidos, setModalSinPedidos] = useRecoilState(ModalSinPedidosState);
+
   
   const onBuscarKeyUp = (e) => {
     if (e.key == "Enter") {
@@ -42,9 +46,22 @@ export const HCliente = () => {
     })
 
   }
+  
+  const accesoMisPedidos = () => {
+    if(usuario.codigo === 0){
+      navigate("/acceso/login")
+    } else {
+      if (cliente) navigate("/pedido/historial");
+      else{
+        setModalSinPedidos(true);
+        return navigate("/producto");
+      }
+    }
+  }
 
   return (
     <>
+    
       <div className="flex md:order-2">
         <button
           type="button"
@@ -127,14 +144,14 @@ export const HCliente = () => {
           </div>
         </div>
         <ul className="flex flex-col text-white mt-4 md:flex-row md:space-x-2 md:mt-0 md:text-md md:font-medium pr-2">
-          <li className="buttons lg:px-10 px-5">
-            <Link
-              to="/pedido/historial"
-              className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
+            <a
+              onClick={e => accesoMisPedidos(e)}
+              className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 hover:cursor-pointer"
             >
-              Mis Pedidos
-            </Link>
-          </li>
+              <li className="buttons lg:px-10 px-5">
+                Mis Pedidos
+              </li>
+            </a>
           <li className="buttons">
             <Link
               to="/pedido/carrito"
