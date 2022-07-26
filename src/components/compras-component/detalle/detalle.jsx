@@ -55,8 +55,7 @@ export const DetallePedido = () => {
     // console.warn("Nuevo Detalle -> ")
     // console.log(newDetalle);
     setDetalle(newDetalle);
-
-    ;
+    
   };
   return (
     <>
