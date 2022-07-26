@@ -76,12 +76,6 @@ export const ListadoPedido = () => {
 
   return (
     <>
-      <h1 className="font-bold text-4xl text-center md:text-left text-[#022601]">
-        Lista de Pedidos
-      </h1>
-      <br />
-      {/* Para los filtros */}
-      <FiltroPedido/>
       <div className="tabla-listado ">
         <div className="orden-tabla tabla-encabezado">
           <div className="border-r-2">N° de Pedido</div>
