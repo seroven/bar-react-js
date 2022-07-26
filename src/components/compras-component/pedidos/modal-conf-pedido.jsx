@@ -50,7 +50,7 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
       estado: 1,
       fecha_envio: dataPedido.fecha,
       dni_receptor: dataPedido.dni_recoger.length === 0 ? cliente.dni : dataPedido.dni_recoger,
-      detalle: carrito.map(item => {return {
+      detalle: carrito.filter(item => item.visible).map(item => {return{
         idproducto: item.codigo,
         cantidad: item.cantidad,
         subtotal: item.cantidad * item.precio

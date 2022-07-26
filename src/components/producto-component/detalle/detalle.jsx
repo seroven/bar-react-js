@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { carritoState } from "../../../storage/atom/carrito.atom";
 import { DetalleCantidad } from "./detalle-cantidad";
@@ -22,6 +22,7 @@ export const Detalle = () => {
       ...producto,
       cantidad: cantidad,
       estadoProducto: true,
+      visible: true
     };
     setCarrito([...carrito, itemProducto]);
   
@@ -115,14 +116,16 @@ export const Detalle = () => {
               >
                 Seguir Comprando
               </button>
-              <button
-                onClick={onSeguirComprandoClick}
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="ml-5 p-2 px-6 rounded-md hover:text-green-900 text-white bg-[#97BF04]"
-              >
-                Ir Al Carrito
-              </button>
+              <Link to = "/pedido/carrito">
+                <button
+                  onClick={onSeguirComprandoClick}
+                  data-modal-toggle="popup-modal"
+                  type="button"
+                  className="ml-5 p-2 px-6 rounded-md hover:text-green-900 text-white bg-[#97BF04]"
+                >
+                  Ir Al Carrito
+                </button>
+              </Link>
             </div>
           </div>
         </div>
