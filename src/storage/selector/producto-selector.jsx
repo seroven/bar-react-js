@@ -24,15 +24,12 @@ export const productoSelector = selector({
       productos = await axios.get(
         `http://localhost:8069/producto/marca/${marca}`
       );
-
       productos = productos.data;
     } else if (categoria !== "") {
       productos = await axios.get(
         `http://localhost:8069/producto/categoria/${categoria}`
       );
       productos = productos.data;
-      // } else if (precio !== null) {
-      //   productos = await axios.post(`http://localhost:8069/producto/precio`, {});
     } else {
       console.log(marca);
       productos = await axios.get("http://localhost:8069/producto/all");

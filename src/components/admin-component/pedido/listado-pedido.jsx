@@ -3,47 +3,36 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FiltroPedido } from "./filtro-pedido";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { PedidoEstadoState } from "../../../storage/atom/pedido-atom/pedido-estado.atom";
+import { PedidoSelector } from "../../../storage/selector/pedido-selector";
+import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.atom";
 
 export const ListadoPedido = () => {
-  const [pedidos, setPedidos] = useState([]);
+  const pedidoSelector = useRecoilValue(PedidoSelector);
+  const [pedidoEstado, setPedidoEstado] = useRecoilState(PedidoEstadoState);
   const [estados, setEstados] = useState([]);
 
   const onActualizarChange = async (e, p) => {
-    // pedidos.forEach(pedido => {
-    //   pedido.cod_pedido === p.cod_pedido ? console.log(pedido) : null
-    // })
 
-    setPedidos(
-      pedidos.map((pedido) =>
-        pedido.cod_pedido === p.cod_pedido
-          ? {
-              ...pedido,
-              estado: {
-                codigo: parseInt(e.target.value),
-                nombre: e.target.selectedOptions[0].innerText,
-              },
-            }
-          : pedido
-      )
-    );
-
-    // console.log(p.estado.codigo === parseInt(e.target.value))
-
-    const pr = await axios.put(
-      "http://localhost:8069/pedido/estado/" + p.cod_pedido,
-      {
+    setPedidoEstado({
+      codigo: p.cod_pedido,
+      estado: {
         codigo: parseInt(e.target.value),
         nombre: e.target.selectedOptions[0].innerText,
       }
-    );
+    })
+    setPedidoEstado({
+      codigo: 0,
+      estado: {
+          codigo: 0,
+          nombre: "",
+      }
+  })
   };
 
   useEffect(() => {
-    const obtenerPedidos = async () => {
-      const url = "http://localhost:8069/pedido/all";
-      const result = await axios.get(url);
-      setPedidos(result.data);
-    };
 
     const obtenerEstados = async () => {
       const est = "http://localhost:8069/estado/all";
@@ -51,8 +40,8 @@ export const ListadoPedido = () => {
       setEstados(res.data);
       console.log(res.data);
     };
-    obtenerPedidos();
     obtenerEstados();
+    
   }, []);
 
   const getClassColor = (estado) => {
@@ -70,59 +59,6 @@ export const ListadoPedido = () => {
 
   return (
     <>
-      <h1 className="font-bold text-4xl text-center md:text-left text-[#022601]">
-        Lista de Pedidos
-      </h1>
-      <br />
-      {/* Para los filtros */}
-      <div className="h-20 w-full items-center justify-center bg-[#DEEBDE] gap-20 flex p-3 rounded">
-        <div className="flex items-center gap-2">
-          <label className="font-medium text-xl  text-[#022601c2]">
-            Estado:
-          </label>
-          <select className="w-full p-1 rounded">
-            <option value="1">Pendiente</option>
-            <option value="2">Postergado</option>
-            <option value="3">Entregado</option>
-            <option value="4">Anulado</option>
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <label className="font-medium text-xl  text-[#022601c2]">DNI:</label>
-          <input
-            className="w-full p-1 rounded"
-            type="text"
-            placeholder="Ingrese DNI"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <label className="font-medium text-xl  text-[#022601c2]">
-            Fecha:
-          </label>
-          <input
-            className="w-full p-1 rounded"
-            type="date"
-            placeholder="Ingrese Fecha"
-          />
-          <label className="font-medium text-xl  text-[#022601c2]">-</label>
-          <input
-            className="w-full p-1 rounded"
-            type="date"
-            placeholder="Ingrese Fecha"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <label className="font-medium text-xl w-28 text-[#022601c2]">
-            Nro Pedido:
-          </label>
-          <input
-            className="w-56 p-1 rounded"
-            type="text"
-            placeholder="Ingrese Nro Pedido"
-          />
-        </div>
-      </div>
-      <br />
       <div className="tabla-listado ">
         <div className="orden-tabla tabla-encabezado">
           <div className="border-r-2">N° de Pedido</div>
@@ -135,7 +71,7 @@ export const ListadoPedido = () => {
           <div>Detalle</div>
         </div>
         <div className="h-[60vh] overflow-auto">
-          {pedidos.map((p) => {
+          {pedidoSelector?.map((p) => {
             return (
               <div className="orden-tabla item-contenido">
                 <div className="border-r-2">N° {p.cod_pedido}</div>
