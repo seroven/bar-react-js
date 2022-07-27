@@ -14,6 +14,7 @@ export const PedidoSelector = selector({
     let pedidos = [];
 
     if (pedidoEstado.codigo !== 0) {
+        console.log("estoy actualizando")
       await axios.put(
         "http://localhost:8069/pedido/estado/" + pedidoEstado.codigo,
         {

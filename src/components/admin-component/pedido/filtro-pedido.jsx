@@ -7,6 +7,7 @@ import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.ato
 export const FiltroPedido = () => {
 
     const [nroPedido, setNroPedido] = useRecoilState(NroPedidoState);
+    const [tNroPedido, setTNroPedido] = useState("");
     const [fecha, setFecha] = useRecoilState(FechaState);
     const [tFecha, setTFecha] = useState({
         fecha_inicio: "",
@@ -16,6 +17,7 @@ export const FiltroPedido = () => {
     useEffect(() => {
         if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== ""){
             setNroPedido(null);
+            setTNroPedido("");
             setFecha(tFecha);
         }
     }, [tFecha])
@@ -23,9 +25,22 @@ export const FiltroPedido = () => {
     const filtrarNroPedido = (e) => {
         if (e.key === "Enter"){
             setFecha(null);
-            setTFecha(null);
+            setTFecha({
+                fecha_inicio: "",
+                fecha_final: "",
+              });
             setNroPedido(e.target.value);
+            return;
         }
+    }
+
+    const validarSoloNumeros = (e) => {
+        const onlyNumbers = /^[0-9]+$/;
+        let cadena = e.target.value;
+        if (!onlyNumbers.test(cadena)){
+            cadena = cadena.split('').filter(l => /[0-9]/.test(l)).join('');
+        }
+        setTNroPedido(cadena);
     }
 
     return (
@@ -57,14 +72,14 @@ export const FiltroPedido = () => {
             <input
                 className="w-full p-1 rounded"
                 type="date"
-                value={tFecha ? tFecha.fecha_inicio : ""}
+                value={tFecha.fecha_inicio }
                 onChange={e => setTFecha({...tFecha, fecha_inicio: e.target.value})}
             />
             <label className="font-medium text-xl  text-[#022601c2]">-</label>
             <input
                 className="w-full p-1 rounded"
                 type="date"
-                value={tFecha ? tFecha.fecha_final: ""}
+                value={tFecha.fecha_final }
                 onChange={e => setTFecha({...tFecha, fecha_final: e.target.value})}
             />
             </div>
@@ -76,6 +91,8 @@ export const FiltroPedido = () => {
                 className="w-56 p-1 rounded"
                 type="text"
                 placeholder="Ingrese Nro Pedido"
+                value = {tNroPedido}
+                onChange = {e => validarSoloNumeros(e)}
                 onKeyPress={e => filtrarNroPedido(e)}
             />
             </div>
