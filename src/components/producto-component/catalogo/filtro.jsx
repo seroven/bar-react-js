@@ -1,7 +1,7 @@
 import axios from "axios";
 import "./filtro.css";
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { buscarState } from "../../../storage/atom/buscar.atom";
 import { marcaIdState, marcaState } from "../../../storage/atom/marca.atom";
 import { Box, Slider } from "@mui/material";
@@ -10,11 +10,13 @@ import {
   categoriaState,
 } from "../../../storage/atom/categoria.atom";
 import { precioState } from "../../../storage/atom/precio.atom";
+import { UserState } from "../../../storage/atom/usuario.atom";
 
 export const Filtro = () => {
   const setIdCategoria = useSetRecoilState(categoriaIdState);
   const setIdMarca = useSetRecoilState(marcaIdState);
   const setBuscar = useSetRecoilState(buscarState);
+  const user = useRecoilValue(UserState);
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
   const [precio, setPrecio] = useState([]);
@@ -50,6 +52,8 @@ export const Filtro = () => {
         })
       );
     });
+
+    console.log(user);
   }, []);
 
   const getBrandsByCategories = (id) => {
@@ -171,6 +175,21 @@ export const Filtro = () => {
               </label>
             </div>
           )
+      )}
+
+      {user.rol.codigo == 1 && (
+        <div>
+          <div className="text-3xl mt-4 font-medium text-slate-600 mb-3">
+            Mostrar
+          </div>
+          <input type="checkbox" id="default-checkbox" defaultChecked />
+          <label
+            htmlFor="default-checkbox"
+            className="ml-2 text-xl text-gray-900"
+          >
+            Todos
+          </label>
+        </div>
       )}
     </div>
   );
