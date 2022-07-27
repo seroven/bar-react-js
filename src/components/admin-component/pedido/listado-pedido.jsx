@@ -5,50 +5,27 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiltroPedido } from "./filtro-pedido";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { PedidoState } from "../../../storage/atom/pedido-atom/pedido.atom";
+import { PedidoEstadoState } from "../../../storage/atom/pedido-atom/pedido-estado.atom";
 import { PedidoSelector } from "../../../storage/selector/pedido-selector";
+import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.atom";
 
 export const ListadoPedido = () => {
   const pedidoSelector = useRecoilValue(PedidoSelector);
-  const [pedidos, setPedidos] = useRecoilState(PedidoState);
+  const [pedidoEstado, setPedidoEstado] = useRecoilState(PedidoEstadoState);
   const [estados, setEstados] = useState([]);
 
   const onActualizarChange = async (e, p) => {
-    // pedidos.forEach(pedido => {
-    //   pedido.cod_pedido === p.cod_pedido ? console.log(pedido) : null
-    // })
 
-    setPedidos(
-      pedidos.map((pedido) =>
-        pedido.cod_pedido === p.cod_pedido
-          ? {
-              ...pedido,
-              estado: {
-                codigo: parseInt(e.target.value),
-                nombre: e.target.selectedOptions[0].innerText,
-              },
-            }
-          : pedido
-      )
-    );
-
-    // console.log(p.estado.codigo === parseInt(e.target.value))
-
-    const pr = await axios.put(
-      "http://localhost:8069/pedido/estado/" + p.cod_pedido,
-      {
+    setPedidoEstado({
+      codigo: p.cod_pedido,
+      estado: {
         codigo: parseInt(e.target.value),
         nombre: e.target.selectedOptions[0].innerText,
       }
-    );
+    })
   };
 
   useEffect(() => {
-    const obtenerPedidos = async () => {
-      const url = "http://localhost:8069/pedido/all";
-      const result = await axios.get(url);
-      setPedidos(result.data);
-    };
 
     const obtenerEstados = async () => {
       const est = "http://localhost:8069/estado/all";
@@ -56,7 +33,6 @@ export const ListadoPedido = () => {
       setEstados(res.data);
       console.log(res.data);
     };
-    obtenerPedidos();
     obtenerEstados();
     
   }, []);

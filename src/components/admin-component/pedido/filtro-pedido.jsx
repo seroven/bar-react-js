@@ -7,6 +7,13 @@ export const FiltroPedido = () => {
     const [nroPedido, setNroPedido] = useRecoilState(NroPedidoState);
 
 
+    const filtrarNroPedido = (e) => {
+        if (e.key === "Enter"){
+            setNroPedido(e.target.value);
+        }
+        
+    }
+
     return (
         <>
         <div className="h-20 w-full items-center justify-center bg-[#DEEBDE] gap-20 flex p-3 rounded">
@@ -53,6 +60,7 @@ export const FiltroPedido = () => {
                 className="w-56 p-1 rounded"
                 type="text"
                 placeholder="Ingrese Nro Pedido"
+                onKeyPress={e => filtrarNroPedido(e)}
             />
             </div>
         </div>
