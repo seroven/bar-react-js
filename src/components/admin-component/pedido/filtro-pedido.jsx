@@ -25,6 +25,7 @@ export const FiltroPedido = () => {
             setTNroPedido("");
             setDniPedido(null);
             setTDni("");
+            vaciarEstado();
             setFecha(tFecha);
         }
     }, [tFecha])
@@ -38,6 +39,7 @@ export const FiltroPedido = () => {
             });
             setDniPedido(null);
             setTDni("");
+            vaciarEstado();
             setNroPedido(e.target.value);
             return;
         }
@@ -65,16 +67,32 @@ export const FiltroPedido = () => {
                 fecha_inicio: "",
                 fecha_final: "",
             });
+            vaciarEstado();
             setDniPedido(e.target.value);
         }
     }
 
     const filtrarEstadoPedido = (e) => {
+        setNroPedido(null);
+        setTNroPedido("");
+        setFecha(null);
+        setTFecha({
+            fecha_inicio: "",
+            fecha_final: "",
+        });
+        setDniPedido(null);
+        setTDni("");
         if (e.target.value !== "0") {
             setEstadoPedido(e.target.value);
         } else{
             setEstadoPedido(null);
         }
+    }
+
+    const vaciarEstado = () => {
+        const $listEstados = document.getElementById("estados");
+        $listEstados.options.selectedIndex = 0;
+        setEstadoPedido(null);
     }
 
     return (
@@ -84,7 +102,7 @@ export const FiltroPedido = () => {
                     <label className="font-medium text-xl  text-[#022601c2]">
                         Estado:
                     </label>
-                    <select className="w-full p-1 rounded" onChange={e => filtrarEstadoPedido(e)}>
+                    <select id = "estados" className="w-full p-1 rounded" onChange={e => filtrarEstadoPedido(e)}>
                         <option value="0">Seleccionar</option>
                         <option value="1">Pendiente</option>
                         <option value="2">Postergado</option>
