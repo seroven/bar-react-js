@@ -15,25 +15,23 @@ export const ListadoPedido = () => {
   const [estados, setEstados] = useState([]);
 
   const onActualizarChange = async (e, p) => {
-
     setPedidoEstado({
       codigo: p.cod_pedido,
       estado: {
         codigo: parseInt(e.target.value),
         nombre: e.target.selectedOptions[0].innerText,
-      }
-    })
+      },
+    });
     setPedidoEstado({
       codigo: 0,
       estado: {
-          codigo: 0,
-          nombre: "",
-      }
-  })
+        codigo: 0,
+        nombre: "",
+      },
+    });
   };
 
   useEffect(() => {
-
     const obtenerEstados = async () => {
       const est = "http://localhost:8069/estado/all";
       const res = await axios.get(est);
@@ -41,7 +39,6 @@ export const ListadoPedido = () => {
       console.log(res.data);
     };
     obtenerEstados();
-    
   }, []);
 
   const getClassColor = (estado) => {
@@ -73,7 +70,7 @@ export const ListadoPedido = () => {
         <div className="h-[60vh] overflow-auto">
           {pedidoSelector?.map((p) => {
             return (
-              <div className="orden-tabla item-contenido">
+              <div className="orden-tabla item-contenido" key={p.cod_pedido}>
                 <div className="border-r-2">N° {p.cod_pedido}</div>
                 <div className="border-r-2">
                   {p.cliente.nombre} {p.cliente.apPaterno}
@@ -98,27 +95,27 @@ export const ListadoPedido = () => {
                     ))}
                   </select>
                 </div>
-                  <Link to = {"detalle/" + p.cod_pedido}>
-                    <div>
-                      <button className="boton-detalle">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-7 w-7"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="white"
-                          strokeWidth="3"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </Link>
-                </div>
+                <Link to={"detalle/" + p.cod_pedido}>
+                  <div>
+                    <button className="boton-detalle">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-7 w-7"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="white"
+                        strokeWidth="3"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </Link>
+              </div>
             );
           })}
         </div>
