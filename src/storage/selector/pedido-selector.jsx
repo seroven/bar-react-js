@@ -45,12 +45,11 @@ export const PedidoSelector = selector({
         `http://localhost:8069/pedido/dni/${dniPedido}`
       );
       pedidos = pedidos.data;
-
-    // }else if(estadoPedido){
-    //   pedidos = await axios.get(
-    //     `http://localhost:8069/pedido/estadox/${estadoPedido}`
-    //   );
-    //   pedidos = pedidos.data;
+    }else if(estadoPedido){
+      pedidos = await axios.get(
+        `http://localhost:8069/pedido/estadox/${estadoPedido}`
+      );
+      pedidos = pedidos.data;
     }else{
       pedidos = await axios.get("http://localhost:8069/pedido/all");
       pedidos = pedidos.data;
