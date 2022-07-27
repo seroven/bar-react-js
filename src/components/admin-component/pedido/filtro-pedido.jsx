@@ -1,10 +1,14 @@
 import { useRecoilState } from "recoil";
 import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.atom";
+import { dniPedidoState } from "../../../storage/atom/pedido-atom/dni.atom";
+import { estadoPedidoState } from "../../../storage/atom/pedido-atom/estado.atom";
 
 
 export const FiltroPedido = () => {
 
     const [nroPedido, setNroPedido] = useRecoilState(NroPedidoState);
+    const [dniPedido, setDniPedido] = useRecoilState(dniPedidoState);
+    const [estadoPedido, setEstadoPedido] = useRecoilState(estadoPedidoState);
 
 
     const filtrarNroPedido = (e) => {
@@ -13,6 +17,16 @@ export const FiltroPedido = () => {
         }
         
     }
+
+    const filtrarDniPedido=(e)=>{
+        if(e.key ==="Enter"){
+            setDniPedido(e.target.value);
+        }
+    }
+
+    // const filtrarEstadoPedido=(e)=>{
+    //     
+    // }
 
     return (
         <>
@@ -34,6 +48,7 @@ export const FiltroPedido = () => {
                 className="w-full p-1 rounded"
                 type="text"
                 placeholder="Ingrese DNI"
+                onKeyPress={e=>filtrarDniPedido(e)}
             />
             </div>
             <div className="flex items-center gap-2">
