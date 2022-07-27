@@ -1,17 +1,31 @@
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { FechaState } from "../../../storage/atom/pedido-atom/fecha.atom";
 import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.atom";
 
 
 export const FiltroPedido = () => {
 
     const [nroPedido, setNroPedido] = useRecoilState(NroPedidoState);
+    const [fecha, setFecha] = useRecoilState(FechaState);
+    const [tFecha, setTFecha] = useState({
+        fecha_inicio: "",
+        fecha_final: "",
+      })
 
+    useEffect(() => {
+        if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== ""){
+            setNroPedido(null);
+            setFecha(tFecha);
+        }
+    }, [tFecha])
 
     const filtrarNroPedido = (e) => {
         if (e.key === "Enter"){
+            setFecha(null);
+            setTFecha(null);
             setNroPedido(e.target.value);
         }
-        
     }
 
     return (
@@ -43,13 +57,15 @@ export const FiltroPedido = () => {
             <input
                 className="w-full p-1 rounded"
                 type="date"
-                placeholder="Ingrese Fecha"
+                value={tFecha ? tFecha.fecha_inicio : ""}
+                onChange={e => setTFecha({...tFecha, fecha_inicio: e.target.value})}
             />
             <label className="font-medium text-xl  text-[#022601c2]">-</label>
             <input
                 className="w-full p-1 rounded"
                 type="date"
-                placeholder="Ingrese Fecha"
+                value={tFecha ? tFecha.fecha_final: ""}
+                onChange={e => setTFecha({...tFecha, fecha_final: e.target.value})}
             />
             </div>
             <div className="flex items-center gap-2">
