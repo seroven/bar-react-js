@@ -23,6 +23,13 @@ export const ListadoPedido = () => {
         nombre: e.target.selectedOptions[0].innerText,
       }
     })
+    setPedidoEstado({
+      codigo: 0,
+      estado: {
+          codigo: 0,
+          nombre: "",
+      }
+  })
   };
 
   useEffect(() => {

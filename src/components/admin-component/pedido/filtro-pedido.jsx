@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { FechaState } from "../../../storage/atom/pedido-atom/fecha.atom";
 import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.atom";
+import { dniPedidoState } from "../../../storage/atom/pedido-atom/dni.atom";
+import { estadoPedidoState } from "../../../storage/atom/pedido-atom/estado.atom";
 
 
 export const FiltroPedido = () => {
@@ -13,11 +15,16 @@ export const FiltroPedido = () => {
         fecha_inicio: "",
         fecha_final: "",
       })
+    const [dniPedido, setDniPedido] = useRecoilState(dniPedidoState);
+    const [tDni, setTDni] = useState("");
+    const [estadoPedido, setEstadoPedido] = useRecoilState(estadoPedidoState);
 
     useEffect(() => {
         if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== ""){
             setNroPedido(null);
             setTNroPedido("");
+            setDniPedido(null);
+            setTDni("");
             setFecha(tFecha);
         }
     }, [tFecha])
@@ -29,6 +36,8 @@ export const FiltroPedido = () => {
                 fecha_inicio: "",
                 fecha_final: "",
               });
+            setDniPedido(null);
+            setTDni("");
             setNroPedido(e.target.value);
             return;
         }
@@ -40,8 +49,29 @@ export const FiltroPedido = () => {
         if (!onlyNumbers.test(cadena)){
             cadena = cadena.split('').filter(l => /[0-9]/.test(l)).join('');
         }
-        setTNroPedido(cadena);
+        if (e.target.id === "dni"){
+            setTDni(cadena);
+        } else{
+            setTNroPedido(cadena);
+        }
     }
+
+    const filtrarDniPedido=(e)=>{
+        if(e.key ==="Enter"){
+            setNroPedido(null);
+            setTNroPedido("");
+            setFecha(null);
+            setTFecha({
+                fecha_inicio: "",
+                fecha_final: "",
+              });
+            setDniPedido(e.target.value);
+        }
+    }
+
+    // const filtrarEstadoPedido=(e)=>{
+    //     
+    // }
 
     return (
         <>
@@ -63,6 +93,10 @@ export const FiltroPedido = () => {
                 className="w-full p-1 rounded"
                 type="text"
                 placeholder="Ingrese DNI"
+                id = "dni"
+                value={tDni}
+                onChange={e => validarSoloNumeros(e)}
+                onKeyPress={e=>filtrarDniPedido(e)}
             />
             </div>
             <div className="flex items-center gap-2">
@@ -90,6 +124,7 @@ export const FiltroPedido = () => {
             <input
                 className="w-56 p-1 rounded"
                 type="text"
+                id = "nroPedido"
                 placeholder="Ingrese Nro Pedido"
                 value = {tNroPedido}
                 onChange = {e => validarSoloNumeros(e)}

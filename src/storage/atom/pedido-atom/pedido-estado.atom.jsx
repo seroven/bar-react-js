@@ -6,7 +6,7 @@ export const PedidoEstadoState = atom({
         codigo: 0,
         estado: {
             codigo: 0,
-            nombre: ""
+            nombre: "",
         }
     }
 })
