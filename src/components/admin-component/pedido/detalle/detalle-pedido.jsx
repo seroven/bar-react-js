@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import "./detalle.css";
 import { ModalConfActualizar } from "./moda-conf-actualizar";
@@ -11,7 +12,14 @@ export const DetallePedidoAdmin = () => {
   const [productos, setProductos] = useState([]);
   const [updateProducts, setUpdateProducts] = useState(false);
   const [modalConfActualizar, setModalConfActualizar] = useState(false);
-  
+  const [pedido, setPedido] = useState({}); // Variable de estado para el cuerpo del actualizar pedido
+  const [newDataPedido, setNewDataPedido] = useState({});
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   useEffect(() => {
     obtenerDatos();
@@ -20,8 +28,11 @@ export const DetallePedidoAdmin = () => {
   const obtenerDatos = async () => {
     let detalle = await axios.get(`http://localhost:8069/pedido/buscar/${id}`);
     let productos = await axios.get(`http://localhost:8069/detalle/order/${id}`);
+    
     detalle = detalle.data[0];
+    console.log(detalle);
     productos = productos.data;
+    setPedido({...detalle});
     setDetalle(detalle);
     setProductos(productos);
     joinProductos(detalle, productos);
@@ -51,6 +62,11 @@ export const DetallePedidoAdmin = () => {
     return `${day}/${month}/${year}`;
   };
 
+  const guardarInformacion = (data) => {
+    setNewDataPedido(data);
+    setModalConfActualizar(true);
+  };
+
   return (<>
     <div className={modalConfActualizar ? "blur-md" : ""}>
       <div className="text-4xl text-center font-bold text-[#022601] flex flex-col justify-between md:flex-row">
@@ -59,26 +75,62 @@ export const DetallePedidoAdmin = () => {
       </div>
       <br />
       <div className="text-[2rem] text-[#7CA504] font-semibold">
-        <span>{detalle?.cliente?.nombre} - {detalle?.cliente?.dni}</span>
+        <span>{detalle?.cliente?.nombre + " " + detalle?.cliente?.apPaterno + " " + detalle?.cliente?.apMaterno} - {detalle?.cliente?.dni}</span>
       </div>
-      <div className="container-data-client">
-        <div>
+      <form className="container-data-client" onSubmit={handleSubmit(guardarInformacion)}>
+        <div className="container-data-client-item">
           <label htmlFor="telefono">
             <b>Teléfono:</b>
           </label>
           {
             updateProducts
-            ? <input id="telefono" className="input-update-order"/>
+            ? <div>
+                <input
+                {
+                  ...register("telefono", {
+                    required: {
+                      value: true,
+                      message: "El teléfono es obligatorio",
+                    },
+                    pattern: {
+                      value: /^[0-9]{9}$/, 
+                      message: "El teléfono solo puede ser numérico y de 9 dígitos"
+                    },
+                    
+                  })
+                } id="telefono" defaultValue={detalle?.cliente?.telefono} className="input-update-order"/>
+                {errors.telefono && (
+                <div className="update-order-error-message">
+                  {errors.telefono.message}
+                </div>
+              )}
+
+              </div>
             : <span>{detalle?.cliente?.telefono}</span>
           }
         </div>
-        <div>
+        <div className="container-data-client-item">
           <label htmlFor="fecha">
             <b>Fecha de Entrega:</b>
           </label>
           {
             updateProducts 
-            ? <input id="fecha" type = "date" className="input-update-order"/>
+            ? <div className="flex flex-col">
+                <input
+              {
+                ...register("fecha", {
+                  required: {
+                    value: true,
+                    message: "La fecha de recojo es obligatoria",
+                  }
+                })
+              }  id="fecha" defaultValue={detalle?.fecha_envio} type = "date" className="input-update-order"/>
+              {errors.fecha && (
+                <div className="update-order-error-message">
+                  {errors.fecha.message}
+                </div>
+              )}
+              </div>
             : <span>{formaterDate(detalle?.fecha_envio)}</span>
           }
         </div>
@@ -86,35 +138,60 @@ export const DetallePedidoAdmin = () => {
 
             {
                 updateProducts
-                ? <button className="buttons lg:px-10 px-5" onClick={(e) => setModalConfActualizar(true)}> Guardar </button>
-                : <button className="buttons lg:px-10 px-5" onClick={(e) => setUpdateProducts(true)}> Editar </button>
+                ? <button typeof="submit" className="buttons lg:px-10 px-5"> Guardar </button>
+                : <span typeof="button" className="buttons lg:px-10 px-5 hover:cursor-pointer" onClick={(e) => setUpdateProducts(true)}> Editar </span>
             }
           
         </div>
 
-        <div>
+        <div className="container-data-client-item">
           <label htmlFor="dni_recoger">
             <b>
-              Dni del Encargado <br />
+              Dni del Encargado
               de Recoger el Pedido:
             </b>
           </label>
           {
             updateProducts 
-            ? <input id="dni_recoger" className="input-update-order"/>
+            ? <div className="flex flex-col">
+            <input
+            {
+              ...register("dni", {
+                required: {
+                  value: true,
+                  message: "El dni es obligatorio",
+                },
+                pattern: {
+                  value: /^[0-9]{8}$/, 
+                  message: "El dni solo puede ser numérico y de 8 dígitos"
+                },
+                
+              })
+            } id="dni_recoger" defaultValue={detalle?.dni_recibidor} className="input-update-order"/>
+            {errors.dni && (
+              <div className="update-order-error-message">
+                {errors.dni.message}
+              </div>
+            )}
+            </div>
             : <span>{detalle?.dni_recibidor}</span>
           }
         </div>
-        <div>
+        <div className="container-data-client-item">
           <label htmlFor="estado">
             <b>Estado:</b>
           </label>
           {
             updateProducts 
-            ? <select id = "estado" className="input-update-order">
-              <option>Pendiente</option>
+            ? <select {...register("estado", {
+              required: true,
+            })} id = "estado" className="input-update-order">
+              <option id = "1" selected = {detalle?.estado?.codigo === 1}>Pendiente</option>
+              <option id = "2" selected = {detalle?.estado?.codigo === 2}>Postergado</option>
+              <option id = "3" selected = {detalle?.estado?.codigo === 3}>Entregado</option>
+              <option id = "4" selected = {detalle?.estado?.codigo === 4}>Anulado</option>
             </select>
-            : <span>Pendiente</span>
+            : <span>{detalle?.estado?.nombre}</span>
 
           }
         </div>
@@ -142,14 +219,15 @@ export const DetallePedidoAdmin = () => {
 
         }
 
-      </div>
+      </form>
 
       <br />
       <div className="text-[2rem] text-[#022601] font-bold">
         <span>Productos</span>
       </div>
-      <div> {detalle.productos?.map((producto) => (
+      <div> 
           <div className="containter-data-products">
+          {detalle.productos?.map((producto) => (
             <div key={producto?.codigo} className="item-order-product">
               <div className="h-full overflow-hidden rounded-xl row-start-1 row-end-3 mx-16">
                   <img className="object-cover" src={producto?.imagen}/>
@@ -174,14 +252,15 @@ export const DetallePedidoAdmin = () => {
               </div>
 
             </div>
+            ))}
           </div>
-          ))}
+          
       </div>
 
 
 
     </div>
-    <ModalConfActualizar modal = {modalConfActualizar} setModal = {setModalConfActualizar} setUpdateProducts ={setUpdateProducts}/>
+    <ModalConfActualizar pedido = {pedido} newDataPedido = {newDataPedido} detalle = {detalle} setDetalle = {setDetalle} modal = {modalConfActualizar} setModal = {setModalConfActualizar} setUpdateProducts ={setUpdateProducts}/>
   </>
   );
 };

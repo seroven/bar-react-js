@@ -1,10 +1,41 @@
-export const ModalConfActualizar = ({ modal, setModal, setUpdateProducts }) => {
+import axios from "axios";
+import { useRecoilRefresher_UNSTABLE } from "recoil";
+import { PedidoSelector } from "../../../../storage/selector/pedido-selector";
 
-    const guardarCambios = () => {
+export const ModalConfActualizar = ({ pedido, detalle, setDetalle,newDataPedido, modal, setModal, setUpdateProducts }) => {
+    const refresh = useRecoilRefresher_UNSTABLE(PedidoSelector);
+    const  guardarCambios = async () => {
+        
+        let idEstado;
+        switch (newDataPedido.estado){
+            case "Pendiente":
+                idEstado = 1;
+                break;
+            case "Postergado":
+                idEstado = 2;
+                break;
+            case "Entregado":
+                idEstado = 3;
+                break;
+            case "Anulado":
+                idEstado = 4;
+                break;
+        }
+        const newPedido = {...newDataPedido, estado :{
+            codigo: idEstado,
+            nombre: newDataPedido.estado
+        },codigo:pedido.cod_pedido};
 
-        // Tu código para actualizar los cambios va aquí
+        await axios.put(`http://localhost:8069/pedido/actualizarp/`, newPedido);
 
-
+        setDetalle({...detalle, dni_recibidor: newDataPedido.dni, 
+            cliente: {... detalle.cliente, telefono: newDataPedido.telefono},
+            fecha_envio: newDataPedido.fecha,
+            estado: {
+                codigo:idEstado,
+                nombre: newDataPedido.estado
+            } })
+        refresh();
         setModal(false);
         setUpdateProducts(false);
     }
