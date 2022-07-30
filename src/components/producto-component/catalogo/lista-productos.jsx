@@ -1,26 +1,15 @@
 import "./lista-productos.css";
 import { Link } from "react-router-dom";
-import {
-  useRecoilRefresher_UNSTABLE,
-  useRecoilValue,
-} from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
 import { NotFoundProducts } from "./not-found-products";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const ListaProductos = ({ admin }) => {
   const productosIniciales = useRecoilValue(productoSelector);
   const [productos, setProds] = useState(productosIniciales);
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
-  // const [usuario, setUsuario] = useRecoilState(UserState);
-  // const [cliente, setCliente] = useRecoilState(ClienteState);
-  // console.info("Soy el átomo usuario -> :");
-  // console.info(usuario);
-  // console.info("Soy el átomo de cliente -> ")
-  // console.info(cliente);
-
-  
 
   const onStatusChangeClick = (data) => {
     axios
@@ -34,10 +23,11 @@ export const ListaProductos = ({ admin }) => {
           )
         );
       });
-    //TODO: Si retorna un error, no setear prods
   };
 
-
+  useEffect(() => {
+    setProds(productosIniciales);
+  }, [productosIniciales]);
   return (
     <>
       {productosIniciales.length === 0 ? (
@@ -108,7 +98,6 @@ export const ListaProductos = ({ admin }) => {
           )}
         </div>
       )}
-      
     </>
   );
 };

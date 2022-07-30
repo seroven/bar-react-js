@@ -1,7 +1,12 @@
 import axios from "axios";
 import "./filtro.css";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  useRecoilRefresher_UNSTABLE,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { buscarState } from "../../../storage/atom/buscar.atom";
 import { marcaIdState, marcaState } from "../../../storage/atom/marca.atom";
 import { Box, Slider } from "@mui/material";
@@ -11,11 +16,13 @@ import {
 } from "../../../storage/atom/categoria.atom";
 import { precioState } from "../../../storage/atom/precio.atom";
 import { UserState } from "../../../storage/atom/usuario.atom";
+import { productoSelector } from "../../../storage/selector/producto-selector";
 
 export const Filtro = () => {
   const setIdCategoria = useSetRecoilState(categoriaIdState);
   const setIdMarca = useSetRecoilState(marcaIdState);
   const setBuscar = useSetRecoilState(buscarState);
+  const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
   const user = useRecoilValue(UserState);
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
@@ -135,9 +142,10 @@ export const Filtro = () => {
                   type="checkbox"
                   value=""
                   className="w-4 h-4"
-                  onChange={(event) =>
-                    onCategoriaSelected(event, categoria.codigo)
-                  }
+                  onChange={(event) => {
+                    onCategoriaSelected(event, categoria.codigo);
+                    refresh();
+                  }}
                 />
                 <label
                   htmlFor="default-checkbox"

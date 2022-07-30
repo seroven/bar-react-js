@@ -35,7 +35,7 @@ export const productoSelector = selector({
       productos = await axios.get("http://localhost:8069/producto/all");
       productos = productos.data;
     }
-
+    console.log("uwuwuwu");
     return productos;
   },
 });
