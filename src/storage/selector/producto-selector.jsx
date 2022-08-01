@@ -6,7 +6,7 @@ import { marcaIdState } from "../atom/marca.atom";
 import { precioState } from "../atom/precio.atom";
 
 export const productoSelector = selector({
-  key: "productoSelector",
+  key: "productSelector",
   get: async ({ get }) => {
     const buscar = get(buscarState);
     const categoria = get(categoriaIdState);
@@ -29,6 +29,12 @@ export const productoSelector = selector({
       productos = await axios.get(
         `http://localhost:8069/producto/categoria/${categoria}`
       );
+      productos = productos.data;
+    } else if (precio !== [0, 100]) {
+      productos = await axios.post(`http://localhost:8069/producto/precio`, {
+        min: precio[0],
+        max: precio[1],
+      });
       productos = productos.data;
     } else {
       console.log(marca);

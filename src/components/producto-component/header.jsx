@@ -4,11 +4,9 @@ import { useRecoilState } from "recoil";
 import { HCliente } from "./h-cliente";
 import "./header.css";
 
-export const Header = ({admin}) => {
-
+export const Header = ({ admin }) => {
   return (
     <nav className="nav">
-      
       <div className="nav-position">
         <Link to={admin ? "/admin/pedido" : "/producto"}>
           <div className="flex items-center space-x-5">
@@ -26,35 +24,28 @@ export const Header = ({admin}) => {
         ) : (
           <>
             <ul className="flex flex-col text-white mt-4 md:flex-row md:space-x-4 md:mt-0 md:text-md md:font-medium pr-2">
-              <li className="buttons lg:px-10 px-5">
-                <Link
-                  to="/admin/pedido"
-                  className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
-                >
-                  Pedidos
-                </Link>
-              </li>
-              <li className="buttons lg:px-10 px-5">
-                <Link
-                  to="/admin/producto"
-                  className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
-                >
-                  Productos
-                </Link>
-              </li>
-              <li className="buttons lg:px-10 px-5">
-                <Link
-                  to="/"
-                  className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0"
-                >
-                  Eventos
-                </Link>
-              </li>
+              <Link
+                to="/admin/pedido"
+                className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
+              >
+                <li className="buttons lg:px-10 px-5">Pedidos</li>
+              </Link>
+              <Link
+                to="/admin/producto"
+                className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0 "
+              >
+                <li className="buttons lg:px-10 px-5">Productos</li>
+              </Link>
+              <Link
+                to="/"
+                className="block py-2 pr-4 pl-3 border-b border-gray-100  md:border-0 md:p-0"
+              >
+                <li className="buttons lg:px-10 px-5">Eventos</li>
+              </Link>
             </ul>
           </>
         )}
       </div>
-
     </nav>
   );
 };
