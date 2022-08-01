@@ -16,6 +16,7 @@ export const DetallePedido = () => {
   }, []);
 
   const formaterDate = (date) => {
+    // console.log(date);
     const dateFormated = new Date(date);
     const day = dateFormated.getDate() + 1;
     const month = dateFormated.getMonth() + 1;
@@ -55,6 +56,7 @@ export const DetallePedido = () => {
     // console.warn("Nuevo Detalle -> ")
     // console.log(newDetalle);
     setDetalle(newDetalle);
+    console.log(newDetalle);
     
   };
   return (
@@ -109,19 +111,12 @@ export const DetallePedido = () => {
                     </div>
                     <div className="flex justify-end">
                       <button
-                        disabled={detalle?.estado?.codigo === 2}
                         type="submit"
-                        className={
-                          (detalle?.estado?.codigo === 2
-                            ? "bg-slate-300 text-black hover:text-black"
-                            : null) +
-                          " font-medium text-xl p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04] mt-5 mb-8"
-                        }
+                        className="font-medium text-xl p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04] mt-5 mb-8"
+                        
                         onClick={(e) => setModalActualizarPedido(true)}
                       >
-                        {detalle?.estado?.codigo === 2
-                          ? "Pedido Postergado"
-                          : "Editar"}
+                        Editar
                       </button>
                     </div>
 
@@ -223,7 +218,8 @@ export const DetallePedido = () => {
         modalVisible={modalActualizarPedido}
         setModalVisible={setModalActualizarPedido}
         id={id}
-        fecha={detalle?.fecha_envio}
+        detalle = {detalle}
+        setDetalle = {setDetalle}
       />
     </>
   );
