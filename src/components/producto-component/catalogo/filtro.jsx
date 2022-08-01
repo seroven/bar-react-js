@@ -26,7 +26,7 @@ export const Filtro = () => {
   const user = useRecoilValue(UserState);
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
-  const [precio, setPrecio] = useState([]);
+  const [precio, setPrecio] = useRecoilState(precioState);
 
   const [value, setValue] = useState([0, 100]);
 
@@ -40,13 +40,15 @@ export const Filtro = () => {
     } else {
       setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
     }
+  };
 
-    // setPrecio([value[0], value[1]]);
-    // console.log(precio);
+  const onPrecioClick = () => {
+    setPrecio([value[0], value[1]]);
+    console.log(precio);
   };
 
   function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
   }
 
   const minDistance = 10;
@@ -59,8 +61,6 @@ export const Filtro = () => {
         })
       );
     });
-
-    console.log(user);
   }, []);
 
   const getBrandsByCategories = (id) => {
@@ -115,22 +115,25 @@ export const Filtro = () => {
   return (
     <div className="filtro">
       <h1 className="text-3xl font-medium text-slate-600 mb-3">Precios</h1>
-      <Box>
-        <Slider
-          getAriaLabel={() => "Distancia minima"}
-          value={value}
-          onChange={handleChange1}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
-          disableSwap
-          sx={{
-            width: "100%",
-            color: "success.main",
-          }}
-        />
-      </Box>
-      <br />
-
+      <div className="px-1 py-2">
+        <Box>
+          <Slider
+            getAriaLabel={() => "Distancia minima"}
+            value={value}
+            onChange={handleChange1}
+            valueLabelDisplay="auto"
+            getAriaValueText={valuetext}
+            disableSwap
+            sx={{
+              width: "100%",
+              color: "#97BF04",
+            }}
+          />
+        </Box>
+        <button className="buttons w-full my-5" onClick={onPrecioClick}>
+          FILTRAR
+        </button>
+      </div>
       <div className="text-3xl font-medium text-slate-600 mb-3">Categorías</div>
       <div id="listCategorias">
         {categorias.map(
@@ -144,6 +147,8 @@ export const Filtro = () => {
                   className="w-4 h-4"
                   onChange={(event) => {
                     onCategoriaSelected(event, categoria.codigo);
+                    setValue([0, 100]);
+                    setPrecio([0, 100]);
                     refresh();
                   }}
                 />
@@ -190,7 +195,12 @@ export const Filtro = () => {
           <div className="text-3xl mt-4 font-medium text-slate-600 mb-3">
             Mostrar
           </div>
-          <input type="checkbox" id="default-checkbox" defaultChecked />
+          <input
+            type="checkbox"
+            className="w-4 h-4"
+            id="default-checkbox"
+            defaultChecked
+          />
           <label
             htmlFor="default-checkbox"
             className="ml-2 text-xl text-gray-900"
