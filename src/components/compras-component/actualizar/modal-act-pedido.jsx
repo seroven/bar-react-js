@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
 
 export const ModalActualizarPedido = ({
   modalVisible,
   setModalVisible,
   id,
-  fecha,
+  detalle,
+  setDetalle
 }) => {
   const {
     register,
@@ -14,14 +16,36 @@ export const ModalActualizarPedido = ({
   } = useForm();
 
   const onGuardarClick = (data) => {
-    console.log(data);
+
+    const diffDias = (new Date(data.fecha) - new Date(detalle?.fecha_envio))/(1000*60*60*24);
+
+    if (diffDias > 15 || diffDias<0){
+      alert("Solo puedes aplazar el pedido un máximo de 15 dias");
+      return;
+    }
+    setDetalle({...detalle, 
+      fecha_envio: (detalle?.estado?.codigo === 2 ? detalle?.fecha_envio : data.fecha),
+      dni_recibidor: data.dni,
+      estado: {
+        codigo: 2,
+        nombre: "Postergado"
+      }})
+
     axios.put("http://localhost:8069/pedido/actualizar/" + id, {
       cod_pedido: id,
       dni: data.dni,
-      fecha: data.fecha,
+      fecha: (detalle?.estado?.codigo === 2 ? detalle?.fecha_envio : formaterDate(data.fecha)),
     });
+    
     setModalVisible(false);
-    window.location.reload();
+  };
+
+  const formaterDate = (date) => {
+    const dateFormated = new Date(date);
+    const day = ((dateFormated.getDate()+2).toString().length === 1 ? "0" : "")+(dateFormated.getDate()+2);
+    const month = ((dateFormated.getMonth()+1).toString().length === 1 ? "0" : "") +(dateFormated.getMonth() + 1);
+    const year = dateFormated.getFullYear();
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -43,7 +67,7 @@ export const ModalActualizarPedido = ({
             <div className="pt-3 px-10">
               <div className="text-justify text-lg mb-5">
                 <span className=" font-medium text-[#618C03] ">
-                  Recuerde que solo podrás postegar el pedido una sola vez como
+                  Recuerde que podrá postergar el pedido una sola vez y como
                   máximo 15 días.
                 </span>
                 <br />
@@ -75,6 +99,7 @@ export const ModalActualizarPedido = ({
                         message: "El campo solo debe contener números",
                       },
                     })}
+                    defaultValue={detalle?.dni_recibidor}
                     className={
                       (errors.dni ? "border-red-600" : null) +
                       " w-full p-2 text-sm leading-tight text-gray-700 border-2  rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -95,9 +120,11 @@ export const ModalActualizarPedido = ({
                     type="date"
                     className={
                       " w-full p-2 text-sm leading-tight text-gray-700 border-2  rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      + (detalle?.estado?.codigo === 2 ? " bg-gray-100" : "")
                     }
                     id="FechaEntrega"
-                    defaultValue={fecha}
+                    defaultValue={detalle?.fecha_envio}
+                    disabled = {detalle?.estado?.codigo === 2 ? true : false}
                   />
                 </div>
                 <div className="flex justify-end">

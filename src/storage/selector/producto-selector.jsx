@@ -31,7 +31,6 @@ export const productoSelector = selector({
       );
       productos = productos.data;
     } else if ((precio[0] !== 0, precio[1] !== 100)) {
-      console.log(precio);
       productos = await axios.post(`http://localhost:8069/producto/precio`, {
         min: precio[0],
         max: precio[1],
