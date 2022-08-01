@@ -30,18 +30,17 @@ export const productoSelector = selector({
         `http://localhost:8069/producto/categoria/${categoria}`
       );
       productos = productos.data;
-    } else if (precio !== [0, 100]) {
+    } else if ((precio[0] !== 0, precio[1] !== 100)) {
+      console.log(precio);
       productos = await axios.post(`http://localhost:8069/producto/precio`, {
         min: precio[0],
         max: precio[1],
       });
       productos = productos.data;
     } else {
-      console.log(marca);
       productos = await axios.get("http://localhost:8069/producto/all");
       productos = productos.data;
     }
-    console.log("uwuwuwu");
     return productos;
   },
 });

@@ -11,6 +11,7 @@ import { PagePedidos } from "./pages/page-pedidos";
 import { ClienteState } from "./storage/atom/cliente.atom";
 import { useEffect } from "react";
 import axios from "axios";
+import { PageEventos } from "./pages/page-eventos";
 
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
@@ -19,7 +20,7 @@ function App() {
 
   useEffect(() => {
     extraerUsuarioLocalStorage();
-  },[])
+  }, []);
 
   const extraerUsuarioLocalStorage = async () => {
     const usuario = localStorage.getItem("usuario_bar");
@@ -30,31 +31,27 @@ function App() {
         "http://localhost:8069/cliente/byUser/" + codusuario.codigo
       );
       setCliente(cliente.data);
-      
-      if (codusuario.rol.codigo === 1){
+
+      if (codusuario.rol.codigo === 1) {
         navigate("/admin/pedido");
       }
     }
   };
 
-
   return (
     <Routes>
       <Route path="/producto/*" element={<PageProducto />} />
       <Route path="/acceso/*" element={<PageAcceso />} />
-      <Route path="/pedido/*" element={<PagePedidos/>}/>
+      <Route path="/pedido/*" element={<PagePedidos />} />
       <Route
         path="/admin/*"
         element={
-          usuario.rol.codigo == 1 ? (
-            <PageAdministrador />
-          ) : (
-            <PageNotFound />
-          )
+          usuario.rol.codigo == 1 ? <PageAdministrador /> : <PageNotFound />
         }
       />
-      <Route path="/" element={<PageInicio/>}/>
+      <Route path="/" element={<PageInicio />} />
       <Route path="/notfound" element={<PageNotFound />} />
+      <Route path="/evento" element={<PageEventos />} />
     </Routes>
   );
 }
