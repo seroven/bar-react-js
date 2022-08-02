@@ -5,15 +5,20 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
+import {ModalEliminarMarca} from "./modal-eliminar-marca";
+import {ModalRegistroMarca} from "./modal-registro-marca";
+
 
 export const RegistroProducto = () => {
   const [producto, setProducto] = useState([]);
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
   const navigate = useNavigate();
   const [marca, setMarca] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalMarca, setModalMarca] = useState(false);
   const [deleteMarca, setDeleteMarca] = useState(false);
+  const [marcaSeleccionada, setMarcaSeleccionada] = useState(-1);
   const {
     register,
     formState: { errors },
@@ -49,10 +54,25 @@ export const RegistroProducto = () => {
     navigate("/");
   };
 
+  
+  const openModalDeleteMarca = () => {
+    const $listaMarca = document.getElementById("lista-marca");
+    const index = $listaMarca.options.selectedIndex;
+    if (index !== -1){
+      setMarcaSeleccionada(Array.from($listaMarca.options)[index].value);
+      setDeleteMarca(true);
+    } else{
+      alert("Debe seleccionar la marca que desea ocultar");
+    }
+  }
+
   useEffect(() => {
     axios.get("http://localhost:8069/marca/all").then((res) => {
       setMarca(res.data);
     });
+    axios.get("http://localhost:8069/categoria/all").then((res) => {
+      setCategorias(res.data)
+    })
   }, []);
 
   return (
@@ -146,9 +166,9 @@ export const RegistroProducto = () => {
               id="countries"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
-              {marca.map((marca) => (
-                <option key={marca.codigo} value={marca.codigo}>
-                  {marca.nombre}
+              {categorias.map((categoria) => (
+                <option key={categoria.codigo} value={categoria.codigo}>
+                  {categoria.nombre}
                 </option>
               ))}
             </select>
@@ -161,10 +181,12 @@ export const RegistroProducto = () => {
               {...register("marca", {
                 required: true,
               })}
-              id="countries"
+              id="lista-marca"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
               {marca.map((marca) => (
+                
+                marca.estado &&
                 <option key={marca.codigo} value={marca.codigo}>
                   {marca.nombre}
                 </option>
@@ -184,7 +206,7 @@ export const RegistroProducto = () => {
                 </button>
               </div>
               <div className="w-10 h-10 buttons-red">
-                <button type="button" onClick={() => setDeleteMarca(true)}>
+                <button type="button" onClick={() => openModalDeleteMarca()}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -276,118 +298,20 @@ export const RegistroProducto = () => {
           </div>
         </div>
       </div>
-      <div
-        id="popup-modal"
-        className={
-          "overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex " +
-          (modalMarca ? "block" : "hidden")
-        }
-        aria-modal="true"
-        role="dialog"
-      >
-        <div className="relative p-2 w-full max-w-md h-full md:h-auto">
-          <div className="relative bg-white rounded-lg shadow dark:bg-slate-100">
-            <div className="p-6 text-center">
-              <div className="my-10 text-4xl font-medium text-gray-500 dark:text-gray-400">
-                Registrar Marca
-              </div>
-              <div>
-                <div className="mb-6 flex ">
-                  <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
-                    Categoria:
-                  </label>
-                  <select
-                    {...register("marca", {
-                      required: true,
-                    })}
-                    id="countries"
-                    className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                  >
-                    {marca.map((marca) => (
-                      <option key={marca.codigo} value={marca.codigo}>
-                        {marca.nombre}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mb-10 flex">
-                  <label className="block w-96 self-centertext-lg font-medium text-lg text-gray-900 ">
-                    Marca:
-                  </label>
-                  <input
-                    type="text"
-                    className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                  />
-                </div>
-              </div>
-              <button
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="p-2 px-6 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
-              >
-                Agregar
-              </button>
-              <button
-                onClick={() => setModalMarca(false)}
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="ml-5 p-2 px-6 rounded-md hover:text-red-900 text-white bg-[#e74263]"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        id="popup-modal"
-        className={
-          "overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex " +
-          (deleteMarca ? "block" : "hidden")
-        }
-        aria-modal="true"
-        role="dialog"
-      >
-        <div className="relative p-2 w-full max-w-md h-full md:h-auto">
-          <div className="relative bg-white rounded-lg shadow dark:bg-slate-100">
-            <div className="p-6 text-center">
-              <svg
-                className="mx-auto mb-4 w-14 h-14 fill-current text-[#97BF04] "
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="m10.933 13.519-2.226-2.226-1.414 1.414 3.774 3.774 5.702-6.84-1.538-1.282z"></path>
-                <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.002 14H5z"></path>
-              </svg>
-              <div className="mb-9">
-                <h1 className=" text-xl font-normal text-gray-800">
-                  ¿Estas seguro de eliminar la Marca?
-                </h1>
-                <p className="my-2 text-gray-400">
-                  Nunca más lo volverás a ver
-                </p>
-              </div>
-              <button
-                onClick={onAceptarClick}
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="p-2 px-6 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
-              >
-                Si, estoy seguro
-              </button>
-              <button
-                onClick={() => setDeleteMarca(false)}
-                data-modal-toggle="popup-modal"
-                type="button"
-                className="ml-5 p-2 px-6 rounded-md hover:text-red-900 text-white bg-[#e74263]"
-              >
-                No, cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      ;
+      <ModalRegistroMarca 
+        modalMarca={modalMarca} 
+        setModalMarca={setModalMarca}
+        marca = {marca}
+        setMarca = {setMarca}
+        categorias = {categorias}/>
+      <ModalEliminarMarca 
+      modalEliminarMarca={deleteMarca} 
+      setModalEliminarMarca ={setDeleteMarca}
+      marcaSeleccionada = {marcaSeleccionada}
+      marca = {marca}
+      setMarca = {setMarca}/>
+      
+      
     </>
   );
 };
