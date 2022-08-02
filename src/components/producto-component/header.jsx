@@ -14,7 +14,7 @@ export const Header = ({ admin }) => {
               src="https://placekitten.com/1200/1200"
               className="mr-3 w-16 h-16 sm:h-16 rounded-full"
             />
-            <span className="self-center font-mono text-3xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center font-mono text-3xl font-semibold whitespace-nowrap text-white">
               Bar La China
             </span>
           </div>
