@@ -1,5 +1,6 @@
 import axios from "axios";
 import { selector, useRecoilValue } from "recoil";
+import { allProductsState } from "../atom/all-products";
 import { buscarState } from "../atom/buscar.atom";
 import { categoriaIdState } from "../atom/categoria.atom";
 import { marcaIdState } from "../atom/marca.atom";
@@ -12,6 +13,7 @@ export const productoSelector = selector({
     const categoria = get(categoriaIdState);
     const marca = get(marcaIdState);
     const precio = get(precioState);
+    const isAll = get(allProductsState);
 
     let productos = [];
 
@@ -24,6 +26,9 @@ export const productoSelector = selector({
       productos = await axios.get(
         `http://localhost:8069/producto/marca/${marca}`
       );
+      productos = productos.data;
+    } else if (isAll !== true) {
+      productos = await axios.get(`http://localhost:8069/producto/estado/1`);
       productos = productos.data;
     } else if (categoria !== "") {
       productos = await axios.get(

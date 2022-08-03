@@ -17,6 +17,7 @@ import {
 import { precioState } from "../../../storage/atom/precio.atom";
 import { UserState } from "../../../storage/atom/usuario.atom";
 import { productoSelector } from "../../../storage/selector/producto-selector";
+import { allProductsState } from "../../../storage/atom/all-products";
 
 export const Filtro = () => {
   const setIdCategoria = useSetRecoilState(categoriaIdState);
@@ -27,6 +28,7 @@ export const Filtro = () => {
   const [categorias, setCategorias] = useRecoilState(categoriaState);
   const [marcas, setMarcas] = useRecoilState(marcaState);
   const [precio, setPrecio] = useRecoilState(precioState);
+  const [isAll, setIsAll] = useRecoilState(allProductsState);
 
   const [value, setValue] = useState([0, 100]);
 
@@ -198,7 +200,11 @@ export const Filtro = () => {
             type="checkbox"
             className="w-4 h-4"
             id="default-checkbox"
-            defaultChecked
+            defaultChecked={isAll}
+            onChange={() => {
+              setIsAll(!isAll);
+              refresh();
+            }}
           />
           <label
             htmlFor="default-checkbox"
