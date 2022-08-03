@@ -68,6 +68,7 @@ export const RegistroProducto = () => {
 
   useEffect(() => {
     axios.get("http://localhost:8069/marca/all").then((res) => {
+      console.log(res.data);
       setMarca(res.data);
     });
     axios.get("http://localhost:8069/categoria/all").then((res) => {
@@ -184,11 +185,11 @@ export const RegistroProducto = () => {
               id="lista-marca"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
-              {marca.map((marca) => (
+              {marca.map((m) => (
                 
-                marca.estado &&
-                <option key={marca.codigo} value={marca.codigo}>
-                  {marca.nombre}
+                m.estado &&
+                <option key={m.codigo} value={m.codigo}>
+                  {m.nombre}
                 </option>
               ))}
             </select>

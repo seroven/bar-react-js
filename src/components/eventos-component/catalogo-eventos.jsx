@@ -2,7 +2,6 @@ import { HeaderEvent } from "./header-event";
 export const Eventos = () => {
   return (
     <>
-      <HeaderEvent />
       <div>
         <div id="default-carousel" className="relative" data-carousel="static">
           <div className="relative h-56 overflow-hidden md:h-96">

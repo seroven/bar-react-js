@@ -51,7 +51,7 @@ function App() {
       />
       <Route path="/" element={<PageInicio />} />
       <Route path="/notfound" element={<PageNotFound />} />
-      <Route path="/evento" element={<PageEventos />} />
+      <Route path="/evento/*" element={<PageEventos />} />
     </Routes>
   );
 }
