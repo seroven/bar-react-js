@@ -1,5 +1,21 @@
 import { HeaderEvent } from "./header-event";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 export const Eventos = () => {
+
+  const [eventos, setEventos] = useState([]);
+
+  useEffect(() => {
+    const obtenerEventos = async () => {
+      const est = "http://localhost:8069/evento/listar";
+      const res = await axios.get(est);
+      setEventos(res.data);
+      console.log(res.data);
+    };
+    obtenerEventos();
+  }, []);
+
   return (
     <>
       <div>
@@ -122,61 +138,23 @@ export const Eventos = () => {
               {/* filtros */}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
-              <div class="max-w-sm h-64 bg-[url('https://img.elo7.com.br/product/zoom/2917C30/flyer-banner-de-eventos-para-redes-sociais-flyer.jpg')]  bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                  <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                    Con Nosotros Elmer Luna
-                  </h2>
-                  <div className="flex my-2  text-white space-x-28 justify-center">
-                    <div className="">15/07/2022</div>
-                    <div className="">9:00 pm</div>
-                  </div>
+             
+
+            {eventos.map((evento) => (
+              <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                    style={{ backgroundImage : `url(${evento.imagen})` }}>
+              <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
+                <h2 class="text-lg pt-44 p-2 font-semibold text-white">
+                  {evento.titulo}
+                </h2>
+                <div className="flex my-2  text-white space-x-28 justify-center">
+                  <div className="">{evento.fecha}</div>
+                  <div className="">9:00 pm</div>
                 </div>
               </div>
-              <div class="max-w-sm h-64 bg-[url('https://i.pinimg.com/originals/c4/c5/db/c4c5dbc737e7bc7e520c6e56adaaa67c.png')]  bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                  <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                    Con Nosotros Elmer Luna
-                  </h2>
-                  <div className="flex my-2  text-white space-x-28 justify-center">
-                    <div className="">15/07/2022</div>
-                    <div className="">9:00 pm</div>
-                  </div>
-                </div>
-              </div>
-              <div class="max-w-sm h-64 bg-[url('https://i.pinimg.com/originals/c5/e1/23/c5e12388fa18a8ae8b8474c401148bfc.jpg')]  bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                  <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                    Con Nosotros Elmer Luna
-                  </h2>
-                  <div className="flex my-2  text-white space-x-28 justify-center">
-                    <div className="">15/07/2022</div>
-                    <div className="">9:00 pm</div>
-                  </div>
-                </div>
-              </div>
-              <div class="max-w-sm h-64 bg-[url('https://i.pinimg.com/originals/a9/c0/ea/a9c0eae5b668fd0a7b39e0cc7e2b4f15.jpg')]  bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                  <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                    Con Nosotros Elmer Luna
-                  </h2>
-                  <div className="flex my-2  text-white space-x-28 justify-center">
-                    <div className="">15/07/2022</div>
-                    <div className="">9:00 pm</div>
-                  </div>
-                </div>
-              </div>
-              <div class="max-w-sm h-64 bg-[url('https://image.freepik.com/psd-gratuitas/modelo-de-banner-do-instagram-para-evento-de-festa-dj_265396-41.jpg')]  bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                  <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                    Con Nosotros Elmer Luna
-                  </h2>
-                  <div className="flex my-2  text-white space-x-28 justify-center">
-                    <div className="">15/07/2022</div>
-                    <div className="">9:00 pm</div>
-                  </div>
-                </div>
-              </div>
+            </div>
+            ))}
+
             </div>
           </div>
         </div>
