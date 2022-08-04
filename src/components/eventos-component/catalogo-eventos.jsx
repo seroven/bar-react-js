@@ -109,7 +109,7 @@ export const Eventos = () => {
             type="button"
             className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
             data-carousel-next=""
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <span className="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30  group-hover:bg-white/50  group-focus:ring-4 group-focus:ring-white  group-focus:outline-none">
               <svg
@@ -135,25 +135,56 @@ export const Eventos = () => {
           <h1 className="text-5xl font-bold">Eventos</h1>
           <div className="flex my-7 space-x-3">
             <div className="md:w-[25rem] h-96 bg-gray-100 px-10 py-8 rounded-md shadow-md">
-              {/* filtros */}
+              <h1 className="text-3xl font-medium text-slate-600 mb-3">Rango de fechas</h1>
+              <div className="flex items-center gap-2">
+                <label className="font-medium text-xl  text-[#022601c2]">
+                  Inicio
+                </label>
+                <input
+                  className="w-full p-1 rounded"
+                  type="date"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="font-medium text-xl text-[#022601c2] my-5">
+                  Final
+                </label>
+                <input
+                  className="w-full p-1 rounded"
+                  type="date"
+                />
+              </div>
+              <button className="buttons w-full my-5">
+                FILTRAR
+              </button>
+              <div className="flex items-center gap-2">
+                <label className="font-medium text-xl  text-[#022601c2]">
+                  Dia
+                </label>
+                <input
+                  className="w-full p-1 rounded"
+                  type="date"
+                />
+              </div>
+
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
-             
 
-            {eventos.map((evento) => (
-              <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                    style={{ backgroundImage : `url(${evento.imagen})` }}>
-              <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                  {evento.titulo}
-                </h2>
-                <div className="flex my-2  text-white space-x-28 justify-center">
-                  <div className="">{evento.fecha}</div>
-                  <div className="">9:00 pm</div>
+
+              {eventos.map((evento) => (
+                <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                  style={{ backgroundImage: `url(${evento.imagen})` }}>
+                  <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
+                    <h2 class="text-lg pt-44 p-2 font-semibold text-white">
+                      {evento.titulo}
+                    </h2>
+                    <div className="flex my-2  text-white space-x-28 justify-center">
+                      <div className="">{evento.fecha}</div>
+                      <div className="">9:00 pm</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            ))}
+              ))}
 
             </div>
           </div>
