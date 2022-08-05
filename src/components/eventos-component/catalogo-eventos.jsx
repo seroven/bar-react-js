@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ModalDetalleEvento} from "./detalle-eventos";
 import axios from "axios";
 export const Eventos = ({ admin }) => {
 
   const [eventos, setEventos] = useState([]);
+  const [modal_evento, setModal_evento] = useState(false);
 
   const onStatusChangeClick = (data) => {
     axios
@@ -35,7 +37,7 @@ export const Eventos = ({ admin }) => {
   return (
     <>
 
-      <div>
+      <div className={(modal_evento ? "blur-md" : null)}>
         <div id="default-carousel" className="relative" data-carousel="static">
           <div className="relative h-56 overflow-hidden md:h-96">
             <div
@@ -202,7 +204,7 @@ export const Eventos = ({ admin }) => {
 
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2" onClick={() => setModal_evento(true)}>
 
                 {eventos.map(
                   (evento) =>
@@ -241,6 +243,9 @@ export const Eventos = ({ admin }) => {
           </div>
         </div>
       </div>
+      <ModalDetalleEvento 
+        setModal_evento={setModal_evento}
+        modal_evento={modal_evento}/>
     </>
   );
 };
