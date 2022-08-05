@@ -1,10 +1,26 @@
-import { HeaderEvent } from "./header-event";
 import { useEffect } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-export const Eventos = () => {
+export const Eventos = ({ admin }) => {
 
   const [eventos, setEventos] = useState([]);
+
+  const onStatusChangeClick = (data) => {
+    axios
+      .put("http://localhost:8069/evento/estado/" + data.codigo)
+      .then(() => {
+        setEventos(
+          eventos.map((event) =>
+            event.codigo === data.codigo
+              ? { ...data, estado: !data.estado }
+              : event
+          )
+        );
+      });
+    console.log(data.codigo)
+    console.log(eventos.codigo)
+  };
 
   useEffect(() => {
     const obtenerEventos = async () => {
@@ -18,6 +34,7 @@ export const Eventos = () => {
 
   return (
     <>
+
       <div>
         <div id="default-carousel" className="relative" data-carousel="static">
           <div className="relative h-56 overflow-hidden md:h-96">
@@ -132,7 +149,16 @@ export const Eventos = () => {
           </button>
         </div>
         <div className="container px-10 py-4">
-          <h1 className="text-5xl font-bold">Eventos</h1>
+          <div className="flex justify-between container mx-auto items-center mb-4">
+            <h1 className="font-medium text-4xl text-center md:text-left ">
+              <h1 className="text-5xl font-bold">Eventos</h1>
+            </h1>
+            {admin ? (
+              <Link to="/admin/evento/registro">
+                <div className="buttons-yellow py-2 px-8">Registrar</div>
+              </Link>
+            ) : null}
+          </div>
           <div className="flex my-7 space-x-3">
             <div className="md:w-[25rem] h-96 bg-gray-100 px-10 py-8 rounded-md shadow-md">
               <h1 className="text-3xl font-medium text-slate-600 mb-3">Rango de fechas</h1>
@@ -166,27 +192,52 @@ export const Eventos = () => {
                   type="date"
                 />
               </div>
-
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
 
+            {eventos.length === 0 ? (
+              <div className="pl-60 justify-self-center text-center">
+                <h1 className="text-3xl font-extrabold mb-20 text-[#97BF04]">
+                  No Se Encontraron Eventos
+                </h1>
 
-              {eventos.map((evento) => (
-                <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                  style={{ backgroundImage: `url(${evento.imagen})` }}>
-                  <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
-                    <h2 class="text-lg pt-44 p-2 font-semibold text-white">
-                      {evento.titulo}
-                    </h2>
-                    <div className="flex my-2  text-white space-x-28 justify-center">
-                      <div className="">{evento.fecha}</div>
-                      <div className="">9:00 pm</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
 
-            </div>
+                {eventos.map(
+                  (evento) =>
+                    (admin ? true : evento.estado) && (
+                      <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                        style={{ backgroundImage: `url(${evento.imagen})` }} key={evento.codigo}>
+                        <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
+                          <h2 class="text-lg pt-44 p-2 font-semibold text-white">
+                            {evento.titulo}
+                          </h2>
+                          <div className="flex my-2  text-white space-x-28 justify-center">
+                            <div className="">{evento.fecha}</div>
+                            <div className="">9:00 pm</div>
+                          </div>
+                        </div>
+                        <br />
+                        {admin ? (
+                          <div className="w-full px-2 mb-2 justify-center object-center">
+                            <button
+                              className={
+                                "w-full " +
+                                (eventos.estado ? "buttons-red" : "buttons")
+                              }
+                              onClick={() => onStatusChangeClick(evento)}
+                            >
+                              {eventos.estado ? "Inhabilitar" : "Habilitar"}
+                            </button>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
