@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ModalDetalleEvento } from "./detalle-eventos";
 import axios from "axios";
 import { eventoSelector } from "../../storage/selector/evento-selector";
+import { FiltroEvento } from "./filtro";
 export const Eventos = ({ admin }) => {
   const initialEvents = useRecoilValue(eventoSelector);
   const [eventos, setEventos] = useState(initialEvents);
@@ -150,28 +151,7 @@ export const Eventos = ({ admin }) => {
           </div>
           <div className="flex my-7 space-x-3">
             <div className="md:w-[25rem] h-96 bg-gray-100 px-10 py-8 rounded-md shadow-md">
-              <h1 className="text-3xl font-medium text-slate-600 mb-3">
-                Rango de fechas
-              </h1>
-              <div className="flex items-center gap-2">
-                <label className="font-medium text-xl  text-[#022601c2]">
-                  Inicio
-                </label>
-                <input className="w-full p-1 rounded" type="date" />
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="font-medium text-xl text-[#022601c2] my-5">
-                  Final
-                </label>
-                <input className="w-full p-1 rounded" type="date" />
-              </div>
-              <button className="buttons w-full my-5">FILTRAR</button>
-              <div className="flex items-center gap-2">
-                <label className="font-medium text-xl  text-[#022601c2]">
-                  Dia
-                </label>
-                <input className="w-full p-1 rounded" type="date" />
-              </div>
+              <FiltroEvento/>
             </div>
 
             {eventos.length === 0 ? (
