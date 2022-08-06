@@ -1,0 +1,12 @@
+.imagenes-evento{
+    @apply grid gap-8 items-center justify-items-center my-4;
+    grid-template-columns: 0.8fr 2.4fr 0.8fr;
+}
+
+.imagenes-evento svg:first-child{
+    @apply justify-self-end
+}
+
+.imagenes-evento svg:last-child{
+    @apply justify-self-start
+}

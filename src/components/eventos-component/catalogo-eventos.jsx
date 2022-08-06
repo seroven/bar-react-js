@@ -8,6 +8,8 @@ export const Eventos = ({ admin }) => {
   const [eventos, setEventos] = useState([]);
   const [modal_evento, setModal_evento] = useState(false);
 
+  const [eventoDetalle, setEventoDetalle] = useState({});
+
   const onStatusChangeClick = (data) => {
     axios
       .put("http://localhost:8069/evento/estado/" + data.codigo)
@@ -204,20 +206,23 @@ export const Eventos = ({ admin }) => {
 
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2" onClick={() => setModal_evento(true)}>
+              <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
 
                 {eventos.map(
                   (evento) =>
-                    (admin ? true : evento.estado) && (
-                      <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                        style={{ backgroundImage: `url(${evento.imagen})` }} key={evento.codigo}>
+                    (evento.estado ? true : (admin ? true : false)) && (
+                      <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:cursor-pointer"
+                        style={{ backgroundImage: `url(${evento.imagen})` }} key={evento.codigo}
+                        onClick={() => 
+                          {setModal_evento(true);
+                          setEventoDetalle(evento)}}>
                         <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
                           <h2 class="text-lg pt-44 p-2 font-semibold text-white">
                             {evento.titulo}
                           </h2>
                           <div className="flex my-2  text-white space-x-28 justify-center">
                             <div className="">{evento.fecha}</div>
-                            <div className="">9:00 pm</div>
+                            <div className="">{evento.hora}</div>
                           </div>
                         </div>
                         <br />
@@ -245,7 +250,8 @@ export const Eventos = ({ admin }) => {
       </div>
       <ModalDetalleEvento 
         setModal_evento={setModal_evento}
-        modal_evento={modal_evento}/>
+        modal_evento={modal_evento}
+        evento = {eventoDetalle}/>
     </>
   );
 };
