@@ -24,10 +24,11 @@ export const Eventos = ({ admin }) => {
   };
 
   useEffect(() => {
-    
+    console.log(initialEvents);
     setEventos(initialEvents);
   }, [initialEvents])
-  // console.log(initialEvents);
+
+  
 
   return (
     <>

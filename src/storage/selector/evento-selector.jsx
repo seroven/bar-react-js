@@ -23,7 +23,11 @@ export const eventoSelector = selector({
             eventos = eventos.data;
         } else if (fechaone) {
             eventos = await axios.get(`http://localhost:8069/evento/fecha/${fechaone}`);
-            eventos = eventos.data;
+            if(eventos.data===""){
+                eventos=[];
+            }else{
+                eventos = [eventos.data];
+            }
         }else{
             eventos = await axios.get("http://localhost:8069/evento/listar");
             eventos = eventos.data;
@@ -31,8 +35,8 @@ export const eventoSelector = selector({
 
         if(eventos===null){
             eventos = [];
-
         }
+
         console.log(eventos);
         return eventos;
     },
