@@ -15,9 +15,9 @@ export const FiltroEvento = () => {
 
 
     useEffect(() => {
+        console.log(tFecha);
         if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== "") {
             setFecha(tFecha);
-            console.log(tfecha);
         }
     }, [tFecha])
 
@@ -32,7 +32,6 @@ export const FiltroEvento = () => {
     const filtrar = (e) => {
         setFecha(tFecha);
         console.log(tFecha);
-
     }
 
     return (

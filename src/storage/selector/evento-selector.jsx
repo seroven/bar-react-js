@@ -11,9 +11,11 @@ export const eventoSelector = selector({
 
         let eventos = [];
 
-        
+        console.log(fechas);
+        console.log(fechaone);
 
         if (fechas) {
+            console.log(fechas);
             eventos = await axios.post("http://localhost:8069/evento/buscar", {
                 fecha_inicio: fechas.fecha_inicio,
                 fecha_final: fechas.fecha_final,
@@ -22,10 +24,10 @@ export const eventoSelector = selector({
         } else if (fechaone) {
             eventos = await axios.get(`http://localhost:8069/evento/fecha/${fechaone}`);
             eventos = eventos.data;
+        } else{
+            eventos = await axios.get("http://localhost:8069/evento/listar");
+            eventos = eventos.data;
         }
-        eventos = await axios.get("http://localhost:8069/evento/listar");
-        eventos = eventos.data;
-
         console.log(eventos);
         return eventos;
     },
