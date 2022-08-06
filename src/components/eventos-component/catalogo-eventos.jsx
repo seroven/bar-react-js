@@ -11,6 +11,8 @@ export const Eventos = ({ admin }) => {
   const [eventos, setEventos] = useState(initialEvents);
   const [modal_evento, setModal_evento] = useState(false);
 
+  const [eventoDetalle, setEventoDetalle] = useState({});
+
   const onStatusChangeClick = (data) => {
     axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
       setEventos(
@@ -50,7 +52,7 @@ export const Eventos = ({ admin }) => {
               <FiltroEvento/>
             </div>
 
-            {eventos.length === 0 ? (
+            {eventos?.length === 0 ? (
               <div className="pl-60 justify-self-center text-center">
                 <h1 className="text-3xl font-extrabold mb-20 text-[#97BF04]">
                   No Se Encontraron Eventos
@@ -69,14 +71,16 @@ export const Eventos = ({ admin }) => {
                         <div
                           class="w-full h-full rounded-lg bg-gradient-to-b from-transparent 
                         via-transparent to-black"
-                          onClick={() => setModal_evento(true)}
+                          onClick={() => {setModal_evento(true); 
+                          setEventoDetalle(evento);
+                          }}
                         >
                           <h2 class="text-lg pt-44 p-2 font-semibold text-white">
                             {evento.titulo}
                           </h2>
                           <div className="flex my-2  text-white space-x-24 justify-center">
                             <div className="">{evento.fecha}</div>
-                            <div className="">9:00 pm</div>
+                            <div className="">{evento.hora}</div>
                           </div>
                         </div>
                         <br />
@@ -106,7 +110,8 @@ export const Eventos = ({ admin }) => {
       <ModalDetalleEvento
         setModal_evento={setModal_evento}
         modal_evento={modal_evento}
-      />
+        evento = {eventoDetalle}
+        />
     </>
   );
 };
