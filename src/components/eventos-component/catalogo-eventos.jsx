@@ -1,45 +1,31 @@
-import { useEffect } from "react";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
-import { ModalDetalleEvento} from "./detalle-eventos";
+import { ModalDetalleEvento } from "./detalle-eventos";
 import axios from "axios";
+import { eventoSelector } from "../../storage/selector/evento-selector";
 export const Eventos = ({ admin }) => {
-
-  const [eventos, setEventos] = useState([]);
+  const initialEvents = useRecoilValue(eventoSelector);
+  const [eventos, setEventos] = useState(initialEvents);
   const [modal_evento, setModal_evento] = useState(false);
 
   const [eventoDetalle, setEventoDetalle] = useState({});
 
   const onStatusChangeClick = (data) => {
-    axios
-      .put("http://localhost:8069/evento/estado/" + data.codigo)
-      .then(() => {
-        setEventos(
-          eventos.map((event) =>
-            event.codigo === data.codigo
-              ? { ...data, estado: !data.estado }
-              : event
-          )
-        );
-      });
-    console.log(data.codigo)
-    console.log(eventos.codigo)
+    axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
+      setEventos(
+        eventos.map((event) =>
+          event.codigo === data.codigo
+            ? { ...data, estado: !data.estado }
+            : event
+        )
+      );
+    });
   };
-
-  useEffect(() => {
-    const obtenerEventos = async () => {
-      const est = "http://localhost:8069/evento/listar";
-      const res = await axios.get(est);
-      setEventos(res.data);
-      console.log(res.data);
-    };
-    obtenerEventos();
-  }, []);
 
   return (
     <>
-
-      <div className={(modal_evento ? "blur-md" : null)}>
+      <div className={modal_evento ? "blur-md" : null}>
         <div id="default-carousel" className="relative" data-carousel="static">
           <div className="relative h-56 overflow-hidden md:h-96">
             <div
@@ -51,7 +37,7 @@ export const Eventos = ({ admin }) => {
                 First Slide
               </span>
               <img
-                src="https://acortar.link/twbRwc"
+                src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/66956168_2261356507252832_4506629202811813888_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeFGZA80hkOnzwuBx46SPUKRQLqsf8sfSs1Auqx_yx9KzdXzi3Q-xQ-vF0Pr6v0DGKAuyjbUxIZojSLgwSNRZ41k&_nc_ohc=YGAK6nKrU40AX-Vtgag&_nc_ht=scontent-lim1-1.xx&oh=00_AT_6V659dD_OwhB1PJ1_qkRasBmf275SvQ6x_9ily8_BFA&oe=630BF69A"
                 className="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                 alt="..."
               />
@@ -130,7 +116,7 @@ export const Eventos = ({ admin }) => {
             type="button"
             className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
             data-carousel-next=""
-            onClick={() => { }}
+            onClick={() => {}}
           >
             <span className="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30  group-hover:bg-white/50  group-focus:ring-4 group-focus:ring-white  group-focus:outline-none">
               <svg
@@ -165,62 +151,57 @@ export const Eventos = ({ admin }) => {
           </div>
           <div className="flex my-7 space-x-3">
             <div className="md:w-[25rem] h-96 bg-gray-100 px-10 py-8 rounded-md shadow-md">
-              <h1 className="text-3xl font-medium text-slate-600 mb-3">Rango de fechas</h1>
+              <h1 className="text-3xl font-medium text-slate-600 mb-3">
+                Rango de fechas
+              </h1>
               <div className="flex items-center gap-2">
                 <label className="font-medium text-xl  text-[#022601c2]">
                   Inicio
                 </label>
-                <input
-                  className="w-full p-1 rounded"
-                  type="date"
-                />
+                <input className="w-full p-1 rounded" type="date" />
               </div>
               <div className="flex items-center gap-2">
                 <label className="font-medium text-xl text-[#022601c2] my-5">
                   Final
                 </label>
-                <input
-                  className="w-full p-1 rounded"
-                  type="date"
-                />
+                <input className="w-full p-1 rounded" type="date" />
               </div>
-              <button className="buttons w-full my-5">
-                FILTRAR
-              </button>
+              <button className="buttons w-full my-5">FILTRAR</button>
               <div className="flex items-center gap-2">
                 <label className="font-medium text-xl  text-[#022601c2]">
                   Dia
                 </label>
-                <input
-                  className="w-full p-1 rounded"
-                  type="date"
-                />
+                <input className="w-full p-1 rounded" type="date" />
               </div>
             </div>
 
-            {eventos.length === 0 ? (
+            {eventos?.length === 0 ? (
               <div className="pl-60 justify-self-center text-center">
                 <h1 className="text-3xl font-extrabold mb-20 text-[#97BF04]">
                   No Se Encontraron Eventos
                 </h1>
-
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-2">
-
                 {eventos.map(
                   (evento) =>
-                    (evento.estado ? true : (admin ? true : false)) && (
-                      <div class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:cursor-pointer"
-                        style={{ backgroundImage: `url(${evento.imagen})` }} key={evento.codigo}
-                        onClick={() => 
-                          {setModal_evento(true);
-                          setEventoDetalle(evento)}}>
-                        <div class="w-full h-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-black">
+                    (admin ? true : evento.estado) && (
+                      <div
+                        class="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                        style={{ backgroundImage: `url(${evento.imagen})` }}
+                        key={evento.codigo}
+                      >
+                        <div
+                          class="w-full h-full rounded-lg bg-gradient-to-b from-transparent 
+                        via-transparent to-black"
+                          onClick={() => {setModal_evento(true); 
+                          setEventoDetalle(evento);
+                          }}
+                        >
                           <h2 class="text-lg pt-44 p-2 font-semibold text-white">
                             {evento.titulo}
                           </h2>
-                          <div className="flex my-2  text-white space-x-28 justify-center">
+                          <div className="flex my-2  text-white space-x-24 justify-center">
                             <div className="">{evento.fecha}</div>
                             <div className="">{evento.hora}</div>
                           </div>
@@ -231,27 +212,29 @@ export const Eventos = ({ admin }) => {
                             <button
                               className={
                                 "w-full " +
-                                (eventos.estado ? "buttons-red" : "buttons")
+                                (evento.estado ? "buttons-red" : "buttons")
                               }
                               onClick={() => onStatusChangeClick(evento)}
                             >
-                              {eventos.estado ? "Inhabilitar" : "Habilitar"}
+                              {evento.estado ? "Inhabilitar" : "Habilitar"}
                             </button>
                           </div>
                         ) : (
                           <></>
                         )}
                       </div>
-                    ))}
+                    )
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
-      <ModalDetalleEvento 
+      <ModalDetalleEvento
         setModal_evento={setModal_evento}
         modal_evento={modal_evento}
-        evento = {eventoDetalle}/>
+        evento = {eventoDetalle}
+        />
     </>
   );
 };

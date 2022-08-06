@@ -3,12 +3,34 @@ import "./detalle.css";
 
 export const ModalDetalleEvento = ({ setModal_evento, modal_evento, evento }) => {
   const [imagenes, setImagenes] = useState([]);
-
-  console.log(evento);
+  const [indiceImagen, setIndiceImagen] = useState(0);
+  
   
   useEffect(() => {
-    evento.imagenes.length > 0 ? setImagenes([evento.imagen, ...evento.imagenes]) : setImagenes(imagenes);
-  }, [])
+    if (modal_evento){
+        const tempImages = evento?.imagenes?.length > 0 ? [evento.imagen, ...evento.imagenes.map(i => i.imagen)] : [evento?.imagen];
+        setImagenes(tempImages);
+        console.log(tempImages);
+    }
+  }, [modal_evento])
+
+  
+
+  const nextImage = () => {
+    if (indiceImagen === imagenes.length -1){
+        setIndiceImagen(0);
+    } else{
+        setIndiceImagen(indiceImagen+1);
+    }
+  }
+
+  const previousImage = () => {
+    if (indiceImagen === 0){
+        setIndiceImagen(imagenes.length -1);
+    } else{
+        setIndiceImagen(indiceImagen-1);
+    }
+  }
 
   return (
     <>
@@ -25,38 +47,50 @@ export const ModalDetalleEvento = ({ setModal_evento, modal_evento, evento }) =>
                 <span>{evento.titulo}</span>
               </div>
               <div className="imagenes-evento">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-11 w-11"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#618c03"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-                  />
-                </svg>
+                {
+                    imagenes.length > 1
+                    ? <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-11 w-11 hover:cursor-pointer transition-[transform] hover:scale-110"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="#618c03"
+                    strokeWidth="2"
+                    onClick={() => previousImage()}
+                    >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
+                    />
+                    </svg>
+                    : <div></div>
+                    
+                }
                 <div className="justify-center w-full items-center flex rounded-lg overflow-hidden">
                   <img className="w-full"
-                   src={evento.imagen}></img>
+                   src={imagenes[indiceImagen]}></img>
                 </div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-11 w-11"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#618c03"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                {
+                    imagenes.length > 1
+                    ? <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-11 w-11 hover:cursor-pointer transition-[transform] hover:scale-110"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="#618c03"
+                    strokeWidth="2"
+                    onClick={() => nextImage()}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  : <div></div>
+                }
+                
               </div>
 
               <div className="flex justify-center w-full font-medium px-12 text-3xl">
