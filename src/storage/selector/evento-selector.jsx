@@ -24,9 +24,14 @@ export const eventoSelector = selector({
         } else if (fechaone) {
             eventos = await axios.get(`http://localhost:8069/evento/fecha/${fechaone}`);
             eventos = eventos.data;
-        } else{
+        }else{
             eventos = await axios.get("http://localhost:8069/evento/listar");
             eventos = eventos.data;
+        }
+
+        if(eventos===null){
+            eventos = [];
+
         }
         console.log(eventos);
         return eventos;

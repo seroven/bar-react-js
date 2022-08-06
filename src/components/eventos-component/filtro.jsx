@@ -14,25 +14,54 @@ export const FiltroEvento = () => {
     const [tFechaone, setTFechaone] = useState("");
 
 
-    useEffect(() => {
-        console.log(tFecha);
-        if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== "") {
-            setFecha(tFecha);
-        }
-    }, [tFecha])
+    // useEffect(() => {
+    //     console.log(tFecha);
+    //     if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== "") {
+    //         setFecha(tFecha);
+    //     }
+    // }, [tFecha])
 
 
 
-    const filtraruno = (e) => {
-        setFechaone(e.target.value);
-        console.log(e.target.value);
-        return;
-    };
+    // const filtraruno = (e) => {
+    //     setFechaone(e.target.value);
+    //     console.log(e.target.value);
+    // };
 
     const filtrar = (e) => {
-        setFecha(tFecha);
         console.log(tFecha);
+        if (tFecha.fecha_inicio !== "" && tFecha.fecha_final !== "") {
+            setFechaone(null);
+            setTFechaone("");
+            setFecha(tFecha);
+           
+            setTFecha({
+                fecha_inicio: "",
+                fecha_final: "",
+            });
+
+        } else {
+            setFecha(null);
+            setTFecha({
+                fecha_inicio: "",
+                fecha_final: "",
+            });
+            console.log(tFechaone);
+            setFechaone(tFechaone);
+            console.log(tFechaone);
+        }
     }
+
+
+    // const filtrar = (e) => {
+    //     setFecha(null);
+    //     setTFecha({
+    //         fecha_inicio: "",
+    //         fecha_final: "",
+    //     });
+    //     setFechaone(tFechaone);
+    // }
+
 
     return (
         <>
@@ -59,7 +88,7 @@ export const FiltroEvento = () => {
                     onChange={e => setTFecha({ ...tFecha, fecha_final: e.target.value })}
                 />
             </div>
-            <button className="buttons w-full my-5" >
+            <button className="buttons w-full my-5" onClick={filtrar}>
                 FILTRAR
             </button>
             <div className="flex items-center gap-2">
@@ -70,7 +99,7 @@ export const FiltroEvento = () => {
                     className="w-full p-1 rounded"
                     type="date"
                     value={tFechaone}
-                    onChange={e => filtraruno(e)}
+                    onChange={e => setTFechaone(e.target.value)}
                 />
             </div>
 
