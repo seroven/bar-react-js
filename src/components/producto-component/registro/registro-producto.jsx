@@ -51,7 +51,7 @@ export const RegistroProducto = () => {
     });
     refresh();
     setModal(false);
-    navigate("/");
+    navigate("/admin/producto");
   };
 
   
@@ -73,7 +73,7 @@ export const RegistroProducto = () => {
     });
     axios.get("http://localhost:8069/categoria/all").then((res) => {
       setCategorias(res.data)
-    })
+    });
   }, []);
 
   return (
@@ -105,6 +105,7 @@ export const RegistroProducto = () => {
                   message: "La descripción debe tener máximo 50 caracteres",
                 },
               })}
+              autoComplete="off"
               type="text"
               className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
             />
@@ -126,6 +127,7 @@ export const RegistroProducto = () => {
                   message: "El precio es requerido",
                 },
               })}
+              autoComplete="off"
               type="number"
               step="any"
               className="shadow-sm input  border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
@@ -147,6 +149,7 @@ export const RegistroProducto = () => {
                   message: "La imagen es requerida",
                 },
               })}
+              autoComplete="off"
               type="text"
               className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             />
@@ -186,7 +189,6 @@ export const RegistroProducto = () => {
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
               {marca.map((m) => (
-                
                 m.estado &&
                 <option key={m.codigo} value={m.codigo}>
                   {m.nombre}

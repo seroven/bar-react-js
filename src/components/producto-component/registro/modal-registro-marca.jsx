@@ -92,6 +92,7 @@ export const ModalRegistroMarca = ({
                               "La descripción debe tener máximo 45 caracteres",
                           },
                         })}
+                        autoComplete="off"
                         type="text"
                         className={
                           "shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5 " +
