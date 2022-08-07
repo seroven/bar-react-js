@@ -73,7 +73,7 @@ export const ActualizarProducto = () => {
             <input
               readOnly
               type="text"
-              className="shadow-sm input border-2 text-center border-gray-500 text-gray-900 text-sm rounded-lg w-10 block p-2.5"
+              className="shadow-sm input border-2 text-center  text-gray-900 text-sm rounded-lg w-10 block p-2.5"
               value={producto.codigo}
             />
           </div>
@@ -99,7 +99,7 @@ export const ActualizarProducto = () => {
               autoFocus
               defaultValue={producto.descripcion}
               type="text"
-              className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+              className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
             />
           </div>
           {errors.descripcion && (
@@ -122,7 +122,7 @@ export const ActualizarProducto = () => {
               defaultValue={producto.precio}
               type="number"
               step="any"
-              className="shadow-sm input  border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
+              className="shadow-sm input  border-2  text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
             />
           </div>
           {errors.precio && (
@@ -143,7 +143,7 @@ export const ActualizarProducto = () => {
               })}
               defaultValue={producto.imagen}
               type="text"
-              className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+              className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block w-full p-2.5"
             />
           </div>
           {errors.imagen && (
