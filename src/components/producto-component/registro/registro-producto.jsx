@@ -24,6 +24,7 @@ export const RegistroProducto = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const [marcasVisibles, setMarcasVisibles] = useState([]);
 
   const onModalClick = (data) => {
     setModal(true);
@@ -76,6 +77,11 @@ export const RegistroProducto = () => {
     });
   }, []);
 
+  const getMarcas = (e) => {
+    console.log(e.target.value);
+    
+  }
+
   return (
     <>
       <div
@@ -107,7 +113,7 @@ export const RegistroProducto = () => {
               })}
               autoComplete="off"
               type="text"
-              className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+              className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
             />
           </div>
           {errors.descripcion && (
@@ -130,7 +136,7 @@ export const RegistroProducto = () => {
               autoComplete="off"
               type="number"
               step="any"
-              className="shadow-sm input  border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
+              className="shadow-sm input  border-2  text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
             />
           </div>
           {errors.precio && (
@@ -151,7 +157,7 @@ export const RegistroProducto = () => {
               })}
               autoComplete="off"
               type="text"
-              className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+              className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block w-full p-2.5"
             />
           </div>
           {errors.imagen && (
@@ -164,12 +170,17 @@ export const RegistroProducto = () => {
               Categoria:
             </label>
             <select
-              {...register("marca", {
-                required: true,
+              {...register("categoria", {
+                pattern: /^[0-9]+$/
               })}
               id="countries"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+              onChange={e => setMarcasVisibles(marca.filter(m => m.categoria.codigo == e.target.value))}
+              
             >
+              <option value={null} selected disabled>
+                  Seleccionar
+                </option>
               {categorias.map((categoria) => (
                 <option key={categoria.codigo} value={categoria.codigo}>
                   {categoria.nombre}
@@ -183,12 +194,22 @@ export const RegistroProducto = () => {
             </label>
             <select
               {...register("marca", {
-                required: true,
+                pattern: /^[0-9]+$/
               })}
               id="lista-marca"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
-              {marca.map((m) => (
+              {
+                marcasVisibles.length > 0 ?
+                <option value={null} selected disabled>
+                  Seleccionar
+                </option>
+                : <option value={null} selected disabled>
+                    Sin Marcas
+                  </option>
+                
+              }
+              {marcasVisibles.map((m) => (
                 m.estado &&
                 <option key={m.codigo} value={m.codigo}>
                   {m.nombre}
