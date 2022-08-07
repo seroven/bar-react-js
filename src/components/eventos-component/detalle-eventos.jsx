@@ -133,7 +133,7 @@ export const ModalDetalleEvento = ({ setModal_evento, modal_evento, evento }) =>
               <div className="flex flex-row justify-around pb-3">
                 <button
                   className="bg-[#BE0000] py-1 px-14 text-white font-semibold text-[1.4rem] rounded-lg"
-                  onClick={() => setModal_evento(false)}
+                  onClick={() => {setModal_evento(false); setIndiceImagen(0)}}
                 >
                   Cerrar
                 </button>
