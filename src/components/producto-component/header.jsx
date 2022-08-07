@@ -11,7 +11,7 @@ export const Header = ({ admin }) => {
         <Link to={admin ? "/admin/pedido" : "/producto"}>
           <div className="flex items-center space-x-5">
             <img
-              src="https://placekitten.com/1200/1200"
+              src="../../../src/public/cervecitas.png"
               className="mr-3 w-16 h-16 sm:h-16 rounded-full"
             />
             <span className="self-center font-mono text-3xl font-semibold whitespace-nowrap text-white">
