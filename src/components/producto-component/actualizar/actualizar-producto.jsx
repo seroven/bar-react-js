@@ -10,8 +10,10 @@ export const ActualizarProducto = () => {
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
   const navigate = useNavigate();
   const [marca, setMarca] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [modal, setModal] = useState(false);
   const { id } = useParams();
+  const [marcasVisibles, setMarcasVisibles] = useState([]);
   const {
     register,
     formState: { errors },
@@ -51,10 +53,21 @@ export const ActualizarProducto = () => {
     axios.get("http://localhost:8069/marca/all").then((res) => {
       setMarca(res.data);
     });
+    axios.get("http://localhost:8069/categoria/all").then((res) => {
+      setCategorias(res.data)
+    });
     axios.get("http://localhost:8069/producto/" + id).then((res) => {
       setProducto(res.data);
     });
+    
   }, []);
+
+  useEffect(() => {
+    if (marca.length !== 0){
+      // console.log(marca.filter(m => m.estado && m.categoria.codigo === producto.marca.categoria.codigo));
+      setMarcasVisibles(marca.filter(m => m.estado && m.categoria.codigo === producto?.marca?.categoria?.codigo));
+    }
+  }, [marca, producto])
 
   return (
     <>
@@ -115,7 +128,7 @@ export const ActualizarProducto = () => {
             <input
               {...register("precio", {
                 required: {
-                  value: true,
+                  value: false,
                   message: "El precio es requerido",
                 },
               })}
@@ -137,7 +150,7 @@ export const ActualizarProducto = () => {
             <input
               {...register("imagen", {
                 required: {
-                  value: true,
+                  value: false,
                   message: "La imagen es requerida",
                 },
               })}
@@ -151,25 +164,57 @@ export const ActualizarProducto = () => {
               {errors.imagen.message}
             </div>
           )}
+
+          <div className="mb-6 flex ">
+            <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
+              Categoria:
+            </label>
+            <select
+              {...register("categoria", {
+                pattern: /^[0-9]+$/
+              })}
+              id="countries"
+              className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+              onChange={e => setMarcasVisibles(marca.filter(m => m.estado && m.categoria.codigo == e.target.value))}
+            >
+              {categorias.map((categoria) => (
+                <option key={categoria.codigo} value={categoria.codigo} selected={producto.marca?.categoria?.codigo === categoria.codigo}>
+                  {categoria.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="mb-6 flex ">
             <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
               Marca:
             </label>
             <select
               {...register("marca", {
-                required: true,
+                pattern: /^[0-9]+$/
               })}
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
-              {marca.map((marca) => (
+              {
+                (!producto?.marca?.estado) &&
+                
+                  <option
+                  key={producto?.marca?.codigo}
+                  value={producto?.marca?.codigo}
+                  selected
+                  disabled
+                >
+                  {producto?.marca?.nombre}
+                </option>
+              }
+              {marcasVisibles.map((marca) => 
                 <option
                   key={marca.codigo}
                   value={marca.codigo}
-                  selected={producto.marca.codigo === marca.codigo}
+                  selected={producto?.marca?.codigo === marca?.codigo}
                 >
                   {marca.nombre}
                 </option>
-              ))}
+                )}
             </select>
           </div>
 
