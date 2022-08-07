@@ -8,14 +8,11 @@ export const PageEventos = () => {
   return <>
     <HeaderEvent/>
     <Routes>
-
         <Route path = "/" element = {<>
           <Suspense fallback={<LoaderEvento/>}>
-          <Eventos/>
+            <Eventos/>
           </Suspense>
         </>}></Route>
-
-
     </Routes>
     
   </>
