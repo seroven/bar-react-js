@@ -8,7 +8,6 @@ export const ModalEliminarMarca = ({
     setMarca}) => {
 
     const ocultarMarca = () => {
-        console.log("Holi")
         axios.put(`http://localhost:8069/marca/estado/${marcaSeleccionada}`);
         setMarca(marca.map(m => m.codigo == marcaSeleccionada ? {...m, estado: false} : m));
         setModalEliminarMarca(false);

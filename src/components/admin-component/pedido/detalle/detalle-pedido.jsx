@@ -165,7 +165,6 @@ export const DetallePedidoAdmin = () => {
                   value: /^[0-9]{8}$/, 
                   message: "El dni solo puede ser numérico y de 8 dígitos"
                 },
-                
               })
             } id="dni_recoger" defaultValue={detalle?.dni_recibidor} className="input-update-order"/>
             {errors.dni && (

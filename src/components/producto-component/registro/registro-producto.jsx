@@ -28,7 +28,6 @@ export const RegistroProducto = () => {
 
   const onModalClick = (data) => {
     setModal(true);
-    console.log(data);
     setProducto(data);
   };
 
@@ -69,18 +68,19 @@ export const RegistroProducto = () => {
 
   useEffect(() => {
     axios.get("http://localhost:8069/marca/all").then((res) => {
-      console.log(res.data);
       setMarca(res.data);
     });
     axios.get("http://localhost:8069/categoria/all").then((res) => {
       setCategorias(res.data)
     });
   }, []);
-
-  const getMarcas = (e) => {
-    console.log(e.target.value);
-    
-  }
+  
+  useEffect(() => {
+    const $marcas = document.getElementById("lista-marca");
+    setMarcasVisibles(marcasVisibles.filter(m => m.codigo != $marcas.value));
+    $marcas.selectedIndex = 0;
+    console.log(marcasVisibles.filter(m => m.codigo != $marcas.value));
+  }, [marca])
 
   return (
     <>
@@ -173,9 +173,9 @@ export const RegistroProducto = () => {
               {...register("categoria", {
                 pattern: /^[0-9]+$/
               })}
-              id="countries"
+              id="lista-categorias"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-              onChange={e => setMarcasVisibles(marca.filter(m => m.categoria.codigo == e.target.value))}
+              onChange={e => setMarcasVisibles(marca.filter(m => m.estado && m.categoria.codigo == e.target.value))}
               
             >
               <option value={null} selected disabled>
@@ -209,12 +209,11 @@ export const RegistroProducto = () => {
                   </option>
                 
               }
-              {marcasVisibles.map((m) => (
-                m.estado &&
+              {marcasVisibles.map((m) => 
                 <option key={m.codigo} value={m.codigo}>
                   {m.nombre}
                 </option>
-              ))}
+              )}
             </select>
             <div className="flex ml-2 space-x-2">
               <div className="w-10 h-10 buttons">

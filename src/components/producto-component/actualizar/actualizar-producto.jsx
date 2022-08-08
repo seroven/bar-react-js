@@ -6,7 +6,7 @@ import { productoSelector } from "../../../storage/selector/producto-selector";
 import axios from "axios";
 
 export const ActualizarProducto = () => {
-  const [producto, setProducto] = useState([]);
+  const [producto, setProducto] = useState(null);
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
   const navigate = useNavigate();
   const [marca, setMarca] = useState([]);
@@ -58,16 +58,25 @@ export const ActualizarProducto = () => {
     });
     axios.get("http://localhost:8069/producto/" + id).then((res) => {
       setProducto(res.data);
+      autoFocusElements();
     });
-    
   }, []);
 
   useEffect(() => {
-    if (marca.length !== 0){
+    if (marca.length !== 0 && producto !== null){
       // console.log(marca.filter(m => m.estado && m.categoria.codigo === producto.marca.categoria.codigo));
       setMarcasVisibles(marca.filter(m => m.estado && m.categoria.codigo === producto?.marca?.categoria?.codigo));
     }
   }, [marca, producto])
+
+  const autoFocusElements = () => {
+    const ids = ["descripcion", "precio", "imagen"]
+    for (let i = 0; i < 3; i++){
+      const $element = document.getElementById(ids[i]);
+      $element.autofocus = true;
+    }
+
+  }
 
   return (
     <>
@@ -87,7 +96,7 @@ export const ActualizarProducto = () => {
               readOnly
               type="text"
               className="shadow-sm input border-2 text-center  text-gray-900 text-sm rounded-lg w-10 block p-2.5"
-              value={producto.codigo}
+              value={producto?.codigo}
             />
           </div>
           <div className="mb-6 flex flex-row">
@@ -109,8 +118,8 @@ export const ActualizarProducto = () => {
                   message: "La descripción debe tener máximo 50 caracteres",
                 },
               })}
-              autoFocus
-              defaultValue={producto.descripcion}
+              id="descripcion"
+              defaultValue={producto?.descripcion}
               type="text"
               className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
             />
@@ -128,11 +137,12 @@ export const ActualizarProducto = () => {
             <input
               {...register("precio", {
                 required: {
-                  value: false,
+                  value: true,
                   message: "El precio es requerido",
                 },
               })}
-              defaultValue={producto.precio}
+              id="precio"
+              defaultValue={producto?.precio}
               type="number"
               step="any"
               className="shadow-sm input  border-2  text-gray-900 text-sm rounded-lg block w-32 p-2.5 "
@@ -150,11 +160,12 @@ export const ActualizarProducto = () => {
             <input
               {...register("imagen", {
                 required: {
-                  value: false,
+                  value: true,
                   message: "La imagen es requerida",
                 },
               })}
-              defaultValue={producto.imagen}
+              id="imagen"
+              defaultValue={producto?.imagen}
               type="text"
               className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block w-full p-2.5"
             />
@@ -178,7 +189,7 @@ export const ActualizarProducto = () => {
               onChange={e => setMarcasVisibles(marca.filter(m => m.estado && m.categoria.codigo == e.target.value))}
             >
               {categorias.map((categoria) => (
-                <option key={categoria.codigo} value={categoria.codigo} selected={producto.marca?.categoria?.codigo === categoria.codigo}>
+                <option key={categoria.codigo} value={categoria.codigo} selected={producto?.marca?.categoria?.codigo === categoria.codigo}>
                   {categoria.nombre}
                 </option>
               ))}
@@ -190,6 +201,7 @@ export const ActualizarProducto = () => {
             </label>
             <select
               {...register("marca", {
+                required: true,
                 pattern: /^[0-9]+$/
               })}
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
@@ -229,7 +241,7 @@ export const ActualizarProducto = () => {
                 {...register("habilitado")}
                 id="terms"
                 type="checkbox"
-                defaultChecked={producto.estado}
+                defaultChecked={producto?.estado}
                 value=""
                 className="w-4 ml-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
               />
@@ -243,7 +255,7 @@ export const ActualizarProducto = () => {
               Regresar
             </button>
             <button
-              type="submit"
+              typeof="submit"
               className="p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
               onSubmit={onModalClick}
             >
