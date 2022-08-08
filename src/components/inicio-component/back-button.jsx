@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 export const BackButton = () => {
   return (
     <Link to="/">
-      <div className="absolute bottom-14 left-12 p-4 bg-white border-2 border-[#618c03] rounded-full hover:scale-110 transition-[transform]">
+      <div className="fixed bottom-8 left-8 p-4 bg-white border-2 border-[#618c03] rounded-full hover:scale-110 transition-[transform]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-7 w-7"
+          class="h-7 w-7"
           fill="none"
           viewBox="0 0 24 24"
           stroke="#618c03"
-          strokeWidth="2"
+          stroke-width="2"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
       </div>
