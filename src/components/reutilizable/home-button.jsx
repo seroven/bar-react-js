@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const BackButton = () => {
+export const HomeButton = () => {
   return (
     <Link to="/">
       <div className="fixed bottom-8 left-8 p-4 bg-white border-2 border-[#618c03] rounded-full hover:scale-110 transition-[transform]">

@@ -3,6 +3,7 @@ import { Historial } from "../components/compras-component/historial/historial";
 import { CarritoCompras } from "../components/compras-component/pedidos/carrito-compras";
 import { Header } from "../components/producto-component/header";
 import { DetallePedido } from "../components/compras-component/detalle/detalle";
+import { HomeButton } from "../components/reutilizable/home-button";
 
 export const PagePedidos = () => {
   return (
@@ -17,6 +18,7 @@ export const PagePedidos = () => {
           </Route>
         </Routes>
       </div>
+      <HomeButton/>
     </div>
   );
 };

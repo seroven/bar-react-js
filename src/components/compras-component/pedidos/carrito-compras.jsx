@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { carritoState } from "../../../storage/atom/carrito.atom";
 import { UserState } from "../../../storage/atom/usuario.atom";
 import { Link, useNavigate } from "react-router-dom";
+import { GuideButton } from "../../reutilizable/guide-button";
 
 export const CarritoCompras = () => {
   const [modalRegistroVisible, setModalRegistroVisible] = useState(false);
@@ -244,6 +245,7 @@ export const CarritoCompras = () => {
         modalVisible={modalInformativo}
         setModalVisible={setModalInformativo}
       />
+      <GuideButton arregloVideos = {[{titulo: "if Apple made window blinds...", url: "https://www.youtube.com/embed/Hv6EMd8dlQk"}]}/>
     </>
   );
 };

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import { BackButton } from "../components/inicio-component/back-button";
 import { ActualizarProducto } from "../components/producto-component/actualizar/actualizar-producto";
 import { Catalago } from "../components/producto-component/catalogo";
 import { CatalagoSkeleton } from "../components/producto-component/catalogo/skeleton";
 import { Detalle } from "../components/producto-component/detalle/detalle";
 import { Header } from "../components/producto-component/header";
+import { HomeButton } from "../components/reutilizable/home-button";
 
 export const PageProducto = () => {
   return (
@@ -25,7 +25,7 @@ export const PageProducto = () => {
           <Route path="/admin/:id" element={<ActualizarProducto />}></Route>
         </Routes>
       </div>
-      <BackButton/>
+      <HomeButton/>
     </div>
   );
 };
