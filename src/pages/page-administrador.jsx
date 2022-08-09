@@ -2,8 +2,9 @@ import { Link, Route, Routes } from "react-router-dom"
 import { IndexPedido } from "../components/admin-component/index-pedido"
 import { IndexProducto } from "../components/admin-component/index-producto"
 import { IndexEvento } from "../components/admin-component/index-evento"
-import { BackButton } from "../components/inicio-component/back-button"
+
 import { Header } from "../components/producto-component/header"
+import { HomeButton } from "../components/reutilizable/home-button"
 
 
 export const PageAdministrador = () => {
@@ -17,7 +18,7 @@ export const PageAdministrador = () => {
             <Route path = "/evento/*" element = {<IndexEvento/>}></Route>
         </Routes>
       </div>
-      <BackButton/>
+      <HomeButton/>
     </>
     )
 }

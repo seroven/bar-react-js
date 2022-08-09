@@ -12,10 +12,13 @@ import { ClienteState } from "./storage/atom/cliente.atom";
 import { useEffect } from "react";
 import axios from "axios";
 import { PageEventos } from "./pages/page-eventos";
+import { ModalGuiaState } from "./storage/atom/guias/modal.atom";
+import { ModalGuia } from "./components/reutilizable/modal-guia";
 
 function App() {
   const [usuario, setUsuario] = useRecoilState(UserState);
   const [cliente, setCliente] = useRecoilState(ClienteState);
+  const [modal, setModal] = useRecoilState(ModalGuiaState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,22 +41,26 @@ function App() {
     }
   };
 
-  return (
-    <Routes>
-      <Route path="/producto/*" element={<PageProducto />} />
-      <Route path="/acceso/*" element={<PageAcceso />} />
-      <Route path="/pedido/*" element={<PagePedidos />} />
-      <Route
-        path="/admin/*"
-        element={
-          usuario.rol.codigo == 1 ? <PageAdministrador /> : <PageNotFound />
-        }
-      />
-      <Route path="/" element={<PageInicio />} />
-      <Route path="/notfound" element={<PageNotFound />} />
-      <Route path="/evento/*" element={<PageEventos />} />
-    </Routes>
-  );
+  return <>
+    <div className={modal ? "blur-md" : ""}>
+      <Routes>
+        <Route path="/producto/*" element={<PageProducto />} />
+        <Route path="/acceso/*" element={<PageAcceso />} />
+        <Route path="/pedido/*" element={<PagePedidos />} />
+        <Route
+          path="/admin/*"
+          element={
+            usuario.rol.codigo == 1 ? <PageAdministrador /> : <PageNotFound />
+          }
+        />
+        <Route path="/" element={<PageInicio />} />
+        <Route path="/notfound" element={<PageNotFound />} />
+        <Route path="/evento/*" element={<PageEventos />} />
+      </Routes>
+    </div>
+    <ModalGuia/>
+  </>
+
 }
 
 export default App;
