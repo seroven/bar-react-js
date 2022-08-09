@@ -245,7 +245,7 @@ export const CarritoCompras = () => {
         modalVisible={modalInformativo}
         setModalVisible={setModalInformativo}
       />
-      <GuideButton arregloVideos = {[{titulo: "if Apple made window blinds...", url: "https://www.youtube.com/embed/Hv6EMd8dlQk"}]}/>
+      <GuideButton arregloVideos = {[{titulo: "if Apple made window blinds...", url: "https://www.youtube.com/embed/Hv6EMd8dlQk"}, {titulo: "if Apple made window blinds...", url: "https://www.youtube.com/embed/Hv6EMd8dlQk"}]}/>
     </>
   );
 };
