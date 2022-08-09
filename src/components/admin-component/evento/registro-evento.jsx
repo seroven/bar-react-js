@@ -1,8 +1,23 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { Modal_Conf } from "./modal-conf-registro";
 
 export const RegistrarEvento = () => {
   const [modal_conf, setModal_conf] = useState(false);
+  const [data, setData] = useState({});
+
+  const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const onRegistrarEventoSubmit = (data) => {
+    setData(data);
+    setModal_conf(true);
+  };
 
   return (
     <>
@@ -20,7 +35,10 @@ export const RegistrarEvento = () => {
             </button>
           </div>
 
-          <form className="mt-10" onSubmit={e => e.preventDefault()}>
+          <form
+            className="mt-10"
+            onSubmit={handleSubmit(onRegistrarEventoSubmit)}
+          >
             <div className="mb-6 flex flex-row">
               <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
                 Titulo de evento:
@@ -28,8 +46,27 @@ export const RegistrarEvento = () => {
               <input
                 type="text"
                 className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                {...register("titulo", {
+                  required: {
+                    value: true,
+                    message: "El titulo es requerido",
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/,
+                    message: "El titulo solo puede contener letras y numeros",
+                  },
+                  maxLength: {
+                    value: 80,
+                    message: "El titulo no puede contener mas de 80 caracteres",
+                  },
+                })}
               />
             </div>
+            {errors.titulo && (
+              <div className="text-red-500 mb-5 border-b-2">
+                {errors.titulo.message}
+              </div>
+            )}
 
             <div className="mb-6 flex flex-row">
               <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
@@ -38,29 +75,64 @@ export const RegistrarEvento = () => {
               <input
                 type="text"
                 className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                {...register("descripcion", {
+                  required: {
+                    value: true,
+                    message: "La descripción es requerida",
+                  },
+                  maxLength: {
+                    value: 150,
+                    message:
+                      "La descripción no puede contener mas de 150 caracteres",
+                  },
+                })}
               />
             </div>
-
+            {errors.descripcion && (
+              <div className="text-red-500 mb-5 border-b-2">
+                {errors.descripcion.message}
+              </div>
+            )}
             <div className="mb-6 flex flex-row">
               <label className="block w-40 self-center text-lg font-medium text-gray-900 ">
                 Fecha:
               </label>
               <input
-                type="text"
+                type="date"
                 className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
+                {...register("fecha", {
+                  required: {
+                    value: true,
+                    message: "La fecha es requerida",
+                  },
+                })}
               />
             </div>
-
+            {errors.fecha && (
+              <div className="text-red-500 mb-5 border-b-2">
+                {errors.fecha.message}
+              </div>
+            )}
             <div className="mb-6 flex flex-row">
               <label className="block w-40 self-center text-lg font-medium text-gray-900 ">
                 Hora:
               </label>
               <input
-                type="text"
+                type="time"
                 className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
+                {...register("hora", {
+                  required: {
+                    value: true,
+                    message: "La hora es requerida",
+                  },
+                })}
               />
             </div>
-
+            {errors.hora && (
+              <div className="text-red-500 mb-5 border-b-2">
+                {errors.hora.message}
+              </div>
+            )}
             <div className="mb-6 flex">
               <label className="block w-96 self-center text-lg font-medium text-gray-900">
                 Imagen Principal:
@@ -68,9 +140,19 @@ export const RegistrarEvento = () => {
               <input
                 type="text"
                 className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                {...register("imagen", {
+                  required: {
+                    value: true,
+                    message: "La imagen es requerida",
+                  },
+                })}
               />
             </div>
-
+            {errors.imagen && (
+              <div className="text-red-500 mb-5 border-b-2">
+                {errors.imagen.message}
+              </div>
+            )}
             <div className="mb-6 flex">
               <label className="block w-96 self-center mt-10 text-lg font-medium text-gray-900">
                 Imagenes Secundarias:
@@ -78,6 +160,7 @@ export const RegistrarEvento = () => {
               <input
                 type="text"
                 className="shadow-sm input border-2 mt-10 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                {...register("imagenS1")}
               />
             </div>
 
@@ -86,6 +169,7 @@ export const RegistrarEvento = () => {
               <input
                 type="text"
                 className="shadow-sm input border-2  border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                {...register("imagenS2")}
               />
             </div>
 
@@ -101,6 +185,7 @@ export const RegistrarEvento = () => {
                   type="checkbox"
                   value=""
                   className="w-4 ml-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                  {...register("habilitado")}
                 />
               </div>
             </div>
@@ -108,13 +193,15 @@ export const RegistrarEvento = () => {
               <button
                 typeof="button"
                 className="p-2 px-8 rounded-md hover:text-red-900 text-white bg-[#e74263]"
+                onClick={() => {
+                  navigate("/admin/evento");
+                }}
               >
                 Cancelar
               </button>
               <button
                 typeof="button"
                 className="p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04]"
-                onClick={(e) => setModal_conf(true)}
               >
                 Registrar
               </button>
@@ -122,7 +209,11 @@ export const RegistrarEvento = () => {
           </form>
         </div>
       </div>
-      <Modal_Conf modal_conf={modal_conf} setModal_conf={setModal_conf} />
+      <Modal_Conf
+        modal_conf={modal_conf}
+        setModal_conf={setModal_conf}
+        data={data}
+      />
     </>
   );
 };

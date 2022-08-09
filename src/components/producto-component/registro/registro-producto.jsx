@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
-import {ModalEliminarMarca} from "./modal-eliminar-marca";
-import {ModalRegistroMarca} from "./modal-registro-marca";
-
+import { ModalEliminarMarca } from "./modal-eliminar-marca";
+import { ModalRegistroMarca } from "./modal-registro-marca";
 
 export const RegistroProducto = () => {
   const [producto, setProducto] = useState([]);
@@ -24,6 +23,7 @@ export const RegistroProducto = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+
   const [marcasVisibles, setMarcasVisibles] = useState([]);
 
   const onModalClick = (data) => {
@@ -54,33 +54,32 @@ export const RegistroProducto = () => {
     navigate("/admin/producto");
   };
 
-  
   const openModalDeleteMarca = () => {
     const $listaMarca = document.getElementById("lista-marca");
     const index = $listaMarca.options.selectedIndex;
-    if (index !== -1){
+    if (index !== -1) {
       setMarcaSeleccionada(Array.from($listaMarca.options)[index].value);
       setDeleteMarca(true);
-    } else{
+    } else {
       alert("Debe seleccionar la marca que desea ocultar");
     }
-  }
+  };
 
   useEffect(() => {
     axios.get("http://localhost:8069/marca/all").then((res) => {
       setMarca(res.data);
     });
     axios.get("http://localhost:8069/categoria/all").then((res) => {
-      setCategorias(res.data)
+      setCategorias(res.data);
     });
   }, []);
-  
+
   useEffect(() => {
     const $marcas = document.getElementById("lista-marca");
-    setMarcasVisibles(marcasVisibles.filter(m => m.codigo != $marcas.value));
+    setMarcasVisibles(marcasVisibles.filter((m) => m.codigo != $marcas.value));
     $marcas.selectedIndex = 0;
-    console.log(marcasVisibles.filter(m => m.codigo != $marcas.value));
-  }, [marca])
+    console.log(marcasVisibles.filter((m) => m.codigo != $marcas.value));
+  }, [marca]);
 
   return (
     <>
@@ -171,16 +170,21 @@ export const RegistroProducto = () => {
             </label>
             <select
               {...register("categoria", {
-                pattern: /^[0-9]+$/
+                pattern: /^[0-9]+$/,
               })}
               id="lista-categorias"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-              onChange={e => setMarcasVisibles(marca.filter(m => m.estado && m.categoria.codigo == e.target.value))}
-              
+              onChange={(e) =>
+                setMarcasVisibles(
+                  marca.filter(
+                    (m) => m.estado && m.categoria.codigo == e.target.value
+                  )
+                )
+              }
             >
               <option value={null} selected disabled>
-                  Seleccionar
-                </option>
+                Seleccionar
+              </option>
               {categorias.map((categoria) => (
                 <option key={categoria.codigo} value={categoria.codigo}>
                   {categoria.nombre}
@@ -194,26 +198,25 @@ export const RegistroProducto = () => {
             </label>
             <select
               {...register("marca", {
-                pattern: /^[0-9]+$/
+                pattern: /^[0-9]+$/,
               })}
               id="lista-marca"
               className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
-              {
-                marcasVisibles.length > 0 ?
+              {marcasVisibles.length > 0 ? (
                 <option value={null} selected disabled>
                   Seleccionar
                 </option>
-                : <option value={null} selected disabled>
-                    Sin Marcas
-                  </option>
-                
-              }
-              {marcasVisibles.map((m) => 
+              ) : (
+                <option value={null} selected disabled>
+                  Sin Marcas
+                </option>
+              )}
+              {marcasVisibles.map((m) => (
                 <option key={m.codigo} value={m.codigo}>
                   {m.nombre}
                 </option>
-              )}
+              ))}
             </select>
             <div className="flex ml-2 space-x-2">
               <div className="w-10 h-10 buttons">
@@ -321,20 +324,20 @@ export const RegistroProducto = () => {
           </div>
         </div>
       </div>
-      <ModalRegistroMarca 
-        modalMarca={modalMarca} 
+      <ModalRegistroMarca
+        modalMarca={modalMarca}
         setModalMarca={setModalMarca}
-        marca = {marca}
-        setMarca = {setMarca}
-        categorias = {categorias}/>
-      <ModalEliminarMarca 
-      modalEliminarMarca={deleteMarca} 
-      setModalEliminarMarca ={setDeleteMarca}
-      marcaSeleccionada = {marcaSeleccionada}
-      marca = {marca}
-      setMarca = {setMarca}/>
-      
-      
+        marca={marca}
+        setMarca={setMarca}
+        categorias={categorias}
+      />
+      <ModalEliminarMarca
+        modalEliminarMarca={deleteMarca}
+        setModalEliminarMarca={setDeleteMarca}
+        marcaSeleccionada={marcaSeleccionada}
+        marca={marca}
+        setMarca={setMarca}
+      />
     </>
   );
 };
