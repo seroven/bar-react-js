@@ -6,12 +6,14 @@ import axios from "axios";
 import { eventoSelector } from "../../storage/selector/evento-selector";
 import { FiltroEvento } from "./filtro";
 import { CarruselEvento } from "./carrusel-evento";
+import { useNavigate } from "react-router-dom";
+
 export const Eventos = ({ admin }) => {
   const initialEvents = useRecoilValue(eventoSelector);
   const [eventos, setEventos] = useState(initialEvents);
-  const [modal_evento, setModal_evento] = useState(false);
-
   const [eventoDetalle, setEventoDetalle] = useState({});
+  const [modal_evento, setModal_evento] = useState(false);
+  const navigate = useNavigate();
 
   const onStatusChangeClick = (data) => {
     axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
@@ -24,6 +26,16 @@ export const Eventos = ({ admin }) => {
       );
     });
   };
+
+  const ActualizarEvento = (evento) => {
+    if (admin === true) {
+      navigate("/admin/evento/actualizar");
+    } else {
+      setModal_evento(true);
+      setEventoDetalle(evento);
+    }
+  }
+
 
   useEffect(() => {
     console.log(initialEvents);
@@ -69,10 +81,8 @@ export const Eventos = ({ admin }) => {
                         <div
                           className="w-full h-full rounded-lg bg-gradient-to-b from-transparent 
                         via-transparent to-black"
-                          onClick={() => {
-                            setModal_evento(true);
-                            setEventoDetalle(evento);
-                          }}
+                          onClick={() => ActualizarEvento(evento)}
+
                         >
                           <h2 className="text-lg pt-44 p-2 font-semibold text-white">
                             {evento.titulo}
