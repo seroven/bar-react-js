@@ -1,7 +1,42 @@
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useRecoilRefresher_UNSTABLE } from "recoil";
+import { eventoSelector } from "../../../storage/selector/evento-selector";
 
 
 export const Modal_Conf_Act = ({ modal_conf_act, setModal_conf_act, data }) => {
 
+    const { id } =useParams();
+    const refresh = useRecoilRefresher_UNSTABLE(eventoSelector);
+    const navigate = useNavigate();
+
+    const validarImagenes = (imagen1, imagen2) => {
+        let imagenes = [];
+        if (imagen1 !== "" && imagen1 !== undefined) {
+          imagenes.push({ imagen: imagen1 });
+        }
+        if (imagen2 !== "" && imagen2 !== undefined) {
+          imagenes.push({ imagen: imagen2 });
+        }
+        return imagenes;
+      };
+
+    const onAceptarClick = async () => {
+        await axios.put("http://localhost:8069/evento/actualizar_evento/" + id, {
+        titulo: data.titulo,
+        descripcion: data.descripcion,
+        imagen: data.imagen,
+        fecha: data.fecha,
+        hora: data.hora,
+        estado: data.habilitado,
+        imagenes: validarImagenes(data.imagenS1, data.imagenS2),
+        });
+        refresh();
+        setModal_conf_act(false);
+        navigate("/admin/evento");
+    }
+
+    console.log(data);
     return (
         <>
             {modal_conf_act && (
@@ -38,6 +73,7 @@ export const Modal_Conf_Act = ({ modal_conf_act, setModal_conf_act, data }) => {
                             <div className="w-full flex flex-row justify-center">
                                 <button
                                     className="buttons px-8"
+                                    onClick={onAceptarClick}
                                 >
                                     Confirmar
                                 </button>

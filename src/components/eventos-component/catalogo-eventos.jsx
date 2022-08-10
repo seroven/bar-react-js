@@ -29,7 +29,7 @@ export const Eventos = ({ admin }) => {
 
   const ActualizarEvento = (evento) => {
     if (admin === true) {
-      navigate("/admin/evento/actualizar");
+      navigate("/admin/evento/actualizar/"+evento.codigo);
     } else {
       setModal_evento(true);
       setEventoDetalle(evento);
