@@ -34,8 +34,7 @@ export const Eventos = ({ admin }) => {
       setModal_evento(true);
       setEventoDetalle(evento);
     }
-  }
-
+  };
 
   useEffect(() => {
     console.log(initialEvents);
@@ -73,28 +72,28 @@ export const Eventos = ({ admin }) => {
                 {eventos.map(
                   (evento) =>
                     (admin ? true : evento.estado) && (
-                      <div
-                        className="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                        style={{ backgroundImage: `url(${evento.imagen})` }}
-                        key={evento.codigo}
-                      >
+                      <div>
                         <div
-                          className="w-full h-full rounded-lg bg-gradient-to-b from-transparent 
-                        via-transparent to-black"
-                          onClick={() => ActualizarEvento(evento)}
-
+                          className="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                          style={{ backgroundImage: `url(${evento.imagen})` }}
+                          key={evento.codigo}
                         >
-                          <h2 className="text-lg pt-44 p-2 font-semibold text-white">
-                            {evento.titulo}
-                          </h2>
-                          <div className="flex my-2  text-white space-x-28 justify-center">
-                            <div className="">{evento.fecha}</div>
-                            <div className="">{evento.hora}</div>
+                          <div
+                            className="w-full h-full rounded-lg bg-gradient-to-b from-transparent 
+                        via-transparent to-black"
+                            onClick={() => ActualizarEvento(evento)}
+                          >
+                            <h2 className="text-lg pt-44 p-2 font-semibold text-white">
+                              {evento.titulo}
+                            </h2>
+                            <div className="flex my-2  text-white space-x-28 justify-center">
+                              <div className="">{evento.fecha}</div>
+                              <div className="">{evento.hora}</div>
+                            </div>
                           </div>
                         </div>
-                        <br />
                         {admin ? (
-                          <div className="w-full px-2 mb-2 justify-center object-center">
+                          <div className="w-full my-2 px-2 justify-center object-center">
                             <button
                               className={
                                 "w-full " +
