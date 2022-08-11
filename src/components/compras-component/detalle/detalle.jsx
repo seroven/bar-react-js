@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ModalActualizarPedido } from "../actualizar/modal-act-pedido";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { GuideButton } from "../../reutilizable/guide-button";
 
 export const DetallePedido = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ export const DetallePedido = () => {
           subtotal: prod.subtotal,
         };
       }),
-    }
+    };
     // console.warn("Detalle de un Pedido -> ")
     // console.log(detalle);
     // console.warn("Productos de un Pedido -> ")
@@ -57,7 +58,6 @@ export const DetallePedido = () => {
     // console.log(newDetalle);
     setDetalle(newDetalle);
     console.log(newDetalle);
-    
   };
   return (
     <>
@@ -113,7 +113,6 @@ export const DetallePedido = () => {
                       <button
                         type="submit"
                         className="font-medium text-xl p-2 px-8 rounded-md  hover:text-green-900 text-white bg-[#97BF04] mt-5 mb-8"
-                        
                         onClick={(e) => setModalActualizarPedido(true)}
                       >
                         Editar
@@ -198,10 +197,7 @@ export const DetallePedido = () => {
                               S/.{(producto?.precio).toFixed(2)}
                             </div>
                             <div className="text-center font-extrabold w-full  text-3xl ml-8 text-[#618C03]">
-                              {"S/. " +
-                                (
-                                  producto?.subtotal
-                                ).toFixed(2)}
+                              {"S/. " + (producto?.subtotal).toFixed(2)}
                             </div>
                           </div>
                         </div>
@@ -218,8 +214,16 @@ export const DetallePedido = () => {
         modalVisible={modalActualizarPedido}
         setModalVisible={setModalActualizarPedido}
         id={id}
-        detalle = {detalle}
-        setDetalle = {setDetalle}
+        detalle={detalle}
+        setDetalle={setDetalle}
+      />
+      <GuideButton
+        arregloVideos={[
+          {
+            titulo: "Actualizar Pedido",
+            url: "https://www.youtube.com/embed/mRAwpna_EMk",
+          },
+        ]}
       />
     </>
   );

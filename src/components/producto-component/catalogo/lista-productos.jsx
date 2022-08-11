@@ -5,6 +5,7 @@ import { productoSelector } from "../../../storage/selector/producto-selector";
 import { NotFoundProducts } from "./not-found-products";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { GuideButton } from "../../reutilizable/guide-button";
 
 export const ListaProductos = ({ admin }) => {
   const productosIniciales = useRecoilValue(productoSelector);
@@ -97,6 +98,22 @@ export const ListaProductos = ({ admin }) => {
               )
           )}
         </div>
+      )}
+      {admin ? (
+        <GuideButton
+          arregloVideos={[
+            {
+              titulo: "Registrar Producto",
+              url: "https://www.youtube.com/embed/fIMaWR95kb0",
+            },
+            {
+              titulo: "Habilitar e Inhabilitar Producto",
+              url: "https://www.youtube.com/embed/4kjdLNP5WOM",
+            },
+          ]}
+        />
+      ) : (
+        <></>
       )}
     </>
   );

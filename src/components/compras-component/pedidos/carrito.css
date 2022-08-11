@@ -5,7 +5,7 @@
 
 .item-carrito{
     position: relative;
-    @apply grid gap-3 border-t border-zinc-500 h-56 py-3 my-2 px-4 content-center auto-cols-auto;
+    @apply grid gap-3 border-l-2 border-t-2 rounded-md  border-zinc-500 h-56 py-3 my-2 px-4 content-center auto-cols-auto;
     grid-template-columns: 1fr 0.8fr 1fr 1.2fr;
 }
 

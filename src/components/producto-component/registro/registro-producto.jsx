@@ -7,6 +7,7 @@ import { useRecoilRefresher_UNSTABLE } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
 import { ModalEliminarMarca } from "./modal-eliminar-marca";
 import { ModalRegistroMarca } from "./modal-registro-marca";
+import { GuideButton } from "../../reutilizable/guide-button";
 
 export const RegistroProducto = () => {
   const [producto, setProducto] = useState([]);
@@ -324,6 +325,14 @@ export const RegistroProducto = () => {
           </div>
         </div>
       </div>
+      <GuideButton
+        arregloVideos={[
+          {
+            titulo: "Registrar Marca",
+            url: "https://www.youtube.com/embed/ecYhGdBKua4",
+          },
+        ]}
+      />
       <ModalRegistroMarca
         modalMarca={modalMarca}
         setModalMarca={setModalMarca}
