@@ -18,7 +18,7 @@ export const IndexEvento = () => {
           }
         ></Route>
         <Route path="/registro" element={<RegistrarEvento/>}></Route>
-        <Route path="/actualizar" element={<ActualizarEvento/>}></Route>
+        <Route path="/actualizar/:id" element={<ActualizarEvento/>}></Route>
       </Routes>
     </>
   );
