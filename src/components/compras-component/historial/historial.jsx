@@ -15,21 +15,66 @@ export const Historial = () => {
   useEffect(() => {
     axios
       .get("http://localhost:8069/pedido/all/" + cliente?.codigo)
-      .then((response) => setPedidos(response.data))
+      .then((response) => {
+        setPedidos(response.data);
+        console.log(response.data);
+      })
       .catch((error) => console.log(error));
   }, []);
 
   return (
     <>
-      <img src="../../../../src/public/mispedidos-banner.jpeg" className="object-cover object-center h-[32rem] w-full" />
+      <img
+        src="../../../../src/public/mispedidos-banner.jpeg"
+        className="object-cover object-center h-[32rem] w-full"
+      />
 
+      <div className="p-8 container mx-auto mt-5">
+        <h1 className="font-bold text-4xl text-center md:text-left text-[#022601]">
+          Mis Pedidos
+        </h1>
 
-    <div className="p-8 container mx-auto mt-5">
-      <h1 className="font-bold text-4xl text-center md:text-left text-[#022601]">
-        Mis Pedidos
-      </h1>
+        <div className="tabla-listado ">
+          <div className="orden-tabla tabla-encabezado">
+            <div className="border-r-2">N° de Pedido</div>
+            <div className="border-r-2">Fecha de Recojo</div>
+            <div className="border-r-2">Costo Total</div>
+            <div className="border-r-2">Cantidad de <br/> Productos</div>
+            <div>Detalle</div>
+          </div>
+          <div className="h-[60vh] overflow-auto">
+            {
+              pedidos.map(p => {
+              return <div className="orden-tabla item-contenido">
+                <div className="border-r-2">N° {p.cod_pedido}</div>
+                <div className="border-r-2">{p.fecha_envio}</div>
+                <div className="border-r-2">S/. {p.precio_total}.00</div>
+                <div className="border-r-2">{p.productos.length}</div>
+                <div>
+                  <button className="boton-detalle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-7 w-7"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="white"
+                      strokeWidth="3"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              })
+            }
+          </div>
+        </div>
 
-      {pedidos.map((pedido) => (
+        {/* {pedidos.map((pedido) => (
         <div
           key={pedido.cod_pedido}
           className="border-2 border-[#97BF04] p-2 my-5"
@@ -103,7 +148,7 @@ export const Historial = () => {
             </div>
           </div>
         </div>
-      ))}
+      ))} */}
       </div>
     </>
   );
