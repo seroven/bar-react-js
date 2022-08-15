@@ -1,28 +1,28 @@
-.tabla-listado{
+.tabla-listado-user{
     @apply w-full  overflow-auto border-2 border-[#7CA503] p-0;    
 }
 
-.orden-tabla{
+.orden-tabla-user{
     @apply grid text-center m-0;
     grid-template-columns: 0.8fr 1.3fr 0.7fr 0.6fr 0.6fr;
 }
 
-.orden-tabla div{
+.orden-tabla-user div{
     @apply flex flex-row items-center justify-center border-[#7CA503] px-2;
 }
 
-.tabla-encabezado{
+.tabla-encabezado-user{
     @apply bg-[#7CA503] text-white font-semibold text-[1.8rem] py-2;
 }
 
-.item-contenido{
+.item-contenido-user{
     @apply font-semibold text-[1.4rem] py-2 border-b-2 border-[#7CA503];
 }
 
-.lista-estado{
+.lista-estado-user{
     @apply w-3/4 outline-none rounded-[5px]  py-[4px] px-2 shadow-sm shadow-slate-500 text-white;
 }
 
-.boton-detalle{
+.boton-detalle-user{
     @apply bg-[#FAC80C] w-2/4 px-1 py-2 flex flex-row justify-center items-center rounded-md;
 }
