@@ -9,16 +9,23 @@ export const PagePedidos = () => {
   return (
     <div>
       <Header />
-      <div className="p-8 container mx-auto mt-5">
-        <Routes>
-          <Route path="/historial" element={<Historial />}></Route>
-          <Route path="/detalle/:id" element={<DetallePedido />}></Route>
-          <Route path="/carrito" element={<CarritoCompras />}>
+      <Routes>
+        <Route path="/historial" element={<Historial />}></Route>
+        
+          <Route path="/detalle/:id" element={
+          <div className="p-8 container mx-auto mt-5">
+              <DetallePedido />
+            </div>
+            }></Route>
+          <Route path="/carrito" element={
+          <div className="p-8 container mx-auto mt-5">
+            <CarritoCompras />
+          </div>
+          }>
             {" "}
           </Route>
-        </Routes>
-      </div>
-      <HomeButton/>
+      </Routes>
+      <HomeButton />
     </div>
   );
 };
