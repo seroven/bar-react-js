@@ -23,9 +23,6 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
       await guardarPedido(data, idCliente);
       console.warn("Pedido registrado")
     }
-    
-    // setModalVisible(false);
-    // setModalConfirmacion(true);
   };
 
   const guardarCliente = async (dataCliente) => {

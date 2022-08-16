@@ -8,7 +8,7 @@ import axios from "axios";
 import { data } from "autoprefixer";
 import { carritoState } from "../../../storage/atom/carrito.atom";
 import { DataPedidoState } from "../../../storage/atom/data-pedido.atom";
-
+import "./carrito.css"
 
 export const PedidoModalRegistro = ({
   modalVisible,
@@ -53,7 +53,7 @@ export const PedidoModalRegistro = ({
           aria-modal="true"
           role="dialog"
         >
-          <div className=" relative border-l border-r border-b-4 border-[#618C03] bg-white rounded-lg pt-8 pb-16 px-32 w-3/6 h-3/4 overflow-auto">
+          <div className="relative border-l border-r border-b-4 border-[#618C03] bg-white rounded-lg pt-8 pb-16 px-20 w-3/6 h-[45rem] overflow-auto">
             <h1 className="font-bold text-4xl text-center md:text-left text-[#022601]">
               Datos Personales
             </h1>

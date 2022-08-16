@@ -197,7 +197,7 @@ export const DetallePedidoAdmin = () => {
         
         {
           updateProducts &&
-          <div className="absolute right-0 top-2">
+          <div className="absolute right-3 top-3">
               <button onClick={e => setUpdateProducts(false)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +205,7 @@ export const DetallePedidoAdmin = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="#D04444"
-                  strokeWidth="2"
+                  strokeWidth="3"
                 >
                   <path
                     strokeLinecap="round"
@@ -227,10 +227,8 @@ export const DetallePedidoAdmin = () => {
       <div> 
           <div className="containter-data-products">
           {detalle.productos?.map((producto) => (
-            <div key={producto?.codigo} className="item-order-product">
-              <div className="h-full overflow-hidden rounded-xl row-start-1 row-end-3 mx-16">
-                  <img className="object-cover" src={producto?.imagen}/>
-              </div>
+            <div key={producto?.codigo} className="item-order-product overflow-hidden">
+                  <img className="h-full justify-self-center w-72 rounded-xl object-cover row-start-1 row-end-3 " src={producto?.imagen}/>
               <div className="font-bold text-[1.7rem] col-start-2 col-end-4">
               {producto?.descripcion}
               </div>

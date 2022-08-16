@@ -45,8 +45,8 @@ export const Eventos = ({ admin }) => {
     <>
       <div className={modal_evento ? "blur-md" : null}>
         <CarruselEvento />
-        <div className="container px-10 py-4">
-          <div className="flex justify-between container mx-auto items-center mb-4">
+        <div className="px-20 py-4">
+          <div className="flex justify-between container items-center mb-4">
             <div className="font-medium text-4xl text-center md:text-left ">
               <h1 className="text-5xl font-bold">Eventos</h1>
             </div>
@@ -74,7 +74,7 @@ export const Eventos = ({ admin }) => {
                     (admin ? true : evento.estado) && (
                       <div>
                         <div
-                          className="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                          className="max-w-sm h-64 bg-cover rounded-xl border-2 border-gray-200 shadow-md hover:cursor-pointer hover:scale-105 transition-[transform|border] "
                           style={{ backgroundImage: `url(${evento.imagen})` }}
                           key={evento.codigo}
                         >

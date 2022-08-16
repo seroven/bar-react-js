@@ -67,7 +67,7 @@ export const FiltroEvento = () => {
         <>
             <h1 className="text-3xl font-medium text-slate-600 mb-3">Rango de fechas</h1>
             <div className="flex items-center gap-2">
-                <label className="font-medium text-xl  text-[#022601c2]">
+                <label className="font-medium text-xl w-20 text-[#022601c2]">
                     Inicio
                 </label>
                 <input
@@ -78,7 +78,7 @@ export const FiltroEvento = () => {
                 />
             </div>
             <div className="flex items-center gap-2">
-                <label className="font-medium text-xl text-[#022601c2] my-5">
+                <label className="font-medium text-xl w-20 text-[#022601c2] my-5">
                     Final
                 </label>
                 <input
@@ -88,11 +88,11 @@ export const FiltroEvento = () => {
                     onChange={e => setTFecha({ ...tFecha, fecha_final: e.target.value })}
                 />
             </div>
-            <button className="buttons w-full my-5" onClick={filtrar}>
+            <button className="buttons w-full mb-5" onClick={filtrar}>
                 FILTRAR
             </button>
             <div className="flex items-center gap-2">
-                <label className="font-medium text-xl  text-[#022601c2]">
+                <label className="font-medium text-xl w-20 text-[#022601c2]">
                     Dia
                 </label>
                 <input
