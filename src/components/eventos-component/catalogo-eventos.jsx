@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
 import { ModalDetalleEvento } from "./detalle-eventos";
 import axios from "axios";
@@ -7,16 +7,19 @@ import { eventoSelector } from "../../storage/selector/evento-selector";
 import { FiltroEvento } from "./filtro";
 import { CarruselEvento } from "./carrusel-evento";
 import { useNavigate } from "react-router-dom";
+import { CambioEstadoEvento } from "../../storage/atom/cambio.estado.evento.atom";
 
 export const Eventos = ({ admin }) => {
   const initialEvents = useRecoilValue(eventoSelector);
   const [eventos, setEventos] = useState(initialEvents);
   const [eventoDetalle, setEventoDetalle] = useState({});
   const [modal_evento, setModal_evento] = useState(false);
+  const refresh = useRecoilRefresher_UNSTABLE(eventoSelector);
+  const [cambioEstadoEvento, setCambioEstadoEvento] = useRecoilState(CambioEstadoEvento);
   const navigate = useNavigate();
 
-  const onStatusChangeClick = (data) => {
-    axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
+  const onStatusChangeClick = async (data) => {
+    await axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
       setEventos(
         eventos.map((event) =>
           event.codigo === data.codigo
@@ -25,6 +28,7 @@ export const Eventos = ({ admin }) => {
         )
       );
     });
+    setCambioEstadoEvento(true);
   };
 
   const ActualizarEvento = (evento) => {
@@ -37,6 +41,14 @@ export const Eventos = ({ admin }) => {
   };
 
   useEffect(() => {
+    if (cambioEstadoEvento){
+      refresh();
+      setCambioEstadoEvento(false);
+    }
+
+  }, [])
+
+  useEffect(() => {
     console.log(initialEvents);
     setEventos(initialEvents);
   }, [initialEvents]);
@@ -45,8 +57,8 @@ export const Eventos = ({ admin }) => {
     <>
       <div className={modal_evento ? "blur-md" : null}>
         <CarruselEvento />
-        <div className="container px-10 py-4">
-          <div className="flex justify-between container mx-auto items-center mb-4">
+        <div className="px-20 py-4">
+          <div className="flex justify-between container items-center mb-4">
             <div className="font-medium text-4xl text-center md:text-left ">
               <h1 className="text-5xl font-bold">Eventos</h1>
             </div>
@@ -74,7 +86,7 @@ export const Eventos = ({ admin }) => {
                     (admin ? true : evento.estado) && (
                       <div>
                         <div
-                          className="max-w-sm h-64 bg-cover rounded-xl border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                          className="max-w-sm h-64 bg-cover rounded-xl border-2 border-gray-200 shadow-md hover:cursor-pointer hover:scale-105 transition-[transform|border] "
                           style={{ backgroundImage: `url(${evento.imagen})` }}
                           key={evento.codigo}
                         >

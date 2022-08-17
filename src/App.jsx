@@ -53,9 +53,10 @@ function App() {
             usuario.rol.codigo == 1 ? <PageAdministrador /> : <PageNotFound />
           }
         />
-        <Route path="/" element={<PageInicio />} />
-        <Route path="/notfound" element={<PageNotFound />} />
+        
         <Route path="/evento/*" element={<PageEventos />} />
+        <Route path="/" element={<PageInicio />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </div>
     <ModalGuia/>

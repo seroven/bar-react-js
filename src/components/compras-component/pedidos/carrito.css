@@ -15,16 +15,17 @@
 }
 
 .register-order-group{
-    @apply mb-3 flex flex-row justify-between;
+    @apply mb-3 flex flex-row justify-between my-4;
 }
 
 .register-order-input{
-    @apply border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5 h-9 outline-none;
+    @apply border-2 focus:border-[#618c03]  text-gray-900 text-sm rounded-lg w-full block p-2.5 h-9;
+    outline: none;
     font-size: 1rem;
 }
 
 .register-order-input-focus-c:focus{
-    @apply border-black;
+    
 }
 
 .register-order-input-focus-i:focus{

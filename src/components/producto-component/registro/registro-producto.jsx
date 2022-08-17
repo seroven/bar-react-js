@@ -77,10 +77,17 @@ export const RegistroProducto = () => {
 
   useEffect(() => {
     const $marcas = document.getElementById("lista-marca");
-    setMarcasVisibles(marcasVisibles.filter((m) => m.codigo != $marcas.value));
+    const $categorias = document.getElementById("lista-categorias");
+    setMarcasVisibles(marca.filter((m) => m.estado && m.categoria.codigo == $categorias.value));
     $marcas.selectedIndex = 0;
+    console.log("Resgistraste una marca");
     console.log(marcasVisibles.filter((m) => m.codigo != $marcas.value));
   }, [marca]);
+
+  useEffect(() => {
+    const $marcas = document.getElementById("lista-marca");
+    $marcas.selectedIndex = 0;
+  }, [marcasVisibles]);
 
   return (
     <>
@@ -107,7 +114,7 @@ export const RegistroProducto = () => {
                   message: "La descripción debe tener al menos 3 caracteres",
                 },
                 maxLength: {
-                  value: 50,
+                  value: 80,
                   message: "La descripción debe tener máximo 50 caracteres",
                 },
               })}
@@ -339,6 +346,7 @@ export const RegistroProducto = () => {
         marca={marca}
         setMarca={setMarca}
         categorias={categorias}
+        setMarcasVisibles = {setMarcasVisibles}
       />
       <ModalEliminarMarca
         modalEliminarMarca={deleteMarca}
@@ -346,6 +354,7 @@ export const RegistroProducto = () => {
         marcaSeleccionada={marcaSeleccionada}
         marca={marca}
         setMarca={setMarca}
+        setMarcasVisibles = {setMarcasVisibles}
       />
     </>
   );

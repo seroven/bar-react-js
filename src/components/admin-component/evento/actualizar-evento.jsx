@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Modal_Conf_Act } from "./modal-conf-actualizar";
 import axios from "axios";
-import { useRecoilRefresher_UNSTABLE } from "recoil";
-import { eventoSelector } from "../../../storage/selector/evento-selector";
+import { Link } from "react-router-dom";
 
 export const ActualizarEvento = () => {
   const [modal_conf_act, setModal_conf_act] = useState(false);
@@ -36,21 +35,24 @@ export const ActualizarEvento = () => {
   return (
     <>
       <div className={modal_conf_act ? "blur-md" : null}>
-        <div className="p-4 lg:px-10  align-middle mx-auto flex flex-col lg:gap-10 items-center ">
-          <div className="mb-6 flex">
+        <div className="p-4 lg:px-10  align-middle mx-auto flex flex-col lg:gap-10 items-center  w-[50rem] ">
+          <div className="w-full flex justify-between">
             <h1 className="block w-96 self-center text-4xl font-bold">
               Actualizar Evento
             </h1>
-            <button
-              type="submit"
-              className="w-40 block p-2.5 ml-10 rounded-md  hover:text-green-900 text-white bg-[#FCD43E]"
-            >
-              Regresar
-            </button>
+            <Link to={"/admin/evento"}>
+              <button
+                type="submit"
+                className="w-40 block p-2.5 ml-10 rounded-md  hover:text-green-900 text-white bg-[#FCD43E]"
+              >
+                Regresar
+              </button>
+            </Link>
+            
           </div>
 
           <form
-            className="mt-10"
+            className="mt-4 w-full"
             onSubmit={handleSubmit(onActualizarEventoSubmit)}
           >
             <div className="mb-6 flex flex-row">
@@ -60,7 +62,7 @@ export const ActualizarEvento = () => {
               <input
                 readOnly
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
                 //disabled
                 value={evento?.codigo}
               />
@@ -72,7 +74,7 @@ export const ActualizarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
                 {...register("titulo", {
                   required: {
                     value: true,
@@ -102,7 +104,7 @@ export const ActualizarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
                 {...register("descripcion", {
                   required: {
                     value: true,
@@ -124,12 +126,12 @@ export const ActualizarEvento = () => {
             )}
 
             <div className="mb-6 flex flex-row">
-              <label className="block w-40 self-center text-lg font-medium text-gray-900 ">
+              <label className="block w-[11.4rem] self-center text-lg font-medium text-gray-900 ">
                 Fecha:
               </label>
               <input
                 type="date"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
                 {...register("fecha", {
                   required: {
                     value: true,
@@ -146,12 +148,12 @@ export const ActualizarEvento = () => {
             )}
 
             <div className="mb-6 flex flex-row">
-              <label className="block w-40 self-center text-lg font-medium text-gray-900 ">
+              <label className="block w-[11.4rem] self-center text-lg font-medium text-gray-900 ">
                 Hora:
               </label>
               <input
                 type="time"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
                 {...register("hora", {
                   required: {
                     value: true,
@@ -173,7 +175,7 @@ export const ActualizarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 {...register("imagen", {
                   required: {
                     value: true,
@@ -195,7 +197,7 @@ export const ActualizarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 mt-10 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="shadow-sm input border-2 mt-10  text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 {...register("imagenS1")}
                 defaultValue={
                   evento?.imagenes?.length > 0 ? evento?.imagenes[0].imagen : ""
@@ -207,7 +209,7 @@ export const ActualizarEvento = () => {
               <label className="block w-96 self-center text-lg "></label>
               <input
                 type="text"
-                className="shadow-sm input border-2  border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="shadow-sm input border-2   text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 {...register("imagenS2")}
                 defaultValue={
                   evento?.imagenes?.length > 1 ? evento?.imagenes[1].imagen : ""

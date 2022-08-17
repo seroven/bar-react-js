@@ -22,8 +22,8 @@ export const RegistrarEvento = () => {
   return (
     <>
       <div className={modal_conf ? "blur-md" : null}>
-        <div className="p-4 lg:px-10  align-middle mx-auto flex flex-col lg:gap-10 items-center ">
-          <div className="mb-6 flex">
+        <div className="p-4 lg:px-10  align-middle mx-auto flex flex-col lg:gap-10 items-center w-[50rem]">
+          <div className=" w-full flex justify-between">
             <h1 className="block w-96 self-center text-4xl font-bold">
               Registrar Evento
             </h1>
@@ -36,7 +36,7 @@ export const RegistrarEvento = () => {
           </div>
 
           <form
-            className="mt-10"
+            className="mt-4 w-full"
             onSubmit={handleSubmit(onRegistrarEventoSubmit)}
           >
             <div className="mb-6 flex flex-row">
@@ -45,7 +45,7 @@ export const RegistrarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
                 {...register("titulo", {
                   required: {
                     value: true,
@@ -74,7 +74,7 @@ export const RegistrarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg w-full block p-2.5"
                 {...register("descripcion", {
                   required: {
                     value: true,
@@ -94,12 +94,12 @@ export const RegistrarEvento = () => {
               </div>
             )}
             <div className="mb-6 flex flex-row">
-              <label className="block w-40 self-center text-lg font-medium text-gray-900 ">
+              <label className="block w-[11.4rem] self-center text-lg font-medium text-gray-900 ">
                 Fecha:
               </label>
               <input
                 type="date"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
                 {...register("fecha", {
                   required: {
                     value: true,
@@ -114,12 +114,12 @@ export const RegistrarEvento = () => {
               </div>
             )}
             <div className="mb-6 flex flex-row">
-              <label className="block w-40 self-center text-lg font-medium text-gray-900 ">
+              <label className="block w-[11.4rem] self-center text-lg font-medium text-gray-900 ">
                 Hora:
               </label>
               <input
                 type="time"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block ml-16 w-30 p-2.5"
                 {...register("hora", {
                   required: {
                     value: true,
@@ -133,13 +133,13 @@ export const RegistrarEvento = () => {
                 {errors.hora.message}
               </div>
             )}
-            <div className="mb-6 flex">
+            <div className="flex">
               <label className="block w-96 self-center text-lg font-medium text-gray-900">
                 Imagen Principal:
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="shadow-sm input border-2  text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 {...register("imagen", {
                   required: {
                     value: true,
@@ -159,7 +159,8 @@ export const RegistrarEvento = () => {
               </label>
               <input
                 type="text"
-                className="shadow-sm input border-2 mt-10 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                placeholder="(opcional)"
+                className="shadow-sm input border-2 mt-10  text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 {...register("imagenS1")}
               />
             </div>
@@ -168,7 +169,8 @@ export const RegistrarEvento = () => {
               <label className="block w-96 self-center text-lg "></label>
               <input
                 type="text"
-                className="shadow-sm input border-2  border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                placeholder="(opcional)"
+                className="shadow-sm input border-2 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 {...register("imagenS2")}
               />
             </div>

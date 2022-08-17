@@ -20,12 +20,9 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
       console.warn("Pedido registrado")
     } else{
       const idCliente = cliente.codigo;
-      await guardarPedido(data, idCliente);
+      guardarPedido(data, idCliente);
       console.warn("Pedido registrado")
     }
-    
-    // setModalVisible(false);
-    // setModalConfirmacion(true);
   };
 
   const guardarCliente = async (dataCliente) => {
@@ -44,20 +41,26 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
   }
 
   const guardarPedido = async (dataPedido, id) => {
-
+    // console.log(dataPedido);
+    
     const newPedido = {
       idcliente: id,
       estado: 1,
       fecha_envio: dataPedido.fecha,
-      dni_receptor: dataPedido.dni_recoger.length === 0 ? cliente.dni : dataPedido.dni_recoger,
+      dni_receptor: dataPedido.dni_recoger.length === 0 ? dataPedido.dni : dataPedido.dni_recoger,
       detalle: carrito.filter(item => item.visible).map(item => {return{
         idproducto: item.codigo,
         cantidad: item.cantidad,
         subtotal: item.cantidad * item.precio
       }})
     }
-    console.log(newPedido);
+    
+    // console.log("Dni de recogedor: " + dataPedido.dni_recoger.length === 0 ? cliente.dni : dataPedido.dni_recoger)
+    // console.log(newPedido);
     axios.post("http://localhost:8069/pedido/venta", newPedido);
+    
+    setCarrito(carrito.filter(item => !item.visible));
+
   }
 
   return (

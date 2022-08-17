@@ -6,7 +6,8 @@ export const ModalRegistroMarca = ({
   setModalMarca,
   marca,
   setMarca,
-  categorias
+  categorias,
+  setMarcasVisibles
 }) => {
   const {
     register,
@@ -29,6 +30,7 @@ export const ModalRegistroMarca = ({
         },
       }).then((res) => {
         setMarca([...marca, res.data]);
+        // setMarcasVisibles([...marca.filter(m => m.estado), res.data ]);
     });
     setModalMarca(false);
   };
@@ -45,13 +47,13 @@ export const ModalRegistroMarca = ({
           <div className="relative p-2 w-full max-w-md h-full md:h-auto">
             <div className="relative bg-white rounded-lg shadow dark:bg-slate-100">
               <div className="p-6 text-center">
-                <div className="my-10 text-4xl font-medium text-gray-500 dark:text-gray-400">
+                <div className="my-10 text-4xl font-medium text-gray-500">
                   Registrar Marca
                 </div>
                 <form onSubmit={handleSubmit(guardarMarca)}>
                   <div>
-                    <div className="mb-6 flex ">
-                      <label className="block w-96 self-center text-lg font-medium text-gray-900 ">
+                    <div className="mb-6 flex px-4 justify-between">
+                      <label className="block self-center text-lg font-medium text-gray-900 ">
                         Categoria:
                       </label>
                       <select
@@ -59,7 +61,7 @@ export const ModalRegistroMarca = ({
                           required: true,
                         })}
                         id="countries"
-                        className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                        className="bg-gray-50 border-2 w-56 text-gray-900 text-sm rounded-lg block p-2.5"
                       >
                         {categorias.map((categoria) => (
                           <option
@@ -71,8 +73,8 @@ export const ModalRegistroMarca = ({
                         ))}
                       </select>
                     </div>
-                    <div className="mb-10 flex">
-                      <label className="block w-96 self-centertext-lg font-medium text-lg text-gray-900 ">
+                    <div className="mb-10 flex px-4 justify-between">
+                      <label className="block self-center font-medium text-lg text-gray-900 ">
                         Marca:
                       </label>
                       <input
@@ -95,7 +97,7 @@ export const ModalRegistroMarca = ({
                         autoComplete="off"
                         type="text"
                         className={
-                          "shadow-sm input border-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2.5 " +
+                          "shadow-sm input border-2  text-gray-900 text-sm rounded-lg block w-56 p-2.5 " +
                           (errors.marca
                             ? " border-red-600 focus:outline-none"
                             : "")

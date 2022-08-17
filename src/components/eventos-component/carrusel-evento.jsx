@@ -23,7 +23,7 @@ export const CarruselEvento = () => {
             id="carousel-item-2"
           >
             <img
-              src="https://acortar.link/o0NI7M"
+              src="https://backusya.vtexassets.com/arquivos/ids/156699-1200-auto?v=637860858891600000&width=1200&height=auto&aspect=true"
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt="..."
             />
@@ -34,7 +34,7 @@ export const CarruselEvento = () => {
             id="carousel-item-3"
           >
             <img
-              src="https://acortar.link/rlOcaB"
+              src="https://backusya.vtexassets.com/arquivos/ids/156699-1200-auto?v=637860858891600000&width=1200&height=auto&aspect=true"
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt="..."
             />

@@ -89,13 +89,13 @@ export const ActualizarProducto = () => {
         <h1 className="text-4xl font-bold">Actualizar Producto</h1>
         <form className="mt-6" onSubmit={handleSubmit(onModalClick)}>
           <div className="mb-6 flex flex-row">
-            <label className="block w-full self-center text-lg font-medium text-gray-900 ">
+            <label className="block w-full self-center text-lg font-medium  text-gray-900 ">
               Id del Producto:
             </label>
             <input
               readOnly
               type="text"
-              className="shadow-sm input border-2 text-center  text-gray-900 text-sm rounded-lg w-10 block p-2.5"
+              className="shadow-sm input border-2 text-center  text-gray-100 text-sm rounded-lg w-10 block p-2.5"
               value={producto?.codigo}
             />
           </div>

@@ -2,18 +2,33 @@ import { useEffect } from "react";
 import "./detalle.css";
 import { useState } from "react";
 import { ModalActualizarPedido } from "../actualizar/modal-act-pedido";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GuideButton } from "../../reutilizable/guide-button";
+import { useRecoilValue } from "recoil";
+import { PedidosClienteState } from "../../../storage/atom/pedidos-cliente.atom";
+import { ClienteState } from "../../../storage/atom/cliente.atom";
 
 export const DetallePedido = () => {
   const { id } = useParams();
   const [detalle, setDetalle] = useState([]);
+  const pedidos = useRecoilValue(PedidosClienteState);
+  const cliente = useRecoilValue(ClienteState);
   const [productos, setProductos] = useState([]);
+  const navigate = useNavigate();
   const [modalActualizarPedido, setModalActualizarPedido] = useState(false);
 
   useEffect(() => {
     getData();
+    console.log(pedidos);
+    console.log(cliente);
+
+    pedidos.forEach(p => {
+      if (p?.cliente.codigo !== cliente.codigo){
+        navigate("/notfound");
+      }
+    })
+
   }, []);
 
   const formaterDate = (date) => {
@@ -50,14 +65,7 @@ export const DetallePedido = () => {
         };
       }),
     };
-    // console.warn("Detalle de un Pedido -> ")
-    // console.log(detalle);
-    // console.warn("Productos de un Pedido -> ")
-    // console.log(productos);
-    // console.warn("Nuevo Detalle -> ")
-    // console.log(newDetalle);
     setDetalle(newDetalle);
-    console.log(newDetalle);
   };
   return (
     <>
@@ -156,7 +164,7 @@ export const DetallePedido = () => {
               </div>
             </div>
 
-            <div className="py-10">
+            <div className="py-10 pb-5">
               <div className="rounded-lg row-span-4 shadow-lg max-w-[100%] justify-center  bg-slate-100">
                 <div className="text-2xl">
                   <div className="tituloDetalle">

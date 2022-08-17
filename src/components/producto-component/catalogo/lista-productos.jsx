@@ -1,19 +1,21 @@
 import "./lista-productos.css";
 import { Link } from "react-router-dom";
-import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
 import { productoSelector } from "../../../storage/selector/producto-selector";
 import { NotFoundProducts } from "./not-found-products";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { GuideButton } from "../../reutilizable/guide-button";
+import { CambioProductoEstado } from "../../../storage/atom/cambio-estado-producto.atom";
 
 export const ListaProductos = ({ admin }) => {
   const productosIniciales = useRecoilValue(productoSelector);
   const [productos, setProds] = useState(productosIniciales);
+  const [cambioEstadoProducto, setCambioEstadoProducto] = useRecoilState(CambioProductoEstado);
   const refresh = useRecoilRefresher_UNSTABLE(productoSelector);
 
-  const onStatusChangeClick = (data) => {
-    axios
+  const onStatusChangeClick = async (data) => {
+    await axios
       .put("http://localhost:8069/producto/estado/" + data.codigo)
       .then(() => {
         setProds(
@@ -24,7 +26,17 @@ export const ListaProductos = ({ admin }) => {
           )
         );
       });
+      setCambioEstadoProducto(true);
+      
   };
+
+
+  useEffect(() => {
+    if (cambioEstadoProducto){
+      refresh();
+      setCambioEstadoProducto(false);
+    }
+  }, [])
 
   useEffect(() => {
     setProds(productosIniciales);

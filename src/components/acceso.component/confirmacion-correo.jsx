@@ -56,7 +56,7 @@ export const ConfirmacionCorreo = () => {
                   type="text"
                   id="correo"
                   autoFocus
-                  className="bg-gray-50 border-2 border-gray-800 text-gray-900 text-sm rounded-lg block w-full p-2.5  "
+                  className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  "
                   placeholder="name@flowbite.com"
                   {...register("email", {
                     required: {
