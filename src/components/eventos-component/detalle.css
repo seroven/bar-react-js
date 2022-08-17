@@ -8,5 +8,6 @@
 }
 
 .imagenes-evento svg:last-child{
-    @apply justify-self-start
+    @apply justify-self-start;
+    
 }
