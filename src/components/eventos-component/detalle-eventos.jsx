@@ -43,7 +43,7 @@ export const ModalDetalleEvento = ({ setModal_evento, modal_evento, evento }) =>
         >
           <div className="relative p-2 w-[42rem] max-w-[45rem] h-full md:h-auto ">
             <div className="relative bg-white rounded-lg shadow dark:bg-slate-100">
-              <div className="w-full bg-[#618C03] h-16 flex items-center text-white font-medium  px-2 text-3xl rounded-t-lg justify-center">
+              <div className="w-full bg-[#618C03] py-2 flex items-center text-white font-medium text-center px-2 text-3xl rounded-t-lg justify-center">
                 <span>{evento.titulo}</span>
               </div>
               <div className="imagenes-evento">
