@@ -41,13 +41,13 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
   }
 
   const guardarPedido = async (dataPedido, id) => {
-    // console.log(dataPedido);
+    console.log(dataPedido);
     
     const newPedido = {
       idcliente: id,
       estado: 1,
       fecha_envio: dataPedido.fecha,
-      dni_receptor: dataPedido.dni_recoger.length === 0 ? dataPedido.dni : dataPedido.dni_recoger,
+      dni_receptor: dataPedido.dni_recoger.length === 0 ? cliente.dni : dataPedido.dni_recoger,
       detalle: carrito.filter(item => item.visible).map(item => {return{
         idproducto: item.codigo,
         cantidad: item.cantidad,

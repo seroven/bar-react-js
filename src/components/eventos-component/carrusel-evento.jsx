@@ -35,7 +35,6 @@ export const CarruselEvento = () => {
               setTimeout(() => {
                 console.log("Hola");
                 $carrusel.style.transform = "translateX(0%)";
-                
                 if (direction){
                   setIndice(indice+1 === 3 ? 0 : indice +1);
                 } else{
@@ -46,7 +45,7 @@ export const CarruselEvento = () => {
             }, 80)
           }, 40);
         }, 40)
-      }, 6000); 
+      }, 4000); 
     })
   }
 
