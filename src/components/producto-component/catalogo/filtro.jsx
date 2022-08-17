@@ -29,6 +29,7 @@ export const Filtro = () => {
   const [marcas, setMarcas] = useRecoilState(marcaState);
   const [precio, setPrecio] = useRecoilState(precioState);
   const [isAll, setIsAll] = useRecoilState(allProductsState);
+  
 
   const [value, setValue] = useState([0, 100]);
 

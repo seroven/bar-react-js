@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
 import { ModalDetalleEvento } from "./detalle-eventos";
 import axios from "axios";
@@ -7,16 +7,19 @@ import { eventoSelector } from "../../storage/selector/evento-selector";
 import { FiltroEvento } from "./filtro";
 import { CarruselEvento } from "./carrusel-evento";
 import { useNavigate } from "react-router-dom";
+import { CambioEstadoEvento } from "../../storage/atom/cambio.estado.evento.atom";
 
 export const Eventos = ({ admin }) => {
   const initialEvents = useRecoilValue(eventoSelector);
   const [eventos, setEventos] = useState(initialEvents);
   const [eventoDetalle, setEventoDetalle] = useState({});
   const [modal_evento, setModal_evento] = useState(false);
+  const refresh = useRecoilRefresher_UNSTABLE(eventoSelector);
+  const [cambioEstadoEvento, setCambioEstadoEvento] = useRecoilState(CambioEstadoEvento);
   const navigate = useNavigate();
 
-  const onStatusChangeClick = (data) => {
-    axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
+  const onStatusChangeClick = async (data) => {
+    await axios.put("http://localhost:8069/evento/update/" + data.codigo).then(() => {
       setEventos(
         eventos.map((event) =>
           event.codigo === data.codigo
@@ -25,6 +28,7 @@ export const Eventos = ({ admin }) => {
         )
       );
     });
+    setCambioEstadoEvento(true);
   };
 
   const ActualizarEvento = (evento) => {
@@ -35,6 +39,14 @@ export const Eventos = ({ admin }) => {
       setEventoDetalle(evento);
     }
   };
+
+  useEffect(() => {
+    if (cambioEstadoEvento){
+      refresh();
+      setCambioEstadoEvento(false);
+    }
+
+  }, [])
 
   useEffect(() => {
     console.log(initialEvents);
