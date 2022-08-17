@@ -42,10 +42,11 @@ export const Verificacion = () => {
               <div className="relative mb-6 px-10">
                 <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"></div>
                 <input
-                  type="text"
+                  type="password"
                   id="pass"
+                  autoComplete="off"
                   autoFocus
-                  className="bg-gray-50 border-2 border-gray-800 text-gray-900 text-sm rounded-lg block w-full p-2.5  "
+                  className="bg-gray-50 border-2 text-gray-900 text-sm rounded-lg block w-full p-2.5  "
                   {...register("pass", {
                     required: {
                       value: true,
@@ -72,8 +73,9 @@ export const Verificacion = () => {
                 <input
                   type="password"
                   id="website-admin"
-                  className="rounded-lg border-2 bg-gray-50 text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-900 p-2.5"
+                  className="rounded-lg border-2 bg-gray-50 text-gray-900 block flex-1 min-w-0 w-full text-sm p-2.5"
                   placeholder=""
+                  autoComplete="off"
                   {...register("password", {
                     required: {
                       value: true,

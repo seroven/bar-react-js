@@ -93,7 +93,7 @@ export const CarritoCompras = () => {
                       <div className="flex flex-col justify-around h-[70%] self-center">
                         <div className="flex flex-row justify-between">
                           <span className="font-medium text-xl">Precio: </span>
-                          <span className="text-xl">S/. {item.precio}</span>
+                          <span className="text-xl">S/. {item.precio.toFixed(2)}</span>
                         </div>
                         <div className="flex flex-row justify-between">
                           <span className="font-medium text-xl">
@@ -125,7 +125,7 @@ export const CarritoCompras = () => {
                         <div className="text-2xl">
                           <div className="text-center">
                             <span className="font-bold">Total: </span>
-                            <span>S/. {item.precio * item.cantidad}</span>
+                            <span>S/. {(item.precio * item.cantidad).toFixed(2)}</span>
                           </div>
                           <span
                             className="text-xl my-3 block text-center text-[#618C03] underline hover:cursor-pointer"
@@ -171,7 +171,7 @@ export const CarritoCompras = () => {
               TOTAL
             </span>
             <span className="font-semibold text-5xl mt-2 mb-6">
-              S/. {calcularTotal()}
+              S/. {calcularTotal().toFixed(2)}
             </span>
             <button
               className="bg-[#618C03] py-3 px-9 text-white font-semibold text-2xl rounded-xl shadow-md shadow-gray-400"
@@ -244,7 +244,7 @@ export const CarritoCompras = () => {
                         <div className="text-2xl">
                           <div className="text-center">
                             <span className="font-bold">Total: </span>
-                            <span>S/. {item.precio * item.cantidad}</span>
+                            <span>S/. {(item.precio * item.cantidad).toFixed(2)}</span>
                           </div>
                           <span
                             className="text-xl my-3 block text-center text-[#618C03] underline hover:cursor-pointer"
