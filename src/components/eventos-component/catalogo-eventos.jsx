@@ -40,6 +40,8 @@ export const Eventos = ({ admin }) => {
     }
   };
 
+
+
   useEffect(() => {
     if (cambioEstadoEvento){
       refresh();
@@ -86,15 +88,14 @@ export const Eventos = ({ admin }) => {
                     (admin ? true : evento.estado) && (
                       <div>
                         <div
-                          className="max-w-sm h-64 bg-cover rounded-xl border-2 border-gray-200 shadow-md hover:cursor-pointer hover:scale-105 transition-[transform|border] "
+                          className="max-w-sm bg-cover rounded-xl border-2 border-gray-200 shadow-md hover:cursor-pointer hover:scale-105 transition-[transform|border] "
                           style={{ backgroundImage: `url(${evento.imagen})` }}
                           key={evento.codigo}
                         >
                           <div
                             className="w-full h-full rounded-lg bg-gradient-to-b from-transparent 
-                        via-transparent to-black"
-                            onClick={() => ActualizarEvento(evento)}
-                          >
+                        via-transparent to-black py-2"
+                            onClick={() => ActualizarEvento(evento)}>
                             <h2 className="text-lg pt-44 p-2 font-semibold text-white">
                               {evento.titulo}
                             </h2>

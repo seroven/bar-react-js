@@ -5,7 +5,7 @@ export const CarruselEvento = () => {
   const [eventos, setEventos] = useState([
     "https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/66956168_2261356507252832_4506629202811813888_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeFGZA80hkOnzwuBx46SPUKRQLqsf8sfSs1Auqx_yx9KzdXzi3Q-xQ-vF0Pr6v0DGKAuyjbUxIZojSLgwSNRZ41k&_nc_ohc=YGAK6nKrU40AX-Vtgag&_nc_ht=scontent-lim1-1.xx&oh=00_AT_6V659dD_OwhB1PJ1_qkRasBmf275SvQ6x_9ily8_BFA&oe=630BF69A",
     "https://i.postimg.cc/zv80B6Bn/flayer-2.png",
-    "https://i.postimg.cc/nc00VnD2/Dina-Paucar-5-01.jpg"
+    "https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/273303342_4795370557184735_2185561320717949363_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=e3f864&_nc_ohc=XmeJjIgb6VEAX9nwO3q&_nc_ht=scontent-lim1-1.xx&oh=00_AT-LQMug5nz1dYgFVO38kUpfwJzau1ldn9H4rsMTsMApMA&oe=630247B9"
   ])
 
   const [indice, setIndice] = useState(0);
@@ -13,7 +13,6 @@ export const CarruselEvento = () => {
   const autoRotate = async () => {
     // const value = await moveToSide(true);
     await rotateImage(true);
-
   }
 
   const getCarrusel = () => {

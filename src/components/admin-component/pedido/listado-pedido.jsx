@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiltroPedido } from "./filtro-pedido";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
 import { PedidoEstadoState } from "../../../storage/atom/pedido-atom/pedido-estado.atom";
 import { PedidoSelector } from "../../../storage/selector/pedido-selector";
 import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.atom";
@@ -12,6 +12,7 @@ import { NroPedidoState } from "../../../storage/atom/pedido-atom/nro-pedido.ato
 export const ListadoPedido = () => {
   const pedidoSelector = useRecoilValue(PedidoSelector);
   const [pedidoEstado, setPedidoEstado] = useRecoilState(PedidoEstadoState);
+  const refresh = useRecoilRefresher_UNSTABLE(PedidoSelector);
   const [estados, setEstados] = useState([]);
 
   const onActualizarChange = async (e, p) => {
@@ -38,6 +39,7 @@ export const ListadoPedido = () => {
       setEstados(res.data);
       console.log(res.data);
     };
+    refresh();
     obtenerEstados();
   }, []);
 

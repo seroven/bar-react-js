@@ -26,7 +26,7 @@ export const Modal_Conf = ({ modal_conf, setModal_conf, data }) => {
         titulo: data.titulo,
         descripcion: data.descripcion,
         imagen: data.imagen,
-        fecha: data.fecha,
+        fecha: formaterDate(data.fecha),
         hora: data.hora,
         estado: data.habilitado,
         imagenes: validarImagenes(data.imagenS1, data.imagenS2),
@@ -39,6 +39,17 @@ export const Modal_Conf = ({ modal_conf, setModal_conf, data }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const formaterDate = (date) => {
+    // console.log(date);
+    const dateFormated = new Date(date);
+    const tDay = dateFormated.getDate() + 2;
+    const day = tDay.toString().length === 1 ? "0" + tDay : tDay;
+    const tMonth = dateFormated.getMonth() + 1;
+    const month = tMonth.toString().length === 1 ? "0" + tMonth : tMonth;
+    const year = dateFormated.getFullYear();
+    return `${year}-${month}-${day}`;
   };
 
   return (

@@ -22,11 +22,14 @@ export const Modal_Conf_Act = ({ modal_conf_act, setModal_conf_act, data }) => {
       };
 
     const onAceptarClick = async () => {
+
+        console.log(data.fecha);
+        console.log(formaterDate(data.fecha));
         await axios.put("http://localhost:8069/evento/actualizar_evento/" + id, {
         titulo: data.titulo,
         descripcion: data.descripcion,
         imagen: data.imagen,
-        fecha: data.fecha,
+        fecha: formaterDate(data.fecha),
         hora: data.hora,
         estado: data.habilitado,
         imagenes: validarImagenes(data.imagenS1, data.imagenS2),
@@ -35,6 +38,17 @@ export const Modal_Conf_Act = ({ modal_conf_act, setModal_conf_act, data }) => {
         setModal_conf_act(false);
         navigate("/admin/evento");
     }
+
+    const formaterDate = (date) => {
+        // console.log(date);
+        const dateFormated = new Date(date);
+        const tDay = dateFormated.getDate() + 2;
+        const day = tDay.toString().length === 1 ? "0" + tDay : tDay;
+        const tMonth = dateFormated.getMonth() + 1;
+        const month = tMonth.toString().length === 1 ? "0" + tMonth : tMonth;
+        const year = dateFormated.getFullYear();
+        return `${year}-${month}-${day}`;
+      };
 
     console.log(data);
     return (
