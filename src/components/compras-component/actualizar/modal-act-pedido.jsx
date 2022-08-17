@@ -76,7 +76,7 @@ export const ModalActualizarPedido = ({
                 className="grid grid-cols-3 font-semibold"
                 onSubmit={handleSubmit(onGuardarClick)}
               >
-                <div className="text-start mb-4">
+                <div className="text-start text-lg mb-4">
                   Dni del Receptor del Pedido:
                 </div>
                 <div className=" mb-4">
@@ -102,7 +102,7 @@ export const ModalActualizarPedido = ({
                     defaultValue={detalle?.dni_recibidor}
                     className={
                       (errors.dni ? "border-red-600" : null) +
-                      " w-full p-2 text-sm leading-tight text-gray-700 border-2  rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      " w-full p-2 text-sm leading-tight text-gray-700  rounded  "
                     }
                     type="text"
                     id="DniRecogerPedido"
@@ -113,13 +113,13 @@ export const ModalActualizarPedido = ({
                     Guardar
                   </button>
                 </div>
-                <div className="text-start">Fecha de Entrega:</div>
+                <div className="text-start text-lg">Fecha de Entrega:</div>
                 <div>
                   <input
                     {...register("fecha")}
                     type="date"
                     className={
-                      " w-full p-2 text-sm leading-tight text-gray-700 border-2  rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      " w-full p-2 text-sm leading-tight text-gray-700 border-2  rounded "
                       + (detalle?.estado?.codigo === 2 ? " bg-gray-100" : "")
                     }
                     id="FechaEntrega"

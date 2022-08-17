@@ -61,7 +61,7 @@ export const Register = () => {
                 type="text"
                 id="input-group-1"
                 autoFocus
-                className="bg-gray-50 border-2 border-gray-800 text-gray-900 text-sm rounded-lg block w-full p-2.5  "
+                className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  "
                 placeholder="example@mail.com"
               />
               {errors.email && (
@@ -89,7 +89,7 @@ export const Register = () => {
                 })}
                 type="password"
                 id="website-admin"
-                className="rounded-lg border-2 bg-gray-50 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-900 p-2.5"
+                className="rounded-lg border-2 bg-gray-50 text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                 placeholder=""
               />
               {errors.password && (

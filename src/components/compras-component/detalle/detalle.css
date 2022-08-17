@@ -7,6 +7,5 @@
 
 .producto{
     margin: 0 auto;
-    height: 570px;
-    overflow: auto;
+    @apply overflow-auto h-[39.7rem];
 }
