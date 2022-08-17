@@ -46,7 +46,7 @@ export const CarruselEvento = () => {
             }, 80)
           }, 40);
         }, 40)
-      }, 3000); 
+      }, 6000); 
     })
   }
 
@@ -72,7 +72,7 @@ export const CarruselEvento = () => {
           </div>
         </div>
 
-        <button
+        {/* <button
           type="button"
           className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
           data-carousel-prev=""
@@ -121,7 +121,7 @@ export const CarruselEvento = () => {
             </svg>
             <span className="sr-only">Next</span>
           </span>
-        </button>
+        </button> */}
       </div>
     </>
   );

@@ -115,7 +115,7 @@ export const Filtro = () => {
   };
 
   return (
-    <div className="filtro h-[30rem]">
+    <div className="filtro h-[35rem]">
       <h1 className="text-3xl font-medium text-slate-600 mb-3">Precios</h1>
       <div className="px-1 py-2">
         <Box>
