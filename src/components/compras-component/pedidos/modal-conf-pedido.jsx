@@ -14,13 +14,12 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
 
   const guardarInformacion = async () => {
     if (!cliente){
-      const idCliente = await guardarCliente(data);
+      const cliente = await guardarCliente(data);
       console.warn("Cliente registrado")
-      await guardarPedido(data, idCliente);
+      await guardarPedido(data, cliente);
       console.warn("Pedido registrado")
     } else{
-      const idCliente = cliente.codigo;
-      guardarPedido(data, idCliente);
+      guardarPedido(data, cliente);
       console.warn("Pedido registrado")
     }
   };
@@ -37,14 +36,13 @@ export const ModalConfirmacionPedido = ({ modalVisible, setModalVisible, setModa
       }
     });
     setCliente(newCliente.data);
-    return newCliente.data.codigo;
+    return newCliente.data;
   }
 
-  const guardarPedido = async (dataPedido, id) => {
-    console.log(dataPedido);
-    
+  const guardarPedido = async (dataPedido, cliente) => {
+    console.log(cliente);
     const newPedido = {
-      idcliente: id,
+      idcliente: cliente.codigo,
       estado: 1,
       fecha_envio: dataPedido.fecha,
       dni_receptor: dataPedido.dni_recoger.length === 0 ? cliente.dni : dataPedido.dni_recoger,
